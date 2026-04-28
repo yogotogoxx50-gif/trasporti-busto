@@ -153,6 +153,8 @@ button{cursor:pointer;font-family:inherit;}
   <button class="tab-btn"        onclick="switchTab('z627')"    id="tab-z627">&#128652; Z627</button>
   <button class="tab-btn"        onclick="switchTab('z644')"    id="tab-z644">&#128652; Z644</button>
   <button class="tab-btn"        onclick="switchTab('z625')"    id="tab-z625">&#128652; Z625</button>
+  <button class="tab-btn"        onclick="switchTab('z647')"    id="tab-z647">&#128652; Z647</button>
+  <button class="tab-btn"        onclick="switchTab('z642')"    id="tab-z642">&#128652; Z642</button>
   <button class="tab-btn"        onclick="switchTab('settings')"id="tab-settings">&#9881;&#65039; DATI</button>
 </div>
 
@@ -267,6 +269,38 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
+<!-- ── TAB: Z647 ───────────────────────────────────────────────── -->
+<div class="tab-content" id="content-z647">
+  <div class="container">
+    <div class="section-header" id="z647DayLabel">Orari Z647 — Feriale</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;" id="z647Subtitle"></div>
+    <div class="filter-bar" id="z647FilterBar"></div>
+    <div style="overflow-x:auto;">
+      <table class="orari-table">
+        <thead><tr id="z647TableHead"></tr></thead>
+        <tbody id="z647Body"></tbody>
+      </table>
+    </div>
+    <div class="estimate-note" style="margin-top:1rem;" id="z647Note"></div>
+  </div>
+</div>
+
+<!-- ── TAB: Z642 ───────────────────────────────────────────────── -->
+<div class="tab-content" id="content-z642">
+  <div class="container">
+    <div class="section-header" id="z642DayLabel">Orari Z642 — Feriale</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;" id="z642Subtitle"></div>
+    <div class="filter-bar" id="z642FilterBar"></div>
+    <div style="overflow-x:auto;">
+      <table class="orari-table">
+        <thead><tr id="z642TableHead"></tr></thead>
+        <tbody id="z642Body"></tbody>
+      </table>
+    </div>
+    <div class="estimate-note" style="margin-top:1rem;" id="z642Note"></div>
+  </div>
+</div>
+
 <!-- ── TAB: IMPOSTAZIONI ───────────────────────────────────────────── -->
 <div class="tab-content" id="content-settings">
   <div class="container">
@@ -289,8 +323,8 @@ button{cursor:pointer;font-family:inherit;}
     </div>
     <div class="section-header">Info</div>
     <div class="settings-panel" style="font-size:0.82rem;color:var(--muted);line-height:1.7;">
-      <p>Trasporti LIVE v3.4.0 — Via Giacomo Rossini 35, Busto Garolfo</p>
-      <p>Dati Z649, Z627, Z644, Z625: orari reali. S5/S6 e Canegrate: stime — verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</p>
+      <p>Trasporti LIVE v3.5.0 — Via Giacomo Rossini 35, Busto Garolfo</p>
+      <p>Dati Z649, Z627, Z644, Z625, Z647, Z642: orari reali. S5/S6 e Canegrate: stime — verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</p>
       <p id="dataVersion" style="margin-top:0.4rem;opacity:0.7;"></p>
     </div>
   </div>
@@ -302,6 +336,8 @@ button{cursor:pointer;font-family:inherit;}
 <script src="./data/z627.js"></script>
 <script src="./data/z644.js"></script>
 <script src="./data/z625.js"></script>
+<script src="./data/z647.js"></script>
+<script src="./data/z642.js"></script>
 <!-- Logica applicativa -->
 <script src="./js/app.js"></script>
 <!-- Avvio -->
