@@ -22,7 +22,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 a{color:var(--cyan);text-decoration:none;}
 button{cursor:pointer;font-family:inherit;}
 
-/* ── Header ─────────────────────────────────────────────── */
+/* ── Header ────────────────────────────────────────────────── */
 .hero-bar{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1.25rem;gap:1rem;}
 .hero-bar .clock{font-size:1.5rem;font-weight:700;color:var(--cyan);font-variant-numeric:tabular-nums;letter-spacing:0.02em;}
 .hero-bar .day-info{display:flex;flex-direction:column;gap:0.1rem;}
@@ -31,7 +31,7 @@ button{cursor:pointer;font-family:inherit;}
 .hero-bar .settings-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:0.4rem 0.75rem;color:var(--muted);font-size:0.8rem;transition:all 0.18s;}
 .hero-bar .settings-btn:hover{color:var(--text);border-color:var(--cyan);}
 
-/* ── Tab bar ─────────────────────────────────────────────── */
+/* ── Tab bar ────────────────────────────────────────────────── */
 .tab-bar{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
 .tab-bar::-webkit-scrollbar{display:none;}
 .tab-btn{flex:1;min-width:60px;padding:0.65rem 0.5rem;font-size:0.8rem;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
@@ -42,7 +42,7 @@ button{cursor:pointer;font-family:inherit;}
 
 .container{max-width:800px;margin:0 auto;padding:1rem;}
 
-/* ── Countdown card ─────────────────────────────────────── */
+/* ── Countdown card ──────────────────────────────────────── */
 .countdown-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:0.75rem;}
 .countdown-card.urgent{border-color:var(--urgent);animation:pulse-urgent 1.2s ease-in-out infinite;}
 .countdown-card.soon{border-color:var(--ok);}
@@ -53,7 +53,7 @@ button{cursor:pointer;font-family:inherit;}
 .countdown-main .mins{color:var(--cyan);}
 .countdown-time{font-size:0.9rem;color:var(--muted);}
 
-/* ── Badge ───────────────────────────────────────────────── */
+/* ── Badge ───────────────────────────────────────────────────── */
 .badge{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;font-weight:600;padding:0.25rem 0.6rem;border-radius:9999px;}
 .badge-urgent{background:rgba(239,68,68,0.15);color:var(--urgent);}
 .badge-soon{background:rgba(34,197,94,0.12);color:var(--ok);}
@@ -61,11 +61,11 @@ button{cursor:pointer;font-family:inherit;}
 .badge-rapido{background:rgba(34,211,238,0.12);color:var(--cyan);}
 .badge-short{background:rgba(71,85,105,0.3);color:var(--muted);}
 
-/* ── Progress bar ────────────────────────────────────────── */
+/* ── Progress bar ───────────────────────────────────────────── */
 .progress-wrap{background:var(--border);border-radius:9999px;height:6px;overflow:hidden;}
 .progress-fill{height:100%;border-radius:9999px;background:var(--cyan);transition:width 0.5s ease;}
 
-/* ── Bus blocks ──────────────────────────────────────────── */
+/* ── Bus blocks ──────────────────────────────────────────────── */
 .bus-block{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:1rem;overflow:hidden;transition:border-color 0.18s;}
 .bus-block.active{border-color:var(--cyan);animation:glow-cyan 3s ease-in-out infinite;}
 @keyframes glow-cyan{0%,100%{box-shadow:0 0 0 0 rgba(34,211,238,0);}50%{box-shadow:0 0 16px 2px rgba(34,211,238,0.12);}}
@@ -79,7 +79,7 @@ button{cursor:pointer;font-family:inherit;}
 .collapse-icon{color:var(--muted);font-size:0.9rem;transition:transform 0.2s;flex-shrink:0;}
 .bus-block.active .collapse-icon{transform:rotate(180deg);}
 
-/* ── Opzioni per corsa ───────────────────────────────────── */
+/* ── Opzioni per corsa ──────────────────────────────────────────── */
 .option-group{margin-top:0.75rem;}
 .option-group-title{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;padding:0.5rem 0;border-top:1px solid var(--border);flex-wrap:wrap;}
 .option-group-title:first-child{border-top:none;}
@@ -90,7 +90,7 @@ button{cursor:pointer;font-family:inherit;}
 .route-times{font-size:0.82rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:0.1rem;}
 .estimate-note{font-size:0.75rem;color:var(--faint);margin-top:0.5rem;padding:0.4rem 0.6rem;background:rgba(71,85,105,0.15);border-radius:var(--r-sm);}
 
-/* ── Tabelle orari ───────────────────────────────────────── */
+/* ── Tabelle orari ─────────────────────────────────────────────── */
 .section-header{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin:1.25rem 0 0.75rem;}
 .orari-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
 .orari-table th{text-align:left;padding:0.5rem 0.75rem;color:var(--muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid var(--border);}
@@ -99,7 +99,7 @@ button{cursor:pointer;font-family:inherit;}
 .orari-table tr.short-row td{background:rgba(71,85,105,0.1);color:var(--faint);}
 .orari-table tr:hover td{background:rgba(34,211,238,0.03);}
 
-/* ── Impostazioni ────────────────────────────────────────── */
+/* ── Impostazioni ─────────────────────────────────────────────── */
 .settings-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem;}
 .settings-row{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);gap:1rem;}
 .settings-row:last-child{border-bottom:none;}
@@ -108,12 +108,12 @@ button{cursor:pointer;font-family:inherit;}
 .settings-input{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:0.35rem 0.6rem;color:var(--text);font-size:0.9rem;width:70px;text-align:center;}
 .settings-input:focus{outline:2px solid var(--cyan);outline-offset:2px;}
 
-/* ── Filter bar ──────────────────────────────────────────── */
+/* ── Filter bar ────────────────────────────────────────────────── */
 .filter-bar{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;}
 .filter-btn{padding:0.35rem 0.8rem;border:1px solid var(--border);border-radius:var(--r-sm);background:none;color:var(--muted);font-size:0.8rem;transition:all 0.18s;cursor:pointer;}
 .filter-btn.active{color:var(--cyan);border-color:var(--cyan);}
 
-/* ── Loading / animazioni ────────────────────────────────── */
+/* ── Loading / animazioni ────────────────────────────────────────── */
 #loadingOverlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:1rem;}
 .loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--cyan);border-radius:50%;animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -143,20 +143,20 @@ button{cursor:pointer;font-family:inherit;}
     <span class="day-name" id="dayName">...</span>
     <span class="day-type" id="dayType">...</span>
   </div>
-  <button class="settings-btn" onclick="switchTab('settings')">⚙️ Impostazioni</button>
+  <button class="settings-btn" onclick="switchTab('settings')">&#9881;&#65039; Impostazioni</button>
 </div>
 
 <!-- Tab bar -->
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('live')"    id="tab-live">🏠 LIVE</button>
-  <button class="tab-btn"        onclick="switchTab('orari')"   id="tab-orari">📅 Z649</button>
-  <button class="tab-btn"        onclick="switchTab('z627')"    id="tab-z627">🚌 Z627</button>
-  <button class="tab-btn"        onclick="switchTab('z644')"    id="tab-z644">🚌 Z644</button>
-  <button class="tab-btn"        onclick="switchTab('z625')"    id="tab-z625">🚌 Z625</button>
-  <button class="tab-btn"        onclick="switchTab('settings')"id="tab-settings">⚙️ DATI</button>
+  <button class="tab-btn active" onclick="switchTab('live')"    id="tab-live">&#127968; LIVE</button>
+  <button class="tab-btn"        onclick="switchTab('orari')"   id="tab-orari">&#128197; Z649</button>
+  <button class="tab-btn"        onclick="switchTab('z627')"    id="tab-z627">&#128652; Z627</button>
+  <button class="tab-btn"        onclick="switchTab('z644')"    id="tab-z644">&#128652; Z644</button>
+  <button class="tab-btn"        onclick="switchTab('z625')"    id="tab-z625">&#128652; Z625</button>
+  <button class="tab-btn"        onclick="switchTab('settings')"id="tab-settings">&#9881;&#65039; DATI</button>
 </div>
 
-<!-- ── TAB: LIVE ─────────────────────────────────────────── -->
+<!-- ── TAB: LIVE ───────────────────────────────────────────────── -->
 <div class="tab-content active" id="content-live">
   <div class="container">
     <div class="countdown-card" id="mainCountdown">
@@ -175,7 +175,7 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
-<!-- ── TAB: Z649 ─────────────────────────────────────────── -->
+<!-- ── TAB: Z649 ───────────────────────────────────────────────── -->
 <div class="tab-content" id="content-orari">
   <div class="container">
     <div class="section-header" id="orariDayLabel">Orari Z649 — Feriale</div>
@@ -193,11 +193,11 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
-<!-- ── TAB: Z627 ─────────────────────────────────────────── -->
+<!-- ── TAB: Z627 ───────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z627">
   <div class="container">
     <div class="section-header" id="z627DayLabel">Orari Z627 — Feriale</div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">Busto Garolfo Via Buonarroti → Legnano P.zza Popolo FS (~20 min)</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">Busto Garolfo Via Buonarroti &#8594; Legnano P.zza Popolo FS (~20 min)</div>
     <div class="filter-bar">
       <button class="filter-btn active" id="z627btnFeriale" onclick="showZ627Orari('feriale')">Feriale (FR5/SC5)</button>
       <button class="filter-btn"        id="z627btnSabato"  onclick="showZ627Orari('sabato')">Sabato</button>
@@ -208,65 +208,80 @@ button{cursor:pointer;font-family:inherit;}
         <tbody id="z627Body"></tbody>
       </table>
     </div>
-    <div class="estimate-note" style="margin-top:1rem;">⚠️ Arrivi con ~ sono stimati. Domenica e festivi: nessun servizio. Non valido 3 settimane centrali agosto e festività natalizie.</div>
+    <div class="estimate-note" style="margin-top:1rem;">&#9888;&#65039; Arrivi con ~ sono stimati. Domenica e festivi: nessun servizio. Non valido 3 settimane centrali agosto e festivit&#224; natalizie.</div>
   </div>
 </div>
 
-<!-- ── TAB: Z644 ─────────────────────────────────────────── -->
+<!-- ── TAB: Z644 ───────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z644">
   <div class="container">
     <div class="section-header" id="z644DayLabel">Orari Z644 — Feriale</div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">Arconate / Dairago → Via Rossini 35 → Parabiago FS (~22 min)</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">Arconate / Dairago &#8594; Via Rossini 35 &#8594; Parabiago FS (~22 min)</div>
     <div class="filter-bar">
-      <button class="filter-btn active" id="z644btnAndata"  onclick="showZ644Orari('feriale_andata')">Feriale → Parabiago</button>
-      <button class="filter-btn"        id="z644btnRitorno" onclick="showZ644Orari('feriale_ritorno')">Feriale → Arconate</button>
-      <button class="filter-btn"        id="z644btnSabAnd"  onclick="showZ644Orari('sabato_andata')">Sabato → Parabiago</button>
-      <button class="filter-btn"        id="z644btnSabRit"  onclick="showZ644Orari('sabato_ritorno')">Sabato → Arconate</button>
+      <button class="filter-btn active" id="z644btnAndata"  onclick="showZ644Orari('feriale_andata')">Feriale &#8594; Parabiago</button>
+      <button class="filter-btn"        id="z644btnRitorno" onclick="showZ644Orari('feriale_ritorno')">Feriale &#8594; Arconate</button>
+      <button class="filter-btn"        id="z644btnSabAnd"  onclick="showZ644Orari('sabato_andata')">Sabato &#8594; Parabiago</button>
+      <button class="filter-btn"        id="z644btnSabRit"  onclick="showZ644Orari('sabato_ritorno')">Sabato &#8594; Arconate</button>
     </div>
     <div style="overflow-x:auto;">
       <table class="orari-table">
-        <thead><tr id="z644TableHead"><th>Via Rossini</th><th>Parabiago FS</th><th>Parabiago V.Butti</th><th>Val.</th><th>Note</th></tr></thead>
+        <thead><tr id="z644TableHead"><th>Via Rossini 35</th><th>Parabiago FS</th><th>Val.</th><th>Note</th></tr></thead>
         <tbody id="z644Body"></tbody>
       </table>
     </div>
-    <div class="estimate-note" style="margin-top:1rem;">⚠️ Le corse → PB100 (Via Butti) <strong>NON</strong> arrivano all'autostazione FS. Domenica e festivi: nessun servizio. Non attivo 20 lug–6 set e festività natalizie.</div>
+    <div class="estimate-note" style="margin-top:1rem;">&#9888;&#65039; Le corse &#8594; PB100 (Via Butti) <strong>NON</strong> arrivano all&#8217;autostazione FS. Domenica e festivi: nessun servizio. Non attivo 20 lug&#8211;6 set e festivit&#224; natalizie.</div>
   </div>
 </div>
 
-<!-- ── TAB: Z625 ─────────────────────────────────────────── -->
+<!-- ── TAB: Z625 ───────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z625">
   <div class="container">
-    <div class="section-header" id="z625DayLabel">Orari Z625 — Feriale</div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">Busto Garolfo Via Curiel → Busto Arsizio FS (~25 min)</div>
+    <div class="section-header" id="z625DayLabel">Orari Z625 — Feriale Andata</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">
+      Busto Garolfo BT701 (Via Curiel) &#8594; Busto Arsizio FS (~29 min) &nbsp;|&nbsp;
+      <span style="color:var(--faint);">&#9656; ~6 min a piedi da Via Rossini 35 (350m)</span>
+    </div>
     <div class="filter-bar">
-      <button class="filter-btn active" id="z625btnFeriale" onclick="showZ625Orari('feriale')">Feriale</button>
-      <button class="filter-btn"        id="z625btnSabato"  onclick="showZ625Orari('sabato')">Sabato</button>
+      <button class="filter-btn active" id="z625btnFerAnd" onclick="showZ625Orari('feriale_andata')">Feriale &#8594; BA</button>
+      <button class="filter-btn"        id="z625btnFerRit" onclick="showZ625Orari('feriale_ritorno')">Feriale &#8594; BG</button>
+      <button class="filter-btn"        id="z625btnSabAnd" onclick="showZ625Orari('sabato_andata')">Sabato &#8594; BA</button>
+      <button class="filter-btn"        id="z625btnSabRit" onclick="showZ625Orari('sabato_ritorno')">Sabato &#8594; BG</button>
     </div>
     <div style="overflow-x:auto;">
       <table class="orari-table">
-        <thead><tr><th>Partenza Curiel</th><th>Busto Arsizio FS</th><th>Val.</th><th>Note</th></tr></thead>
+        <thead><tr id="z625TableHead">
+          <th>Partenza BT701<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">Via Curiel</span></th>
+          <th>Arr. BA Centro</th>
+          <th>Arr. BA FS</th>
+          <th>Val.</th>
+          <th>Note</th>
+        </tr></thead>
         <tbody id="z625Body"></tbody>
       </table>
     </div>
-    <div class="estimate-note" style="margin-top:1rem;">⚠️ La Z625 parte da Via Curiel / Via Buonarroti (~5–8 min a piedi da Via Rossini). A Busto Arsizio FS: S5 Trenord (Milano Cadorna) e RE Varese–Milano. Domenica e festivi: nessun servizio.</div>
+    <div class="estimate-note" style="margin-top:1rem;">
+      &#9888;&#65039; La fermata BT701 (Via Curiel / Via Busto Arsizio) dista ~350m / ~6 min a piedi da Via Rossini 35.
+      A Busto Arsizio FS: <strong>S5 Trenord</strong> (Milano Cadorna &#8594; Varese Nord) e <strong>RE</strong> Varese&#8211;Milano P.ta Garibaldi.
+      Domenica e festivi: nessun servizio. Non valido 3 settimane centrali agosto e festivit&#224; natalizie.
+    </div>
   </div>
 </div>
 
-<!-- ── TAB: IMPOSTAZIONI ──────────────────────────────────── -->
+<!-- ── TAB: IMPOSTAZIONI ───────────────────────────────────────────── -->
 <div class="tab-content" id="content-settings">
   <div class="container">
     <div class="section-header">Tempi di percorrenza</div>
     <div class="settings-panel">
       <div class="settings-row">
         <div>
-          <div class="settings-label">Minuti a piedi → Via Rossini 35</div>
+          <div class="settings-label">Minuti a piedi &#8594; Via Rossini 35</div>
           <div class="settings-desc">Da casa tua alla fermata Z649</div>
         </div>
         <input class="settings-input" type="number" id="walkRossini" value="5" min="0" max="30">
       </div>
       <div class="settings-row">
         <div>
-          <div class="settings-label">Minuti in auto → Canegrate FS</div>
+          <div class="settings-label">Minuti in auto &#8594; Canegrate FS</div>
           <div class="settings-desc">Da Via Rossini alla stazione</div>
         </div>
         <input class="settings-input" type="number" id="walkCanegrate" value="8" min="0" max="30">
@@ -274,7 +289,7 @@ button{cursor:pointer;font-family:inherit;}
     </div>
     <div class="section-header">Info</div>
     <div class="settings-panel" style="font-size:0.82rem;color:var(--muted);line-height:1.7;">
-      <p>Trasporti LIVE v3.2 — Via Giacomo Rossini 35, Busto Garolfo</p>
+      <p>Trasporti LIVE v3.4.0 — Via Giacomo Rossini 35, Busto Garolfo</p>
       <p>Dati Z649, Z627, Z644, Z625: orari reali. S5/S6 e Canegrate: stime — verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</p>
       <p id="dataVersion" style="margin-top:0.4rem;opacity:0.7;"></p>
     </div>
