@@ -1,5 +1,5 @@
 // ============================================================
-// APP.JS — Trasporti LIVE v3.3.1
+// APP.JS — Trasporti LIVE v3.4.0
 // Dipende da: data/config.js, data/z649.js, data/z627.js,
 //             data/z644.js, data/z625.js
 // ============================================================
@@ -245,7 +245,6 @@ function showZ627Orari(type) {
 }
 
 // ── Tabella orari Z644 ───────────────────────────────────────
-// Mapping mode → ID del bottone filtro in HTML
 var Z644_BTN_MAP = {
   'feriale_andata':  'z644btnAndata',
   'feriale_ritorno': 'z644btnRitorno',
@@ -266,7 +265,6 @@ function showZ644Orari(mode) {
   };
   document.getElementById('z644DayLabel').textContent = 'Orari Z644 — ' + labels[mode];
 
-  // Attiva il pulsante corretto
   Object.keys(Z644_BTN_MAP).forEach(function(m) {
     var el = document.getElementById(Z644_BTN_MAP[m]);
     if (el) el.classList.toggle('active', m === mode);
@@ -281,7 +279,6 @@ function showZ644Orari(mode) {
     nextIdx = schedule.findIndex(function(c){ return c.parabiago_prt >= nowMins; });
   }
 
-  // Aggiorna intestazione tabella in base alla direzione
   var thead = document.getElementById('z644TableHead');
   if (thead) {
     if (isAndata) {
@@ -332,50 +329,130 @@ function showZ644Orari(mode) {
 }
 
 // ── Tabella orari Z625 ───────────────────────────────────────
-function showZ625Orari(type) {
+// Mapping mode → ID bottone filtro in HTML
+var Z625_BTN_MAP = {
+  'feriale_andata':  'z625btnFerAnd',
+  'feriale_ritorno': 'z625btnFerRit',
+  'sabato_andata':   'z625btnSabAnd',
+  'sabato_ritorno':  'z625btnSabRit'
+};
+
+function showZ625Orari(mode) {
   var now     = new Date();
   var nowMins = now.getHours() * 60 + now.getMinutes();
-  var schedule = Z625[type] || [];
-  var labels   = { feriale: 'Feriale (FR5 + SC5)', sabato: 'Sabato (SAB)' };
+  var schedule = Z625[mode] || [];
 
-  document.getElementById('z625DayLabel').textContent = 'Orari Z625 — ' + labels[type];
+  var labels = {
+    feriale_andata:  'Feriale Andata → Busto Arsizio',
+    feriale_ritorno: 'Feriale Ritorno → Busto Garolfo',
+    sabato_andata:   'Sabato Andata → Busto Arsizio',
+    sabato_ritorno:  'Sabato Ritorno → Busto Garolfo'
+  };
+  document.getElementById('z625DayLabel').textContent = 'Orari Z625 — ' + labels[mode];
 
-  ['Feriale','Sabato'].forEach(function(l) {
-    var el = document.getElementById('z625btn' + l);
-    if (el) el.classList.toggle('active', l.toLowerCase() === type);
+  // Aggiorna pulsanti filtro
+  Object.keys(Z625_BTN_MAP).forEach(function(m) {
+    var el = document.getElementById(Z625_BTN_MAP[m]);
+    if (el) el.classList.toggle('active', m === mode);
   });
 
-  var nextIdx = schedule.findIndex(function(c){ return c.dep >= nowMins; });
-  var tbody   = document.getElementById('z625Body');
+  var isAndata = mode.indexOf('andata') >= 0;
+
+  // Aggiorna intestazione tabella in base alla direzione
+  var thead = document.getElementById('z625TableHead');
+  if (thead) {
+    if (isAndata) {
+      thead.innerHTML = '<th>Partenza BT701<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">Via Curiel</span></th><th>Arr. BA Centro</th><th>Arr. BA FS</th><th>Val.</th><th>Note</th>';
+    } else {
+      thead.innerHTML = '<th>Partenza BA</th><th>Partenza BA FS</th><th>Arr. Busto G.</th><th>Val.</th><th>Note</th>';
+    }
+  }
+
+  var tbody = document.getElementById('z625Body');
+
+  if (!schedule.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);">Nessun servizio in questo periodo.</td></tr>';
+    return;
+  }
+
+  // Calcola prossima corsa (basato sul campo di partenza rilevante)
+  var nextIdx;
+  if (isAndata) {
+    nextIdx = schedule.findIndex(function(c){
+      var dep = c.dep_bg != null ? c.dep_bg : (c.arr_ba != null ? c.arr_ba - 29 : null);
+      return dep != null && dep >= nowMins;
+    });
+  } else {
+    nextIdx = schedule.findIndex(function(c){
+      var dep = c.dep_ba != null ? c.dep_ba : c.dep_ba_fs;
+      return dep != null && dep >= nowMins;
+    });
+  }
 
   tbody.innerHTML = schedule.map(function(c, i) {
     var isCurrent = i === nextIdx;
-    var noArr     = !c.arr;
-    var cls       = isCurrent ? 'current-row' : (noArr ? 'short-row' : '');
-    var arrCell   = c.arr
-      ? minsToHHMM(c.arr)
-      : '<span style="color:var(--faint)">Villa Cortese ⚠️</span>';
-    // Prossimo S5 a Busto Arsizio: ogni 30 min circa ai :03 e :33
-    var s5Html = '';
-    if (c.arr) {
-      var s5slots = [3, 33];
-      var h5 = Math.floor(c.arr / 60);
-      var m5 = c.arr % 60;
-      var nextS5 = null;
-      for (var k = 0; k < s5slots.length; k++) {
-        if (s5slots[k] > m5) { nextS5 = h5 * 60 + s5slots[k]; break; }
+
+    if (isAndata) {
+      // Calcola prossimo S5 a Busto Arsizio FS (ogni ~30 min :03 e :33)
+      var s5Html = '';
+      if (c.arr_ba_fs != null) {
+        var s5slots = [3, 33];
+        var h5 = Math.floor(c.arr_ba_fs / 60);
+        var m5 = c.arr_ba_fs % 60;
+        var nextS5 = null;
+        for (var k = 0; k < s5slots.length; k++) {
+          if (s5slots[k] > m5) { nextS5 = h5 * 60 + s5slots[k]; break; }
+        }
+        if (nextS5 === null) nextS5 = (h5 + 1) * 60 + s5slots[0];
+        s5Html = '<br><span style="font-size:0.72rem;color:var(--muted);">→ S5 ~' + minsToHHMM(nextS5) + '</span>';
       }
-      if (nextS5 === null) nextS5 = (h5 + 1) * 60 + s5slots[0];
-      s5Html = '<span style="font-size:0.72rem;color:var(--muted);"> → S5 ~' + minsToHHMM(nextS5) + '</span>';
+
+      var noDep  = c.dep_bg == null;
+      var noFS   = c.arr_ba_fs == null;
+      var cls    = isCurrent ? 'current-row' : (noDep ? 'short-row' : '');
+
+      var depCell = c.dep_bg != null
+        ? minsToHHMM(c.dep_bg)
+        : '<span style="color:var(--faint)">— <small>(non da BG)</small></span>';
+
+      var baCell  = c.arr_ba != null
+        ? minsToHHMM(c.arr_ba)
+        : '<span style="color:var(--faint)">—</span>';
+
+      var fsCell  = c.arr_ba_fs != null
+        ? minsToHHMM(c.arr_ba_fs) + s5Html
+        : '<span style="color:var(--faint)">⚠️ non arriva FS</span>';
+
+      return [
+        '<tr class="' + cls + '">',
+        '<td>' + depCell + '</td>',
+        '<td>' + baCell  + '</td>',
+        '<td>' + fsCell  + '</td>',
+        '<td>' + valBadgeHtml(c.val) + '</td>',
+        '<td style="font-size:0.75rem;color:var(--faint);">' + (c.note || '') + '</td>',
+        '</tr>'
+      ].join('');
+
+    } else {
+      // Ritorno: dep_ba / dep_ba_fs → arr_bg
+      var cls2 = isCurrent ? 'current-row' : '';
+
+      var depBaCell   = c.dep_ba    != null ? minsToHHMM(c.dep_ba)    : '<span style="color:var(--faint)">—</span>';
+      var depFsCell   = c.dep_ba_fs != null ? minsToHHMM(c.dep_ba_fs) : '<span style="color:var(--faint)">—</span>';
+      var arrBgCell   = c.arr_bg    != null
+        ? minsToHHMM(c.arr_bg)
+        : '<span style="color:var(--faint)">⚠️ non rientra BG</span>';
+
+      return [
+        '<tr class="' + cls2 + '">',
+        '<td>' + depBaCell + '</td>',
+        '<td>' + depFsCell + '</td>',
+        '<td>' + arrBgCell + '</td>',
+        '<td>' + valBadgeHtml(c.val) + '</td>',
+        '<td style="font-size:0.75rem;color:var(--faint);">' + (c.note || '') + '</td>',
+        '</tr>'
+      ].join('');
     }
-    return [
-      '<tr class="' + cls + '">',
-      '<td>' + minsToHHMM(c.dep) + '<br><span style="font-size:0.7rem;color:var(--faint);">Via Curiel</span></td>',
-      '<td>' + arrCell + s5Html + '</td>',
-      '<td>' + valBadgeHtml(c.val) + '</td>',
-      '<td style="font-size:0.75rem;color:var(--faint);">' + (c.note || '') + '</td>',
-      '</tr>'
-    ].join('');
   }).join('');
 }
 
@@ -445,7 +522,7 @@ function switchTab(tab) {
   if (tab === 'orari')  showZ649Orari(dt);
   if (tab === 'z627')   showZ627Orari(dt === 'sabato' ? 'sabato' : 'feriale');
   if (tab === 'z644')   showZ644Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
-  if (tab === 'z625')   showZ625Orari(dt === 'sabato' ? 'sabato' : 'feriale');
+  if (tab === 'z625')   showZ625Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
 }
 
 // ── Listeners impostazioni ───────────────────────────────────
