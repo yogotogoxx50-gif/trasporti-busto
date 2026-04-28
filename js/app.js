@@ -1,5 +1,5 @@
 // ============================================================
-// APP.JS — Trasporti LIVE v3.3
+// APP.JS — Trasporti LIVE v3.3.1
 // Dipende da: data/config.js, data/z649.js, data/z627.js,
 //             data/z644.js, data/z625.js
 // ============================================================
@@ -48,9 +48,8 @@ function urgencyBadge(diff) {
   if (diff <= 15) return '<span class="badge badge-soon">✅ Ottimo timing</span>';
   return '<span class="badge badge-later">🕐 Hai tempo</span>';
 }
-function valBadgeHtml(val, extraStyle) {
-  var style = extraStyle || 'font-size:0.7rem;';
-  return '<span class="badge badge-short" style="' + style + '">' + val + '</span>';
+function valBadgeHtml(val) {
+  return '<span class="badge badge-short" style="font-size:0.7rem;">' + val + '</span>';
 }
 
 // ── Logica prossime corse Z649 ───────────────────────────────
@@ -67,7 +66,7 @@ function getNextZ649(effectiveNow, dayType, count) {
   return results;
 }
 
-// ── Costruzione opzioni per ogni corsa ───────────────────────
+// ── Costruzione opzioni per ogni corsa Z649 ─────────────────────
 function buildBusOptions(corsa) {
   var walkCanegrate = parseInt(document.getElementById('walkCanegrate').value) || CFG.defaults.driveCanegrate;
   var options = [];
@@ -232,8 +231,8 @@ function showZ627Orari(type) {
   var tbody   = document.getElementById('z627Body');
   tbody.innerHTML = schedule.map(function(c, i) {
     var isCurrent = i === nextIdx;
-    var isShort   = !c.arr;
-    var cls       = isCurrent ? 'current-row' : (isShort ? 'short-row' : '');
+    var noArr     = !c.arr;
+    var cls       = isCurrent ? 'current-row' : (noArr ? 'short-row' : '');
     return [
       '<tr class="' + cls + '">',
       '<td>' + minsToHHMM(c.dep) + '</td>',
@@ -246,33 +245,50 @@ function showZ627Orari(type) {
 }
 
 // ── Tabella orari Z644 ───────────────────────────────────────
+// Mapping mode → ID del bottone filtro in HTML
+var Z644_BTN_MAP = {
+  'feriale_andata':  'z644btnAndata',
+  'feriale_ritorno': 'z644btnRitorno',
+  'sabato_andata':   'z644btnSabAnd',
+  'sabato_ritorno':  'z644btnSabRit'
+};
+
 function showZ644Orari(mode) {
-  // mode: 'feriale_andata' | 'feriale_ritorno' | 'sabato_andata' | 'sabato_ritorno'
   var now     = new Date();
   var nowMins = now.getHours() * 60 + now.getMinutes();
   var schedule = Z644[mode] || [];
 
   var labels = {
     feriale_andata:  'Feriale Andata → Parabiago',
-    feriale_ritorno: 'Feriale Ritorno → Busto G.',
+    feriale_ritorno: 'Feriale Ritorno → Arconate',
     sabato_andata:   'Sabato Andata → Parabiago',
-    sabato_ritorno:  'Sabato Ritorno → Busto G.'
+    sabato_ritorno:  'Sabato Ritorno → Arconate'
   };
   document.getElementById('z644DayLabel').textContent = 'Orari Z644 — ' + labels[mode];
 
-  ['feriale_andata','feriale_ritorno','sabato_andata','sabato_ritorno'].forEach(function(m) {
-    var el = document.getElementById('z644btn_' + m);
+  // Attiva il pulsante corretto
+  Object.keys(Z644_BTN_MAP).forEach(function(m) {
+    var el = document.getElementById(Z644_BTN_MAP[m]);
     if (el) el.classList.toggle('active', m === mode);
   });
 
   var isAndata = mode.indexOf('andata') >= 0;
 
-  // Trova la prossima corsa: per andata usa rossini, per ritorno usa parabiago_prt
   var nextIdx;
   if (isAndata) {
     nextIdx = schedule.findIndex(function(c){ return c.rossini >= nowMins; });
   } else {
     nextIdx = schedule.findIndex(function(c){ return c.parabiago_prt >= nowMins; });
+  }
+
+  // Aggiorna intestazione tabella in base alla direzione
+  var thead = document.getElementById('z644TableHead');
+  if (thead) {
+    if (isAndata) {
+      thead.innerHTML = '<th>Via Rossini 35</th><th>Parabiago FS</th><th>Val.</th><th>Note</th>';
+    } else {
+      thead.innerHTML = '<th>Parabiago FS</th><th>Via Rossini 35</th><th>Arconate</th><th>Val.</th><th>Note</th>';
+    }
   }
 
   var tbody = document.getElementById('z644Body');
@@ -284,15 +300,15 @@ function showZ644Orari(mode) {
 
   tbody.innerHTML = schedule.map(function(c, i) {
     var isCurrent = i === nextIdx;
-    var cls = isCurrent ? 'current-row' : '';
-    var noFS = isAndata && !c.parabiago_fs;
 
     if (isAndata) {
+      var noFS = !c.parabiago_fs;
+      var cls  = isCurrent ? 'current-row' : (noFS ? 'short-row' : '');
       var dest = c.parabiago_fs
         ? minsToHHMM(c.parabiago_fs)
         : '<span style="color:var(--faint)">Via Butti ' + (c.parabiago_vb ? minsToHHMM(c.parabiago_vb) : '—') + ' ⚠️</span>';
       return [
-        '<tr class="' + cls + (noFS ? ' short-row' : '') + '">',
+        '<tr class="' + cls + '">',
         '<td>' + minsToHHMM(c.rossini) + '</td>',
         '<td>' + dest + '</td>',
         '<td>' + valBadgeHtml(c.val) + '</td>',
@@ -300,9 +316,10 @@ function showZ644Orari(mode) {
         '</tr>'
       ].join('');
     } else {
+      var cls2  = isCurrent ? 'current-row' : '';
       var arArc = c.arconate ? minsToHHMM(c.arconate) : '<span style="color:var(--faint)">Dairago ⚠️</span>';
       return [
-        '<tr class="' + cls + '">',
+        '<tr class="' + cls2 + '">',
         '<td>' + minsToHHMM(c.parabiago_prt) + '</td>',
         '<td>' + minsToHHMM(c.rossini) + '</td>',
         '<td>' + arArc + '</td>',
@@ -338,7 +355,7 @@ function showZ625Orari(type) {
     var arrCell   = c.arr
       ? minsToHHMM(c.arr)
       : '<span style="color:var(--faint)">Villa Cortese ⚠️</span>';
-    // Calcola prossimo S5 a Busto Arsizio FS (ogni 30 min ai :03 e :33)
+    // Prossimo S5 a Busto Arsizio: ogni 30 min circa ai :03 e :33
     var s5Html = '';
     if (c.arr) {
       var s5slots = [3, 33];
@@ -348,7 +365,7 @@ function showZ625Orari(type) {
       for (var k = 0; k < s5slots.length; k++) {
         if (s5slots[k] > m5) { nextS5 = h5 * 60 + s5slots[k]; break; }
       }
-      if (!nextS5) nextS5 = (h5 + 1) * 60 + s5slots[0];
+      if (nextS5 === null) nextS5 = (h5 + 1) * 60 + s5slots[0];
       s5Html = '<span style="font-size:0.72rem;color:var(--muted);"> → S5 ~' + minsToHHMM(nextS5) + '</span>';
     }
     return [
@@ -422,20 +439,13 @@ function switchTab(tab) {
   if (c) c.classList.add('active');
   var t = document.getElementById('tab-' + tab);
   if (t) t.classList.add('active');
-  if (tab === 'orari') showZ649Orari(getDayType(new Date()));
-  if (tab === 'z627') {
-    var dt = getDayType(new Date());
-    showZ627Orari(dt === 'sabato' ? 'sabato' : 'feriale');
-  }
-  if (tab === 'z644') {
-    var dt2 = getDayType(new Date());
-    var mode = dt2 === 'sabato' ? 'sabato_andata' : 'feriale_andata';
-    showZ644Orari(mode);
-  }
-  if (tab === 'z625') {
-    var dt3 = getDayType(new Date());
-    showZ625Orari(dt3 === 'sabato' ? 'sabato' : 'feriale');
-  }
+
+  var dt = getDayType(new Date());
+
+  if (tab === 'orari')  showZ649Orari(dt);
+  if (tab === 'z627')   showZ627Orari(dt === 'sabato' ? 'sabato' : 'feriale');
+  if (tab === 'z644')   showZ644Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
+  if (tab === 'z625')   showZ625Orari(dt === 'sabato' ? 'sabato' : 'feriale');
 }
 
 // ── Listeners impostazioni ───────────────────────────────────
