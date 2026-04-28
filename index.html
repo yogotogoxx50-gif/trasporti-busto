@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trasporti LIVE — Busto Garolfo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b1020; --surface: #12182b; --card: #151d33; --border: #27304a;
+  --cyan: #22d3ee; --blue: #60a5fa; --warn: #f59e0b; --ok: #22c55e; --bad: #ef4444;
+  --urgent: #ef4444; --soon: #f59e0b; --good: #22c55e; --later: #60a5fa;
+  --text: #e2e8f0; --muted: #94a3b8; --faint: #475569;
+  --r: 0.75rem; --r-sm: 0.5rem;
+  --font: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100dvh; font-size: 1rem; line-height: 1.6; }
+a { color: var(--cyan); text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+
+/* HERO BAR */
+.hero-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1.25rem; gap: 1rem;
+}
+.hero-bar .clock { font-size: 1.5rem; font-weight: 700; color: var(--cyan); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.hero-bar .day-info { display: flex; flex-direction: column; gap: 0.1rem; }
+.hero-bar .day-name { font-size: 0.9rem; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; }
+.hero-bar .day-type { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.hero-bar .settings-btn { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 0.4rem 0.75rem; color: var(--muted); font-size: 0.8rem; transition: all 0.18s; }
+.hero-bar .settings-btn:hover { color: var(--text); border-color: var(--cyan); }
+
+/* TABS */
+.tab-bar { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn { flex: 1; min-width: 60px; padding: 0.65rem 0.5rem; font-size: 0.8rem; color: var(--muted); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-btn:hover:not(.active) { color: var(--text); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* MAIN CONTAINER */
+.container { max-width: 800px; margin: 0 auto; padding: 1rem; }
+
+/* COUNTDOWN CARD */
+.countdown-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 1.25rem 1.5rem; margin-bottom: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+.countdown-card.urgent { border-color: var(--urgent); animation: pulse-urgent 1.2s ease-in-out infinite; }
+.countdown-card.soon { border-color: var(--ok); }
+.countdown-card.later { border-color: var(--border); }
+@keyframes pulse-urgent {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+  50% { box-shadow: 0 0 0 6px rgba(239,68,68,0.15); }
+}
+.countdown-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
+.countdown-label { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+.countdown-main { font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.countdown-main .mins { color: var(--cyan); }
+.countdown-time { font-size: 0.9rem; color: var(--muted); }
+.badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 9999px; }
+.badge-urgent { background: rgba(239,68,68,0.15); color: var(--urgent); }
+.badge-soon { background: rgba(34,197,94,0.12); color: var(--ok); }
+.badge-later { background: rgba(96,165,250,0.12); color: var(--later); }
+.badge-rapido { background: rgba(34,211,238,0.12); color: var(--cyan); }
+.badge-short { background: rgba(71,85,105,0.3); color: var(--muted); }
+.badge-trenord { background: rgba(96,165,250,0.12); color: var(--blue); }
+
+/* PROGRESS BAR */
+.progress-wrap { background: var(--border); border-radius: 9999px; height: 6px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 9999px; background: var(--cyan); transition: width 0.5s ease; }
+
+/* BUS BLOCK */
+.bus-block {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--r);
+  margin-bottom: 1rem; overflow: hidden; transition: border-color 0.18s;
+}
+.bus-block.active { border-color: var(--cyan); }
+.bus-block-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.25rem; gap: 0.75rem; cursor: pointer;
+}
+.bus-block-header:hover { background: rgba(34,211,238,0.03); }
+.bus-block-title { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.bus-number { font-size: 1rem; font-weight: 800; color: var(--cyan); }
+.bus-dep-time { font-size: 1rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bus-block-body { padding: 0 1.25rem 1.25rem; display: none; }
+.bus-block.active .bus-block-body { display: block; }
+.collapse-icon { color: var(--muted); font-size: 0.9rem; transition: transform 0.2s; flex-shrink: 0; }
+.bus-block.active .collapse-icon { transform: rotate(180deg); }
+
+/* OPTION GROUP */
+.option-group { margin-top: 0.75rem; }
+.option-group-title {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.8rem; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.07em;
+  padding: 0.5rem 0; border-top: 1px solid var(--border);
+}
+.option-group-title:first-child { border-top: none; }
+.route-line {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  padding: 0.35rem 0 0.35rem 0.5rem; font-size: 0.9rem;
+}
+.route-arrow { color: var(--faint); flex-shrink: 0; margin-top: 0.1rem; }
+.route-info { flex: 1; }
+.route-dest { font-weight: 600; color: var(--text); }
+.route-times { font-size: 0.82rem; color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 0.1rem; }
+.route-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: 0.25rem; }
+
+/* NOTE DI STIMA */
+.estimate-note { font-size: 0.75rem; color: var(--faint); margin-top: 0.5rem; padding: 0.4rem 0.6rem; background: rgba(71,85,105,0.15); border-radius: var(--r-sm); }
+
+/* SECTION HEADER */
+.section-header { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin: 1.25rem 0 0.75rem; }
+
+/* ORARI TABLE */
+.orari-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.orari-table th { text-align: left; padding: 0.5rem 0.75rem; color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--border); }
+.orari-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(39,48,74,0.5); font-variant-numeric: tabular-nums; }
+.orari-table tr.current-row td { background: rgba(34,211,238,0.06); color: var(--cyan); font-weight: 600; }
+.orari-table tr.short-row td { background: rgba(71,85,105,0.1); color: var(--faint); }
+.orari-table tr:hover td { background: rgba(34,211,238,0.03); }
+
+/* SETTINGS PANEL */
+.settings-panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.25rem; margin-bottom: 1rem; }
+.settings-row { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border); gap: 1rem; }
+.settings-row:last-child { border-bottom: none; }
+.settings-label { font-size: 0.9rem; color: var(--text); }
+.settings-desc { font-size: 0.75rem; color: var(--muted); margin-top: 0.15rem; }
+.settings-input { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 0.35rem 0.6rem; color: var(--text); font-size: 0.9rem; width: 70px; text-align: center; }
+.settings-input:focus { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+/* MISSING DATA TABLE */
+.missing-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.missing-table th { padding: 0.5rem 0.75rem; text-align: left; color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 1px solid var(--border); }
+.missing-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(39,48,74,0.4); vertical-align: top; }
+.missing-table tr:last-child td { border-bottom: none; }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .countdown-main { font-size: 1.6rem; }
+  .container { padding: 0.75rem; }
+  .bus-block-header { padding: 0.85rem 1rem; }
+  .bus-block-body { padding: 0 1rem 1rem; }
+}
+
+/* GLOW ANIMATION for first card */
+@keyframes glow-cyan {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,211,238,0); }
+  50% { box-shadow: 0 0 16px 2px rgba(34,211,238,0.12); }
+}
+.bus-block.active { animation: glow-cyan 3s ease-in-out infinite; }
+
+/* FADE for countdown number */
+@keyframes fadeNum { 0% { opacity: 0; transform: translateY(4px); } 100% { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeNum 0.35s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- HERO BAR -->
+<div class="hero-bar">
+  <div class="clock" id="clock">00:00:00</div>
+  <div class="day-info">
+    <span class="day-name" id="dayName">...</span>
+    <span class="day-type" id="dayType">...</span>
+  </div>
+  <button class="settings-btn" onclick="switchTab('settings')">⚙️ Impostazioni</button>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('live')" id="tab-live">🏠 LIVE</button>
+  <button class="tab-btn" onclick="switchTab('orari')" id="tab-orari">📅 ORARI</button>
+  <button class="tab-btn" onclick="switchTab('settings')" id="tab-settings">⚙️ DATI</button>
+</div>
+
+<!-- TAB: LIVE -->
+<div class="tab-content active" id="content-live">
+  <div class="container">
+
+    <!-- COUNTDOWN PRINCIPALE -->
+    <div class="countdown-card" id="mainCountdown">
+      <div class="countdown-label">Prossimo Z649 da Via Rossini 35</div>
+      <div class="countdown-top">
+        <div>
+          <div class="countdown-main"><span class="mins" id="cntMins">--</span> <span style="font-size:1rem;color:var(--muted)">min</span></div>
+          <div class="countdown-time" id="cntTime">Calcolo in corso...</div>
+        </div>
+        <div id="cntBadge"></div>
+      </div>
+      <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+
+    <!-- BUS BLOCKS -->
+    <div class="section-header">Con questo bus puoi:</div>
+    <div id="busBlocks"><!-- generato da JS --></div>
+
+  </div>
+</div>
+
+<!-- TAB: ORARI -->
+<div class="tab-content" id="content-orari">
+  <div class="container">
+    <div class="section-header" id="orariDayLabel">Orari Z649 — Feriale</div>
+    <div style="display:flex;gap:0.5rem;margin-bottom:1rem;">
+      <button class="tab-btn active" style="flex:0;padding:0.4rem 0.8rem;border:1px solid var(--border);border-radius:var(--r-sm);" id="btnFeriale" onclick="showOrari('feriale')">Feriale</button>
+      <button class="tab-btn" style="flex:0;padding:0.4rem 0.8rem;border:1px solid var(--border);border-radius:var(--r-sm);" id="btnSabato" onclick="showOrari('sabato')">Sabato</button>
+      <button class="tab-btn" style="flex:0;padding:0.4rem 0.8rem;border:1px solid var(--border);border-radius:var(--r-sm);" id="btnDomenica" onclick="showOrari('domenica')">Domenica</button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="orari-table" id="orariTable">
+        <thead><tr><th>#</th><th>Via Rossini</th><th>Pregnana FS</th><th>Molino Dorino</th><th>Tipo</th></tr></thead>
+        <tbody id="orariBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: SETTINGS / DATI -->
+<div class="tab-content" id="content-settings">
+  <div class="container">
+    <div class="section-header">Impostazioni</div>
+    <div class="settings-panel">
+      <div class="settings-row">
+        <div><div class="settings-label">Minuti a piedi fino a Via Rossini 35</div><div class="settings-desc">Da casa tua alla fermata</div></div>
+        <input class="settings-input" type="number" id="walkRossini" value="5" min="0" max="30">
+      </div>
+      <div class="settings-row">
+        <div><div class="settings-label">Minuti auto fino a Canegrate FS</div><div class="settings-desc">Da Via Rossini alla stazione</div></div>
+        <input class="settings-input" type="number" id="walkCanegrate" value="8" min="0" max="30">
+      </div>
+    </div>
+
+    <div class="section-header">Dati mancanti / da verificare</div>
+    <div class="settings-panel" style="padding:0;overflow:hidden;">
+      <table class="missing-table">
+        <thead><tr><th>Dato</th><th>Stato</th><th>Azione</th></tr></thead>
+        <tbody>
+          <tr><td>Orari S5/S6 da Pregnana (esatti)</td><td>⚠️ Stima ogni 15 min</td><td><a href="https://www.trenord.it" target="_blank">Trenord.it</a></td></tr>
+          <tr><td>Orari treni Canegrate → Milano</td><td>⚠️ Stimati</td><td><a href="https://www.trenord.it" target="_blank">Trenord.it</a></td></tr>
+          <tr><td>Orari Z642_Magenta da Rossini</td><td>⚠️ Solo feriale</td><td>Da aggiungere</td></tr>
+          <tr><td>Via Gorky (destinazione)</td><td>❓ Non configurato</td><td>Aggiungi destinazione</td></tr>
+          <tr><td>Monfalcone (destinazione)</td><td>❓ Non configurato</td><td>Aggiungi destinazione</td></tr>
+          <tr><td>Festivi italiani 2025/2026</td><td>⚠️ Non implementati</td><td>Aggiungi lista festivi</td></tr>
+          <tr><td>Orari Z647 da Rossini</td><td>⚠️ Non presenti</td><td>Da aggiungere</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-header">Info dashboard</div>
+    <div class="settings-panel" style="font-size:0.82rem;color:var(--muted);">
+      <p>Dashboard Trasporti LIVE v2.0 — Via Giacomo Rossini 35, Busto Garolfo</p>
+      <p style="margin-top:0.4rem;">Dati Z649: orari reali (fonte: ATM/Movibus). Dati S5/S6 e Canegrate: stime — verificare su Trenord.it.</p>
+      <p style="margin-top:0.4rem;">Ultimo aggiornamento dati: Aprile 2026</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATI EMBEDDED
+// ============================================================
+
+const Z649_ORARI = {
+  feriale: [
+    {rossini: 375, pregnana_fs: 405, molino_dorino: 427},  // 06:15 → 06:45 → 07:07
+    {rossini: 400, pregnana_fs: 430, molino_dorino: 452},  // 06:40 → 07:10 → 07:32
+    {rossini: 420, pregnana_fs: 450, molino_dorino: 472},  // 07:00 → 07:30 → 07:52
+    {rossini: 441, pregnana_fs: 471, molino_dorino: 493},  // 07:21 → 07:51 → 08:13
+    {rossini: 461, pregnana_fs: 491, molino_dorino: null}, // 07:41 → 08:11 → CORSA BREVE
+    {rossini: 481, pregnana_fs: 511, molino_dorino: 533},  // 08:01 → 08:31 → 08:53
+    {rossini: 511, pregnana_fs: 541, molino_dorino: 563},  // 08:31 → 09:01 → 09:23
+    {rossini: 541, pregnana_fs: 571, molino_dorino: 593},  // 09:01 → 09:31 → 09:53
+    {rossini: 571, pregnana_fs: 601, molino_dorino: 623},  // 09:31 → 10:01 → 10:23
+    {rossini: 601, pregnana_fs: 631, molino_dorino: 653},  // 10:01 → 10:31 → 10:53
+    {rossini: 631, pregnana_fs: 661, molino_dorino: 683},  // 10:31 → 11:01 → 11:23
+    {rossini: 661, pregnana_fs: 691, molino_dorino: 713},  // 11:01 → 11:31 → 11:53
+    {rossini: 691, pregnana_fs: 721, molino_dorino: 743},  // 11:31 → 12:01 → 12:23
+    {rossini: 721, pregnana_fs: 751, molino_dorino: 773},  // 12:01 → 12:31 → 12:53
+    {rossini: 751, pregnana_fs: 781, molino_dorino: 803},  // 12:31 → 13:01 → 13:23
+    {rossini: 781, pregnana_fs: 811, molino_dorino: 833},  // 13:01 → 13:31 → 13:53
+    {rossini: 811, pregnana_fs: 841, molino_dorino: 863},  // 13:31 → 14:01 → 14:23
+    {rossini: 841, pregnana_fs: 871, molino_dorino: 893},  // 14:01 → 14:31 → 14:53
+    {rossini: 871, pregnana_fs: 901, molino_dorino: 923},  // 14:31 → 15:01 → 15:23
+    {rossini: 901, pregnana_fs: 931, molino_dorino: 953},  // 15:01 → 15:31 → 15:53
+    {rossini: 931, pregnana_fs: 961, molino_dorino: 983},  // 15:31 → 16:01 → 16:23
+    {rossini: 961, pregnana_fs: 991, molino_dorino: null}, // 16:01 → 16:31 → CORSA BREVE
+    {rossini: 1001, pregnana_fs: 1031, molino_dorino: 1053}, // 16:41 → 17:11 → 17:33
+    {rossini: 1017, pregnana_fs: 1049, molino_dorino: 1083}, // 16:57 → 17:29 → 18:03
+    {rossini: 1037, pregnana_fs: 1069, molino_dorino: 1097}, // 17:17 → 17:49 → 18:17
+    {rossini: 1052, pregnana_fs: 1084, molino_dorino: 1112}, // 17:32 → 18:04 → 18:32
+    {rossini: 1067, pregnana_fs: 1099, molino_dorino: 1127}, // 17:47 → 18:19 → 18:47
+    {rossini: 1082, pregnana_fs: 1114, molino_dorino: 1142}, // 18:02 → 18:34 → 19:02
+    {rossini: 1097, pregnana_fs: 1129, molino_dorino: null}, // 18:17 → 18:49 → CORSA BREVE
+    {rossini: 1112, pregnana_fs: 1144, molino_dorino: 1172}, // 18:32 → 19:04 → 19:32
+    {rossini: 1142, pregnana_fs: 1174, molino_dorino: 1202}, // 19:02 → 19:34 → 20:02
+    {rossini: 1172, pregnana_fs: 1204, molino_dorino: 1232}, // 19:32 → 20:04 → 20:32
+    {rossini: 1202, pregnana_fs: 1234, molino_dorino: null}, // 20:02 → 20:34 → CORSA BREVE
+    {rossini: 1232, pregnana_fs: 1264, molino_dorino: 1292}, // 20:32 → 21:04 → 21:32
+  ],
+  sabato: [
+    {rossini: 420, pregnana_fs: 452, molino_dorino: 480},
+    {rossini: 480, pregnana_fs: 512, molino_dorino: 540},
+    {rossini: 540, pregnana_fs: 572, molino_dorino: 600},
+    {rossini: 600, pregnana_fs: 632, molino_dorino: 660},
+    {rossini: 660, pregnana_fs: 692, molino_dorino: 720},
+    {rossini: 720, pregnana_fs: 752, molino_dorino: 780},
+    {rossini: 780, pregnana_fs: 812, molino_dorino: 840},
+    {rossini: 840, pregnana_fs: 872, molino_dorino: 900},
+    {rossini: 900, pregnana_fs: 932, molino_dorino: 960},
+    {rossini: 960, pregnana_fs: 992, molino_dorino: 1020},
+    {rossini: 1020, pregnana_fs: 1052, molino_dorino: 1080},
+    {rossini: 1080, pregnana_fs: 1112, molino_dorino: 1140},
+    {rossini: 1140, pregnana_fs: 1172, molino_dorino: 1200},
+    {rossini: 1200, pregnana_fs: 1232, molino_dorino: null},
+  ],
+  domenica: [
+    {rossini: 480, pregnana_fs: 512, molino_dorino: 540},
+    {rossini: 540, pregnana_fs: 572, molino_dorino: 600},
+    {rossini: 600, pregnana_fs: 632, molino_dorino: 660},
+    {rossini: 660, pregnana_fs: 692, molino_dorino: 720},
+    {rossini: 720, pregnana_fs: 752, molino_dorino: 780},
+    {rossini: 780, pregnana_fs: 812, molino_dorino: 840},
+    {rossini: 840, pregnana_fs: 872, molino_dorino: 900},
+    {rossini: 900, pregnana_fs: 932, molino_dorino: 960},
+    {rossini: 960, pregnana_fs: 992, molino_dorino: 1020},
+    {rossini: 1020, pregnana_fs: 1052, molino_dorino: 1080},
+    {rossini: 1080, pregnana_fs: 1112, molino_dorino: null},
+  ]
+};
+
+const M1_DESTINATIONS = [
+  { id: 'molino',     name: '🔵 Molino Dorino',            minutesFromMolino: 0,  emoji: '🔵' },
+  { id: 'pagano',     name: '🔵 Pagano / Buonarroti',      minutesFromMolino: 6,  emoji: '🔵' },
+  { id: 'cadorna',    name: '🔵🔴 Cadorna FNM',             minutesFromMolino: 10, emoji: '🔵🔴' },
+  { id: 'duomo',      name: '🔴🟡 Duomo',                   minutesFromMolino: 12, emoji: '🔴🟡' },
+  { id: 'repubblica', name: '🔵🔴🟡 Repubblica',            minutesFromMolino: 14, emoji: '🔵🔴🟡' },
+  { id: 'centrale',   name: '🟡 Centrale FS',               minutesFromMolino: 18, emoji: '🟡' },
+];
+
+const S5S6_DESTINATIONS = [
+  { name: '🚂 Bovisa FNM',         minutesFromPregnana: 10 },
+  { name: '🚂 P.ta Garibaldi',     minutesFromPregnana: 20 },
+  { name: '🚂 Repubblica (Passante)', minutesFromPregnana: 25 },
+  { name: '🚂 Dateo',              minutesFromPregnana: 29 },
+];
+
+const CANEGRATE_TRAIN_OFFSET = 8; // minuti stimati per raggiungere Canegrate in auto
+const CANEGRATE_TRAVEL_MILAN = 25; // minuti da Canegrate a Milano Cadorna (stima)
+
+function minsToHHMM(m) {
+  const h = Math.floor(m / 60) % 24;
+  const mm = m % 60;
+  return `${String(h).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;
+}
+
+function getDayType(date) {
+  const dow = date.getDay();
+  if (dow === 0) return 'domenica';
+  if (dow === 6) return 'sabato';
+  return 'feriale';
+}
+
+function calcNextS5S6(afterMinutes) {
+  const slots = [1, 16, 31, 46];
+  const hour = Math.floor(afterMinutes / 60);
+  const min = afterMinutes % 60;
+  for (const slot of slots) {
+    if (slot > min) return hour * 60 + slot;
+  }
+  return (hour + 1) * 60 + slots[0];
+}
+
+function getNextDepartures(nowMinutes, dayType, count = 4) {
+  const schedule = Z649_ORARI[dayType];
+  return schedule
+    .filter(c => c.rossini > nowMinutes - 1 && c.rossini <= nowMinutes + 180)
+    .slice(0, count)
+    .map(c => ({ ...c, isShort: c.molino_dorino === null }));
+}
+
+function urgencyClass(diff) {
+  if (diff < 5) return 'urgent';
+  if (diff <= 15) return 'soon';
+  return 'later';
+}
+
+function urgencyBadge(diff) {
+  if (diff < 5) return '<span class="badge badge-urgent">⚡ SBRIGATI</span>';
+  if (diff <= 15) return '<span class="badge badge-soon">✅ Ottimo timing</span>';
+  if (diff <= 30) return '<span class="badge badge-later">🕐 Hai tempo</span>';
+  return '<span class="badge badge-later">🕐 Hai tempo</span>';
+}
+
+function buildBusOptions(corsa, walkTime) {
+  let html = '';
+  let fastestArrival = Infinity;
+  const options = [];
+
+  // OPZIONE 1: via Molino Dorino → M1
+  if (corsa.molino_dorino) {
+    const M1_WAIT = 3;
+    const dests = M1_DESTINATIONS.map(d => ({
+      ...d,
+      arrival: corsa.molino_dorino + M1_WAIT + d.minutesFromMolino
+    }));
+    const repArrival = dests.find(d => d.id === 'repubblica')?.arrival || Infinity;
+    options.push({ type: 'molino', dests, repArrival });
+    fastestArrival = Math.min(fastestArrival, repArrival);
+  }
+
+  // OPZIONE 2: via Pregnana FS → S5/S6
+  if (corsa.pregnana_fs) {
+    const nextTrain = calcNextS5S6(corsa.pregnana_fs + 1);
+    const dests = S5S6_DESTINATIONS.map(d => ({
+      ...d,
+      arrival: nextTrain + d.minutesFromPregnana
+    }));
+    const repArrival = dests.find(d => d.name.includes('Repubblica'))?.arrival || Infinity;
+    options.push({ type: 'pregnana', arrPregnana: corsa.pregnana_fs, nextTrain, dests, repArrival });
+    fastestArrival = Math.min(fastestArrival, repArrival);
+  }
+
+  // OPZIONE 3: via Canegrate
+  const walkToCanegrate = parseInt(document.getElementById('walkCanegrate')?.value || 8);
+  const canegrateArr = corsa.rossini + walkToCanegrate;
+  const nextCanTrain = calcNextS5S6(canegrateArr + 1); // stima semplificata
+  const canArrMilano = nextCanTrain + CANEGRATE_TRAVEL_MILAN;
+  options.push({ type: 'canegrate', canegrateArr, nextCanTrain, canArrMilano });
+  fastestArrival = Math.min(fastestArrival, canArrMilano);
+
+  // Determina il più rapido a Repubblica/Milano
+  let rapidoType = null;
+  let minArr = Infinity;
+  for (const opt of options) {
+    const arr = opt.repArrival || opt.canArrMilano || Infinity;
+    if (arr < minArr) { minArr = arr; rapidoType = opt.type; }
+  }
+
+  // Render opzioni
+  for (const opt of options) {
+    const isRapido = opt.type === rapidoType;
+    const rapidoBadge = isRapido ? '<span class="badge badge-rapido">⚡ PIÙ RAPIDO</span>' : '';
+
+    if (opt.type === 'molino') {
+      html += `<div class="option-group">
+        <div class="option-group-title">🔵 Capolinea Molino Dorino <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">(arrivi alle ${minsToHHMM(corsa.molino_dorino)}) → M1 🔴</span> ${rapidoBadge}</div>`;
+      for (const d of opt.dests.slice(1)) {
+        html += `<div class="route-line"><span class="route-arrow">└</span><div class="route-info"><span class="route-dest">${d.name}</span><div class="route-times">~${minsToHHMM(d.arrival)}  <span style="color:var(--faint)">(+${d.minutesFromMolino + 3} min dalla metro)</span></div></div></div>`;
+      }
+      html += `</div>`;
+    }
+
+    if (opt.type === 'pregnana') {
+      html += `<div class="option-group">
+        <div class="option-group-title">🔄 Scendi a Pregnana FS <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">(arrivi alle ${minsToHHMM(opt.arrPregnana)}) → S5/S6</span> ${rapidoBadge}</div>`;
+      for (const d of opt.dests) {
+        const dur = d.arrival - opt.nextTrain;
+        html += `<div class="route-line"><span class="route-arrow">└</span><div class="route-info"><span class="route-dest">${d.name}</span><div class="route-times">S5/S6 ~${minsToHHMM(opt.nextTrain)} → <strong>${minsToHHMM(d.arrival)}</strong> <span style="color:var(--faint)">(${dur} min dal treno)</span></div></div></div>`;
+      }
+      html += `<div class="estimate-note">⚠️ Orari S5/S6 stimati (ogni ~15 min). Verificare su Trenord.it.</div></div>`;
+    }
+
+    if (opt.type === 'canegrate') {
+      html += `<div class="option-group">
+        <div class="option-group-title">🚗 Via Canegrate FS <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">(auto ~${walkToCanegrate} min)</span> ${rapidoBadge}</div>
+        <div class="route-line"><span class="route-arrow">└</span><div class="route-info"><span class="route-dest">🚂 Trenord Canegrate</span><div class="route-times">Treno ~${minsToHHMM(opt.nextCanTrain)} → <strong>Cadorna ~${minsToHHMM(opt.canArrMilano)}</strong></div><div class="route-badges"><span class="badge badge-trenord">🚂 Trenord</span></div></div></div>
+        <div class="estimate-note">⚠️ Orari treni Canegrate stimati. Verificare su Trenord.it.</div>
+      </div>`;
+    }
+  }
+
+  return html;
+}
+
+function renderBusBlocks(departures, nowMinutes) {
+  const container = document.getElementById('busBlocks');
+  if (!departures.length) {
+    container.innerHTML = '<div style="color:var(--muted);padding:1rem;text-align:center;">Nessuna corsa nelle prossime 3 ore.</div>';
+    return;
+  }
+
+  container.innerHTML = departures.map((corsa, i) => {
+    const diff = corsa.rossini - nowMinutes;
+    const urg = urgencyClass(diff);
+    const isActive = i === 0;
+    const badgeHtml = urgencyBadge(diff);
+    const shortBadge = corsa.isShort ? '<span class="badge badge-short">⚠️ Corsa breve – Arluno</span>' : '';
+
+    const bodyHtml = corsa.isShort
+      ? `<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Questa corsa termina ad Arluno — non arriva a Molino Dorino o Pregnana FS.</div><div class="estimate-note">Considera la prossima corsa completa per raggiungere Milano.</div></div>`
+      : buildBusOptions(corsa);
+
+    return `<div class="bus-block ${isActive ? 'active' : ''}" id="busblock-${i}">
+      <div class="bus-block-header" onclick="toggleBusBlock(${i})">
+        <div class="bus-block-title">
+          <span class="bus-number">Z649</span>
+          <span class="bus-dep-time">${minsToHHMM(corsa.rossini)}</span>
+          ${badgeHtml} ${shortBadge}
+          <span style="font-size:0.82rem;color:var(--muted);">tra ${diff} min</span>
+        </div>
+        <span class="collapse-icon">▼</span>
+      </div>
+      <div class="bus-block-body">${bodyHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleBusBlock(i) {
+  document.querySelectorAll('.bus-block').forEach((el, idx) => {
+    if (idx === i) el.classList.toggle('active');
+    else el.classList.remove('active');
+  });
+}
+
+// ============================================================
+// MAIN TICKER
+// ============================================================
+let lastMins = -1;
+
+function tick() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  document.getElementById('clock').textContent =
+    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+  const DAYS = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+  document.getElementById('dayName').textContent = DAYS[now.getDay()];
+  const dt = getDayType(now);
+  document.getElementById('dayType').textContent = dt.toUpperCase();
+
+  const nowMins = h * 60 + m;
+  if (nowMins === lastMins) return;
+  lastMins = nowMins;
+
+  const walkTime = parseInt(document.getElementById('walkRossini')?.value || 5);
+  const effectiveNow = nowMins + walkTime;
+  const departures = getNextDepartures(effectiveNow, dt, 4);
+
+  if (departures.length === 0) {
+    document.getElementById('cntMins').textContent = '--';
+    document.getElementById('cntTime').textContent = 'Nessuna corsa nelle prossime 3 ore';
+    document.getElementById('cntBadge').innerHTML = '';
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('busBlocks').innerHTML = '<div style="color:var(--muted);padding:1rem;text-align:center;">Nessuna corsa disponibile.</div>';
+    return;
+  }
+
+  const next = departures[0];
+  const diff = next.rossini - effectiveNow;
+  const urg = urgencyClass(diff);
+
+  const cntEl = document.getElementById('cntMins');
+  cntEl.textContent = diff;
+  cntEl.classList.remove('fade-in');
+  void cntEl.offsetWidth;
+  cntEl.classList.add('fade-in');
+
+  document.getElementById('cntTime').textContent = `Parte alle ${minsToHHMM(next.rossini)} da Via Rossini 35`;
+  document.getElementById('cntBadge').innerHTML = urgencyBadge(diff);
+
+  const mc = document.getElementById('mainCountdown');
+  mc.className = 'countdown-card ' + urg;
+
+  // Progress bar: 0% quando mancano 30+ min, 100% quando è il momento
+  const progress = Math.max(0, Math.min(100, ((30 - diff) / 30) * 100));
+  document.getElementById('progressFill').style.width = progress + '%';
+
+  renderBusBlocks(departures, effectiveNow);
+}
+
+// ============================================================
+// ORARI TAB
+// ============================================================
+function showOrari(type) {
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+  const schedule = Z649_ORARI[type];
+  const tbody = document.getElementById('orariBody');
+  const labels = { feriale: 'Feriale', sabato: 'Sabato', domenica: 'Domenica' };
+  document.getElementById('orariDayLabel').textContent = `Orari Z649 — ${labels[type]}`;
+  ['Feriale','Sabato','Domenica'].forEach(l => {
+    const id = 'btn' + l;
+    document.getElementById(id)?.classList.toggle('active', l.toLowerCase() === type);
+  });
+
+  tbody.innerHTML = schedule.map((c, i) => {
+    const isCurrent = c.rossini > nowMins - 1 && i === schedule.findIndex(x => x.rossini > nowMins - 1);
+    const isShort = c.molino_dorino === null;
+    const cls = isCurrent ? 'current-row' : (isShort ? 'short-row' : '');
+    return `<tr class="${cls}">
+      <td>${i + 1}</td>
+      <td>${minsToHHMM(c.rossini)}</td>
+      <td>${c.pregnana_fs ? minsToHHMM(c.pregnana_fs) : '—'}</td>
+      <td>${c.molino_dorino ? minsToHHMM(c.molino_dorino) : '<span style="color:var(--faint)">Arluno ⚠️</span>'}</td>
+      <td>${isShort ? '<span class="badge badge-short">Breve</span>' : '<span style="color:var(--ok);font-size:0.75rem;">Completa</span>'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ============================================================
+// TAB SWITCHER
+// ============================================================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('content-' + tab)?.classList.add('active');
+  document.getElementById('tab-' + tab)?.classList.add('active');
+  if (tab === 'orari') showOrari(getDayType(new Date()));
+}
+
+// ============================================================
+// INIT
+// ============================================================
+tick();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
