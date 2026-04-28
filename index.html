@@ -151,6 +151,8 @@ button{cursor:pointer;font-family:inherit;}
   <button class="tab-btn active" onclick="switchTab('live')"    id="tab-live">🏠 LIVE</button>
   <button class="tab-btn"        onclick="switchTab('orari')"   id="tab-orari">📅 Z649</button>
   <button class="tab-btn"        onclick="switchTab('z627')"    id="tab-z627">🚌 Z627</button>
+  <button class="tab-btn"        onclick="switchTab('z644')"    id="tab-z644">🚌 Z644</button>
+  <button class="tab-btn"        onclick="switchTab('z625')"    id="tab-z625">🚌 Z625</button>
   <button class="tab-btn"        onclick="switchTab('settings')"id="tab-settings">⚙️ DATI</button>
 </div>
 
@@ -210,6 +212,46 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
+<!-- ── TAB: Z644 ─────────────────────────────────────────── -->
+<div class="tab-content" id="content-z644">
+  <div class="container">
+    <div class="section-header" id="z644DayLabel">Orari Z644 — Feriale</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">Arconate / Dairago → Via Rossini 35 → Parabiago FS (~22 min)</div>
+    <div class="filter-bar">
+      <button class="filter-btn active" id="z644btnAndata"  onclick="showZ644Orari('feriale_andata')">Feriale → Parabiago</button>
+      <button class="filter-btn"        id="z644btnRitorno" onclick="showZ644Orari('feriale_ritorno')">Feriale → Arconate</button>
+      <button class="filter-btn"        id="z644btnSabAnd"  onclick="showZ644Orari('sabato_andata')">Sabato → Parabiago</button>
+      <button class="filter-btn"        id="z644btnSabRit"  onclick="showZ644Orari('sabato_ritorno')">Sabato → Arconate</button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="orari-table">
+        <thead><tr id="z644TableHead"><th>Via Rossini</th><th>Parabiago FS</th><th>Parabiago V.Butti</th><th>Val.</th><th>Note</th></tr></thead>
+        <tbody id="z644Body"></tbody>
+      </table>
+    </div>
+    <div class="estimate-note" style="margin-top:1rem;">⚠️ Le corse → PB100 (Via Butti) <strong>NON</strong> arrivano all'autostazione FS. Domenica e festivi: nessun servizio. Non attivo 20 lug–6 set e festività natalizie.</div>
+  </div>
+</div>
+
+<!-- ── TAB: Z625 ─────────────────────────────────────────── -->
+<div class="tab-content" id="content-z625">
+  <div class="container">
+    <div class="section-header" id="z625DayLabel">Orari Z625 — Feriale</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">Busto Garolfo Via Curiel → Busto Arsizio FS (~25 min)</div>
+    <div class="filter-bar">
+      <button class="filter-btn active" id="z625btnFeriale" onclick="showZ625Orari('feriale')">Feriale</button>
+      <button class="filter-btn"        id="z625btnSabato"  onclick="showZ625Orari('sabato')">Sabato</button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="orari-table">
+        <thead><tr><th>Partenza Curiel</th><th>Busto Arsizio FS</th><th>Val.</th><th>Note</th></tr></thead>
+        <tbody id="z625Body"></tbody>
+      </table>
+    </div>
+    <div class="estimate-note" style="margin-top:1rem;">⚠️ La Z625 parte da Via Curiel / Via Buonarroti (~5–8 min a piedi da Via Rossini). A Busto Arsizio FS: S5 Trenord (Milano Cadorna) e RE Varese–Milano. Domenica e festivi: nessun servizio.</div>
+  </div>
+</div>
+
 <!-- ── TAB: IMPOSTAZIONI ──────────────────────────────────── -->
 <div class="tab-content" id="content-settings">
   <div class="container">
@@ -232,8 +274,8 @@ button{cursor:pointer;font-family:inherit;}
     </div>
     <div class="section-header">Info</div>
     <div class="settings-panel" style="font-size:0.82rem;color:var(--muted);line-height:1.7;">
-      <p>Trasporti LIVE v3.1 — Via Giacomo Rossini 35, Busto Garolfo</p>
-      <p>Dati Z649 e Z627: orari reali. S5/S6 e Canegrate: stime — verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</p>
+      <p>Trasporti LIVE v3.2 — Via Giacomo Rossini 35, Busto Garolfo</p>
+      <p>Dati Z649, Z627, Z644, Z625: orari reali. S5/S6 e Canegrate: stime — verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</p>
       <p id="dataVersion" style="margin-top:0.4rem;opacity:0.7;"></p>
     </div>
   </div>
@@ -243,6 +285,8 @@ button{cursor:pointer;font-family:inherit;}
 <script src="./data/config.js"></script>
 <script src="./data/z649.js"></script>
 <script src="./data/z627.js"></script>
+<script src="./data/z644.js"></script>
+<script src="./data/z625.js"></script>
 <!-- Logica applicativa -->
 <script src="./js/app.js"></script>
 <!-- Avvio -->

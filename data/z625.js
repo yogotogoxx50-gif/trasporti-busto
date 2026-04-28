@@ -1,0 +1,83 @@
+// ============================================================
+// Z625.JS — Orari linea Z625
+// Tutti i tempi sono in MINUTI dall'inizio della giornata
+// dep = partenza BT302 (Via Curiel / Via Busto Arsizio, Busto Garolfo)
+//       ⚠️  ~5-8 min a piedi da Via Rossini 35
+// arr = arrivo BA090 (Busto Arsizio – Piazza Garibaldi / FS)
+// val = FR5=feriale, SC5=scolastico, SAB=sabato
+// ============================================================
+var Z625 = {
+  meta: {
+    linea: "Z625",
+    partenza:     "Busto Garolfo – Via Curiel / Via Busto Arsizio (BT302)",
+    destinazione: "Busto Arsizio – Stazione FS Piazza Garibaldi (BA090)",
+    durata_minuti: "~25",
+    walk_da_rossini: "~6 min a piedi (350m)",
+    validita: {
+      FR5: "Lun–Ven feriali",
+      SC5: "Lun–Ven solo periodo scolastico",
+      SAB: "Sabato feriale",
+      domenica: "Nessun servizio"
+    },
+    eccezioni: "Non valido nelle 3 settimane centrali agosto e festivit\u00e0 natalizie",
+    coincidenze_ba: "S5 Trenord (Milano Cadorna \u2194 Varese Nord), RE Varese\u2013Milano P.ta Garibaldi"
+  },
+
+  // ── FERIALE (FR5 + SC5) ─────────────────────────────
+  feriale: [
+    { dep: 370,  arr: 395,  val: "FR5", note: "" },
+    { dep: 390,  arr: 415,  val: "SC5", note: "" },
+    { dep: 410,  arr: 435,  val: "FR5", note: "" },
+    { dep: 430,  arr: 455,  val: "SC5", note: "" },
+    { dep: 440,  arr: 465,  val: "FR5", note: "" },
+    { dep: 460,  arr: 487,  val: "FR5", note: "" },
+    { dep: 462,  arr: null, val: "SC5", note: "\u26a0\ufe0f Termina a Villa Cortese" },
+    { dep: 480,  arr: 505,  val: "FR5", note: "" },
+    { dep: 505,  arr: 530,  val: "FR5", note: "" },
+    { dep: 520,  arr: 545,  val: "SC5", note: "" },
+    { dep: 550,  arr: 575,  val: "FR5", note: "" },
+    { dep: 565,  arr: 590,  val: "SC5", note: "" },
+    { dep: 580,  arr: 605,  val: "FR5", note: "" },
+    { dep: 610,  arr: 635,  val: "FR5", note: "" },
+    { dep: 640,  arr: 665,  val: "FR5", note: "" },
+    { dep: 670,  arr: 695,  val: "FR5", note: "" },
+    { dep: 700,  arr: 725,  val: "FR5", note: "" },
+    { dep: 730,  arr: 755,  val: "FR5", note: "" },
+    { dep: 760,  arr: 785,  val: "SC5", note: "" },
+    { dep: 775,  arr: 800,  val: "FR5", note: "" },
+    { dep: 805,  arr: 830,  val: "SC5", note: "" },
+    { dep: 810,  arr: 835,  val: "FR5", note: "" },
+    { dep: 840,  arr: 865,  val: "FR5", note: "" },
+    { dep: 870,  arr: 895,  val: "FR5", note: "" },
+    { dep: 900,  arr: 925,  val: "SC5", note: "" },
+    { dep: 905,  arr: 930,  val: "FR5", note: "~" },
+    { dep: 935,  arr: 960,  val: "FR5", note: "~" },
+    { dep: 965,  arr: 990,  val: "FR5", note: "~" },
+    { dep: 1025, arr: 1050, val: "FR5", note: "~" },
+    { dep: 1055, arr: 1080, val: "FR5", note: "~" },
+    { dep: 1085, arr: 1110, val: "FR5", note: "~" },
+    { dep: 1115, arr: 1140, val: "FR5", note: "~" },
+    { dep: 1145, arr: 1170, val: "FR5", note: "~" },
+    { dep: 1175, arr: 1200, val: "FR5", note: "~" }
+  ],
+
+  // ── SABATO ────────────────────────────────────────────
+  sabato: [
+    { dep: 390,  arr: 415,  val: "SAB", note: "" },
+    { dep: 420,  arr: 445,  val: "SAB", note: "" },
+    { dep: 480,  arr: 505,  val: "SAB", note: "" },
+    { dep: 510,  arr: 535,  val: "SAB", note: "" },
+    { dep: 540,  arr: 565,  val: "SAB", note: "" },
+    { dep: 570,  arr: 595,  val: "SAB", note: "" },
+    { dep: 600,  arr: 625,  val: "SAB", note: "" },
+    { dep: 660,  arr: 685,  val: "SAB", note: "" },
+    { dep: 720,  arr: 745,  val: "SAB", note: "" },
+    { dep: 780,  arr: 805,  val: "SAB", note: "" },
+    { dep: 840,  arr: 865,  val: "SAB", note: "" },
+    { dep: 900,  arr: 925,  val: "SAB", note: "" },
+    { dep: 960,  arr: 985,  val: "SAB", note: "" },
+    { dep: 1020, arr: 1045, val: "SAB", note: "" },
+    { dep: 1080, arr: 1105, val: "SAB", note: "" },
+    { dep: 1140, arr: 1165, val: "SAB", note: "" }
+  ]
+};
