@@ -177,78 +177,99 @@ function buildBusOptions(corsa) {
 }
 
 // ── Render bus blocks Z649 ───────────────────────────────────
-function renderBusBlocks(departures, departedList, effectiveNow) {
-  var container = document.getElementById('busBlocks');
-  if (!departures.length && !departedList.length) {
-    container.innerHTML = '<div style="color:var(--muted);padding:1rem;text-align:center;">Nessuna corsa nelle prossime 3 ore.</div>';
-  } else if (!departures.length) {
-    container.innerHTML = '<div style="color:var(--muted);padding:1rem;text-align:center;">Nessuna corsa imminente.</div>';
-  } else {
-    container.innerHTML = departures.map(function(c, i) {
-      var diff    = c.rossini - effectiveNow;
-      var isShort = !c.molino_dorino;
-      var flags   = c.flags || [];
-      var sc5Badge   = flags.indexOf('SC5')  >= 0 ? ' <span class="badge badge-short">📚 SC5</span>'  : '';
-      var lastBadge  = flags.indexOf('last') >= 0 ? ' <span class="badge badge-short">🔚 Ultima</span>' : '';
-      var shortBadge = isShort ? ' <span class="badge badge-short">⚠️ Corsa breve</span>' : '';
-      var bodyHtml = isShort
-        ? '<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Corsa breve — termina ad Arluno, non arriva a Molino Dorino.</div><div class="estimate-note">Considera la prossima corsa completa per raggiungere Milano.</div></div>'
-        : buildBusOptions(c);
-      var isFirst = i === 0;
-      return [
-        '<div class="bus-block ' + (isFirst ? 'active' : '') + '" id="busblock-' + i + '">' ,
-        '  <div class="bus-block-header" onclick="toggleBusBlock(' + i + ')">' ,
-        '    <div class="bus-block-title">' ,
-        '      <span class="bus-number">Z649</span>' ,
-        '      <span class="bus-dep-time">' + minsToHHMM(c.rossini) + '</span>' ,
-        '      ' + urgencyBadge(diff) ,
-        '      <span class="bus-block-diff">tra ' + diff + ' min</span>' ,
-        '    </div>' ,
-        '    <div class="bus-block-badges">' + sc5Badge + lastBadge + shortBadge + '</div>' ,
-        '    <span class="collapse-icon">▼</span>' ,
-        '  </div>' ,
-        '  <div class="bus-block-body">' + bodyHtml + '</div>' ,
-        '</div>'
-      ].join('\n');
-    }).join('\n');
+function renderUnifiedLive(allUpcoming, allDeparted, effectiveNow) {
+  var container = document.getElementById('unifiedBusBlocks');
+  if (container) {
+    if (!allUpcoming.length) {
+      container.innerHTML = '<div style="color:var(--muted);padding:1rem;text-align:center;">Nessuna corsa imminente.</div>';
+    } else {
+      container.innerHTML = allUpcoming.map(function(item, i) {
+        var c = item.data;
+        var line = item.line;
+        var diff = item.dep - effectiveNow;
+        var isShort = false;
+        var badgesHtml = '';
+        var bodyHtml = '';
+        var noteHtml = c.note ? ' <span style="font-size:0.78rem;color:var(--faint);">' + c.note + '</span>' : '';
+        
+        if (line === 'z649') {
+          isShort = !c.molino_dorino;
+          var sc5Badge   = (c.flags && c.flags.indexOf('SC5') >= 0) ? ' <span class="badge badge-short">📚 SC5</span>' : '';
+          var lastBadge  = (c.flags && c.flags.indexOf('last') >= 0) ? ' <span class="badge badge-short">🔚 Ultima</span>' : '';
+          var shortBadge = isShort ? ' <span class="badge badge-short">⚠️ Corsa breve</span>' : '';
+          badgesHtml = '<div class="bus-block-badges">' + sc5Badge + lastBadge + shortBadge + '</div>';
+          
+          bodyHtml = isShort
+            ? '<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Corsa breve — termina ad Arluno, non arriva a Molino Dorino.</div><div class="estimate-note">Considera la prossima corsa completa per raggiungere Milano.</div></div>'
+            : buildBusOptions(c);
+        } else {
+          isShort = !c.arrMins;
+          var sc5Badge = (c.val === 'SC5') ? ' <span class="badge badge-short">📚 SC5</span>' : '';
+          var shortBadge = isShort ? ' <span class="badge badge-short">⚠️ Corsa breve</span>' : '';
+          badgesHtml = '<div class="bus-block-badges">' + sc5Badge + shortBadge + '</div>';
+          
+          if (line === 'z627') bodyHtml = buildZ627Options(c);
+          if (line === 'z644') bodyHtml = buildZ644Options(c);
+          if (line === 'z625') bodyHtml = buildZ625Options(c);
+        }
+
+        return [
+          '<div class="bus-block" id="unifiedblock-' + i + '">',
+          '  <div class="bus-block-header" onclick="toggleUnifiedBlock(' + i + ')">',
+          '    <div class="bus-block-title">',
+          '      <span class="bus-number">' + item.label + '</span>',
+          '      <span class="bus-dep-time">' + minsToHHMM(item.dep) + '</span>',
+          '      ' + urgencyBadge(Math.max(diff, 0)),
+          '      <span class="bus-block-diff">tra ' + diff + ' min</span>',
+          '      ' + noteHtml,
+          '    </div>',
+          '    ' + badgesHtml,
+          '    <span class="collapse-icon">▼</span>',
+          '  </div>',
+          '  <div class="bus-block-body">' + bodyHtml + '</div>',
+          '</div>'
+        ].join('\n');
+      }).join('\n');
+    }
   }
 
-  // ── Sezione Precedenti ──────────────────────────────────────
   var deptSection = document.getElementById('departedSection');
   var deptBlocks  = document.getElementById('departedBlocks');
   if (!deptSection || !deptBlocks) return;
-  if (!departedList.length) {
+
+  if (!allDeparted.length) {
     deptSection.style.display = 'none';
     return;
   }
+  
   deptSection.style.display = 'block';
-  deptBlocks.innerHTML = departedList.map(function(c) {
-    var minsAgo = effectiveNow - c.rossini;
-    var isShort = !c.molino_dorino;
+  deptBlocks.innerHTML = allDeparted.map(function(item) {
+    var c = item.data;
+    var minsAgo = effectiveNow - item.dep;
+    var isShort = (item.line === 'z649') ? !c.molino_dorino : !c.arrMins;
+    
     return [
-      '<div class="bus-block">' ,
-      '  <div class="bus-block-header" style="cursor:default;">' ,
-      '    <div class="bus-block-title">' ,
-      '      <span class="bus-number">Z649</span>' ,
-      '      <span class="bus-dep-time">' + minsToHHMM(c.rossini) + '</span>' ,
-      '      <span class="badge badge-short">🕐 partito ' + minsAgo + ' min fa</span>' ,
-      (isShort ? '      <span class="badge badge-short">⚠️ Corsa breve</span>' : '') ,
-      '    </div>' ,
-      '  </div>' ,
+      '<div class="bus-block">',
+      '  <div class="bus-block-header" style="cursor:default;">',
+      '    <div class="bus-block-title">',
+      '      <span class="bus-number">' + item.label + '</span>',
+      '      <span class="bus-dep-time">' + minsToHHMM(item.dep) + '</span>',
+      '      <span class="badge badge-short">🕐 partito ' + minsAgo + ' min fa</span>',
+      (isShort ? '      <span class="badge badge-short">⚠️ Corsa breve</span>' : ''),
+      '    </div>',
+      '  </div>',
       '</div>'
     ].join('\n');
   }).join('\n');
 }
 
-
-function toggleBusBlock(i) {
-  document.querySelectorAll('#busBlocks .bus-block').forEach(function(el, idx) {
+function toggleUnifiedBlock(i) {
+  document.querySelectorAll('#unifiedBusBlocks .bus-block').forEach(function(el, idx) {
     if (idx === i) el.classList.toggle('active');
     else           el.classList.remove('active');
   });
 }
 
-// ── Toggle sezione Precedenti ────────────────────────────────
 function toggleDeparted() {
   var blocks  = document.getElementById('departedBlocks');
   var toggle  = document.getElementById('departedToggle');
@@ -257,7 +278,6 @@ function toggleDeparted() {
   blocks.style.display  = isOpen ? 'none'  : 'block';
   if (toggle) toggle.classList.toggle('open', !isOpen);
 }
-
 
 // ── Logica prossime corse altri bus (Z627/Z644/Z625) per tab LIVE ───
 // depMins  = orario di partenza (da via Rossini o fermata più vicina)
@@ -360,51 +380,6 @@ function buildZ625Options(corsa) {
 }
 
 // ── Render bus-block singolo (Z627/Z644/Z625) ────────────────────
-function renderOtherBusBlocks(containerId, line, lineLabel, departures, nowMins, buildFn) {
-  var container = document.getElementById(containerId);
-  if (!container) return;
-
-  if (!departures.length) {
-    container.innerHTML = '<div style="color:var(--muted);padding:0.6rem;text-align:center;font-size:0.85rem;">Nessuna corsa nelle prossime 3 ore.</div>';
-    return;
-  }
-
-  container.innerHTML = departures.map(function(c, i) {
-    var diff = c.depMins - nowMins;
-    var diffLabel = diff > 0 ? 'tra ' + diff + ' min' : 'In viaggio';
-    var sc5Badge = (c.val === 'SC5') ? ' <span class="badge badge-short">📚 SC5</span>' : '';
-    var shortBadge = !c.arrMins ? ' <span class="badge badge-short">⚠️ Corsa breve</span>' : '';
-    var noteHtml = c.note ? ' <span style="font-size:0.78rem;color:var(--faint);">' + c.note + '</span>' : '';
-    var bodyHtml = buildFn(c);
-    var isFirst = i === 0;
-    return [
-      '<div class="bus-block ' + (isFirst ? 'active' : '') + '" id="' + containerId + '-block-' + i + '">',
-      '  <div class="bus-block-header" onclick="toggleOtherBusBlock(\'' + containerId + '\',' + i + ')">',
-      '    <div class="bus-block-title">',
-      '      <span class="bus-number">' + lineLabel + '</span>',
-      '      <span class="bus-dep-time">' + minsToHHMM(c.depMins) + '</span>',
-      '      ' + urgencyBadge(Math.max(diff, 0)) + sc5Badge + shortBadge,
-      '      <span style="font-size:0.82rem;color:var(--muted);">' + diffLabel + '</span>',
-      '      ' + noteHtml,
-      '    </div>',
-      '    <span class="collapse-icon">▼</span>',
-      '  </div>',
-      '  <div class="bus-block-body">' + bodyHtml + '</div>',
-      '</div>'
-    ].join('\n');
-  }).join('\n');
-}
-
-function toggleOtherBusBlock(containerId, i) {
-  var container = document.getElementById(containerId);
-  if (!container) return;
-  container.querySelectorAll('.bus-block').forEach(function(el, idx) {
-    if (idx === i) el.classList.toggle('active');
-    else           el.classList.remove('active');
-  });
-}
-
-// ── Render blocco autonomo 🚗 Via Canegrate FS ──────────────────
 function renderCanegrateBlock(nowMins) {
   var container = document.getElementById('canegrateBlock');
   if (!container) return;
@@ -961,43 +936,83 @@ function tick() {
 
   var walkTime     = parseInt(document.getElementById('walkRossini').value) || CFG.defaults.walkRossini;
   var effectiveNow = nowMins + walkTime;
-  var departures   = getNextZ649(effectiveNow, dt, 4);
-  // Corse già partite (fino a 30 min fa)
-  var schedule = Z649[dt] || [];
-  var departedList = schedule.filter(function(c) {
-    return c.rossini >= effectiveNow - 30 && c.rossini <= effectiveNow;
+
+  var allUpcoming = [];
+  var allDeparted = [];
+
+  // Z649
+  var z649deps = getNextZ649(effectiveNow, dt, 5);
+  z649deps.forEach(function(item) {
+    allUpcoming.push({ line: 'z649', label: 'Z649', dep: item.rossini, data: item });
+  });
+  var z649past = (Z649[dt] || []).filter(function(item) {
+    return item.rossini <= effectiveNow && item.rossini >= effectiveNow - 30;
+  });
+  z649past.forEach(function(item) {
+    allDeparted.push({ line: 'z649', label: 'Z649', dep: item.rossini, data: item });
   });
 
-  if (!departures.length) {
+  // Other lines
+  if (dt !== 'domenica') {
+    ['z627', 'z644', 'z625'].forEach(function(line) {
+      var deps = getNextBusLive(line, effectiveNow, dt, 5);
+      deps.forEach(function(item) {
+        if (item.depMins <= effectiveNow) {
+          if (item.depMins >= effectiveNow - 30) {
+            allDeparted.push({ line: line, label: line.toUpperCase(), dep: item.depMins, data: item });
+          }
+        } else {
+          allUpcoming.push({ line: line, label: line.toUpperCase(), dep: item.depMins, data: item });
+        }
+      });
+    });
+  }
+
+  allUpcoming.sort(function(a, b) { return a.dep - b.dep; });
+  allDeparted.sort(function(a, b) { return b.dep - a.dep; });
+
+  var upcomingZ649 = allUpcoming.filter(function(item) { return item.line === 'z649'; });
+
+  if (!upcomingZ649.length) {
     document.getElementById('cntMins').textContent  = '--';
-    document.getElementById('cntTime').textContent  = 'Nessuna corsa nelle prossime 3 ore';
+    document.getElementById('cntTime').textContent  = 'Nessuna corsa Z649 imminente';
     document.getElementById('cntBadge').innerHTML   = '';
     document.getElementById('progressFill').style.width = '0%';
     document.getElementById('mainCountdown').className = 'countdown-card';
-    renderBusBlocks([], departedList, effectiveNow);
-    renderOtherBuses(nowMins, dt);
-    return;
+  } else {
+    var next = upcomingZ649[0].data;
+    var diff = next.rossini - effectiveNow;
+    var urg  = urgencyClass(diff);
+
+    var cntEl = document.getElementById('cntMins');
+    cntEl.textContent = diff;
+    cntEl.classList.remove('fade-in');
+    void cntEl.offsetWidth;
+    cntEl.classList.add('fade-in');
+
+    document.getElementById('cntTime').textContent    = 'Parte alle ' + minsToHHMM(next.rossini) + ' da Via Rossini 35';
+    document.getElementById('cntBadge').innerHTML     = urgencyBadge(diff);
+    document.getElementById('mainCountdown').className = 'countdown-card ' + urg;
+
+    var progress = Math.max(0, Math.min(100, ((30 - diff) / 30) * 100));
+    document.getElementById('progressFill').style.width = progress + '%';
+
+    var mt = document.getElementById('mainTimeline');
+    if (mt) {
+      mt.style.display = 'block';
+      var arr = next.molino_dorino;
+      var loc = 'Molino Dorino M1';
+      if (!arr) { arr = next.rossini + 20; loc = 'Arluno'; } // rough fallback for short trips
+      mt.innerHTML = buildTransitTimeline(next.rossini, arr, 'Via Rossini 35', loc);
+    }
+
   }
 
-  var next = departures[0];
-  var diff = next.rossini - effectiveNow;
-  var urg  = urgencyClass(diff);
+  renderUnifiedLive(allUpcoming, allDeparted, effectiveNow);
 
-  var cntEl = document.getElementById('cntMins');
-  cntEl.textContent = diff;
-  cntEl.classList.remove('fade-in');
-  void cntEl.offsetWidth;
-  cntEl.classList.add('fade-in');
-
-  document.getElementById('cntTime').textContent    = 'Parte alle ' + minsToHHMM(next.rossini) + ' da Via Rossini 35';
-  document.getElementById('cntBadge').innerHTML     = urgencyBadge(diff);
-  document.getElementById('mainCountdown').className = 'countdown-card ' + urg;
-
-  var progress = Math.max(0, Math.min(100, ((30 - diff) / 30) * 100));
-  document.getElementById('progressFill').style.width = progress + '%';
-
-  renderBusBlocks(departures, departedList, effectiveNow);
-  renderOtherBuses(nowMins, dt);
+  var noServiceEl = document.getElementById('otherBusesNoService');
+  if (noServiceEl) noServiceEl.style.display = dt === 'domenica' ? 'block' : 'none';
+  renderCanegrateBlock(nowMins);
 }
 
 // ── Switch tab ───────────────────────────────────────────────
@@ -1033,3 +1048,25 @@ document.addEventListener('DOMContentLoaded', function() {
     tick();
   });
 });
+\n
+function buildTransitTimeline(depTime, arrTime, startLoc, endLoc) {
+  var dur = (arrTime != null) ? (arrTime - depTime) : '?';
+  var arrStr = (arrTime != null) ? minsToHHMM(arrTime) : '--:--';
+  return [
+    '<div class="transit-timeline">',
+    '  <div class="transit-point">',
+    '    <div class="transit-time">' + minsToHHMM(depTime) + '</div>',
+    '    <div class="transit-loc">' + startLoc + '</div>',
+    '  </div>',
+    '  <div class="transit-duration">',
+    '    <span class="duration-line"></span>',
+    '    <span class="duration-pill">' + dur + ' min</span>',
+    '    <span class="duration-line"></span>',
+    '  </div>',
+    '  <div class="transit-point right">',
+    '    <div class="transit-time">' + arrStr + '</div>',
+    '    <div class="transit-loc">' + endLoc + '</div>',
+    '  </div>',
+    '</div>'
+  ].join('');
+}
