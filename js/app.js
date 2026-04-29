@@ -1,5 +1,5 @@
 // ============================================================
-// APP.JS — Trasporti LIVE v3.5.0
+// APP.JS — Trasporti LIVE v3.6.0
 // Dipende da: data/config.js, data/z649.js, data/z627.js,
 //             data/z644.js, data/z625.js, data/z647.js, data/z642.js
 // ============================================================
@@ -52,6 +52,14 @@ function urgencyBadge(diff) {
 }
 function valBadgeHtml(val) {
   return '<span class="badge badge-short" style="font-size:0.7rem;">' + val + '</span>';
+}
+function flagsHtml(flags) {
+  return (flags || []).map(function(f){
+    return '<span class="badge badge-short" style="font-size:0.7rem;">' + f + '</span>';
+  }).join(' ');
+}
+function trainBadge(label) {
+  return '<span class="badge badge-rapido" style="font-size:0.7rem;">🚂 ' + label + '</span>';
 }
 
 // ── Logica prossime corse Z649 ───────────────────────────────
@@ -451,146 +459,272 @@ function showZ625Orari(mode) {
   }).join('');
 }
 
-// ── Renderer dinamico generico (Z647 / Z642) ─────────────────
-var MODE_LABELS = {
-  feriale_andata:  'Feriale Andata',
-  feriale_ritorno: 'Feriale Ritorno',
-  sabato_andata:   'Sabato Andata',
-  sabato_ritorno:  'Sabato Ritorno'
+// ── Tabella orari Z647 ───────────────────────────────────────
+// Fermate mostrate:
+//   Andata: BT999_dep (BG dep) | BT949 (131-Deposito) | BT956 (91-Piscina) | AC035 (Arconate) | CT011 (Castano P.)
+//   Ritorno: BT951 (90-Piscina rit.) | BT999_arr (BG arr) oppure BT205/BT775 (BG transito)
+
+var Z647_BTN_MAP = {
+  'feriale_andata':  'z647btnFerAnd',
+  'feriale_ritorno': 'z647btnFerRit'
 };
 
-function getAvailableModes(dataset) {
-  return ['feriale_andata','feriale_ritorno','sabato_andata','sabato_ritorno'].filter(function(mode) {
-    return Array.isArray(dataset[mode]) && dataset[mode].length > 0;
-  });
-}
+function showZ647Orari(mode) {
+  var now     = new Date();
+  var nowMins = now.getHours() * 60 + now.getMinutes();
+  var schedule = Z647[mode] || [];
 
-function getTimeColumns(schedule) {
-  var skip = { corsa: true, flags: true, note: true, val: true };
-  var cols = [], seen = {};
-  schedule.forEach(function(row) {
-    Object.keys(row).forEach(function(k) {
-      if (skip[k] || seen[k]) return;
-      var hasAny = schedule.some(function(r){ return r[k] != null; });
-      if (hasAny) { seen[k] = true; cols.push(k); }
-    });
-  });
-  return cols;
-}
+  var labels = {
+    feriale_andata:  'Feriale Andata → Castano P.',
+    feriale_ritorno: 'Feriale Ritorno → Arluno/Pregnana'
+  };
+  document.getElementById('z647DayLabel').textContent = 'Orari Z647 — ' + (labels[mode] || mode);
 
-function getRowReferenceTime(row, columns) {
-  for (var i = 0; i < columns.length; i++) {
-    if (row[columns[i]] != null) return row[columns[i]];
+  var filterBar = document.getElementById('z647FilterBar');
+  if (filterBar) {
+    filterBar.innerHTML = Object.keys(Z647_BTN_MAP).map(function(m) {
+      var active = m === mode ? ' active' : '';
+      return '<button class="filter-btn' + active + '" id="' + Z647_BTN_MAP[m] + '" onclick="showZ647Orari(\'' + m + '\')">' + labels[m] + '</button>';
+    }).join('');
   }
-  return null;
-}
 
-function prettyStopLabel(code) {
-  return code.replace('_dep',' ↓').replace('_arr',' ↑').replace(/_/g,' ');
-}
+  var isAndata = mode === 'feriale_andata';
 
-function buildDynamicFilterBar(containerId, handlerName, dataset, activeMode) {
-  var el = document.getElementById(containerId);
-  if (!el) return;
-  var modes = getAvailableModes(dataset);
-  el.innerHTML = modes.map(function(mode) {
-    var active = mode === activeMode ? ' active' : '';
-    return '<button class="filter-btn' + active + '" onclick="' + handlerName + '(\'' + mode + '\')">'
-      + MODE_LABELS[mode] + '</button>';
-  }).join('');
-}
+  var subtitleEl = document.getElementById('z647Subtitle');
+  if (subtitleEl) {
+    subtitleEl.innerHTML = isAndata
+      ? 'Busto Garolfo → Arconate → Buscate → Castano P. &nbsp;|&nbsp; <span style="color:var(--faint);">Solo periodo scolastico (SC5)</span>'
+      : 'Castano P. → Arconate → Busto Garolfo → Casorezzo → Arluno &nbsp;|&nbsp; <span style="color:var(--faint);">Solo periodo scolastico (SC5)</span>';
+  }
 
-function renderDynamicSchedule(opts) {
-  var dataset  = opts.dataset;
-  var mode     = opts.mode;
-  var schedule = dataset[mode] || [];
-  var now      = new Date();
-  var nowMins  = now.getHours() * 60 + now.getMinutes();
+  var noteEl = document.getElementById('z647Note');
+  if (noteEl) {
+    noteEl.innerHTML = '⚠️ Tutte le corse sono <strong>SC5</strong>: attive solo Lun–Ven durante il periodo scolastico. Non valido 3 settimane centrali agosto e nei giorni 1 gen, 1 mag, 25 dic.';
+  }
 
-  buildDynamicFilterBar(opts.filterBarId, opts.handlerName, dataset, mode);
-
-  var isRitorno = mode.indexOf('ritorno') >= 0;
-  var subtitle  = isRitorno
-    ? (dataset.meta.percorso_ritorno || dataset.meta.percorso_principale || '')
-    : (dataset.meta.percorso_andata  || dataset.meta.percorso_principale || '');
-
-  var dayLabelEl = document.getElementById(opts.dayLabelId);
-  if (dayLabelEl) dayLabelEl.textContent = 'Orari ' + dataset.meta.linea + ' — ' + (MODE_LABELS[mode] || mode);
-
-  var subtitleEl = document.getElementById(opts.subtitleId);
-  if (subtitleEl) subtitleEl.textContent = subtitle;
-
-  var noteEl = document.getElementById(opts.noteId);
-  if (noteEl) noteEl.textContent = '⚠️ ' + (dataset.meta.eccezioni || 'Verificare validità servizio.');
-
-  var thead = document.getElementById(opts.tableHeadId);
-  var tbody = document.getElementById(opts.bodyId);
+  var thead = document.getElementById('z647TableHead');
+  var tbody = document.getElementById('z647Body');
 
   if (!schedule.length) {
-    if (thead) thead.innerHTML = '<th>#</th><th>Val.</th><th>Note</th>';
-    if (tbody) tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--muted);">Nessun servizio in questo periodo.</td></tr>';
+    if (thead) thead.innerHTML = '<th colspan="6" style="text-align:center;color:var(--muted);">Nessun servizio.</th>';
+    if (tbody) tbody.innerHTML = '';
     return;
   }
 
-  var columns = getTimeColumns(schedule);
+  if (isAndata) {
+    if (thead) thead.innerHTML = [
+      '<th>Corsa</th>',
+      '<th>BG dep<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">Capolinea</span></th>',
+      '<th>131 – Deposito</th>',
+      '<th>91 – Piscina ↓</th>',
+      '<th>Arconate</th>',
+      '<th>Castano P.</th>',
+      '<th>Val.</th>'
+    ].join('');
 
-  var nextIdx = -1;
-  for (var i = 0; i < schedule.length; i++) {
-    var t = getRowReferenceTime(schedule[i], columns);
-    if (t != null && t >= nowMins) { nextIdx = i; break; }
-  }
+    var nextIdx = -1;
+    for (var i = 0; i < schedule.length; i++) {
+      var refA = schedule[i].BT999_dep != null ? schedule[i].BT999_dep
+               : schedule[i].BT956     != null ? schedule[i].BT956
+               : null;
+      if (refA != null && refA >= nowMins) { nextIdx = i; break; }
+    }
 
-  if (thead) {
-    thead.innerHTML = '<th>#</th>'
-      + columns.map(function(col){ return '<th>' + prettyStopLabel(col) + '</th>'; }).join('')
-      + '<th>Val.</th><th>Note</th>';
-  }
+    if (tbody) tbody.innerHTML = schedule.map(function(c, i) {
+      var cls = i === nextIdx ? ' class="current-row"' : '';
+      var bgDep   = c.BT999_dep != null ? minsToHHMM(c.BT999_dep) : '<span style="color:var(--faint)">—</span>';
+      var dep131  = c.BT949     != null ? minsToHHMM(c.BT949)     : '<span style="color:var(--faint)">—</span>';
+      var dep91   = c.BT956     != null ? minsToHHMM(c.BT956)     : '<span style="color:var(--faint)">—</span>';
+      var arc     = c.AC035     != null ? minsToHHMM(c.AC035)     : '<span style="color:var(--faint)">—</span>';
+      var castano = c.CT011     != null ? minsToHHMM(c.CT011)     : '<span style="color:var(--faint)">—</span>';
+      var fHtml   = flagsHtml(c.flags);
+      return '<tr' + cls + '><td>' + c.corsa + '</td><td>' + bgDep + '</td><td>' + dep131 + '</td><td>' + dep91 + '</td><td>' + arc + '</td><td>' + castano + '</td><td>' + fHtml + '</td></tr>';
+    }).join('');
 
-  if (tbody) {
-    tbody.innerHTML = schedule.map(function(row, i) {
-      var cls    = i === nextIdx ? ' class="current-row"' : '';
-      var flags  = (row.flags || []).join(' / ') || '—';
-      var note   = row.note || '';
-      return '<tr' + cls + '>'
-        + '<td>' + (row.corsa != null ? row.corsa : '—') + '</td>'
-        + columns.map(function(col){
-            return '<td>' + (row[col] != null ? minsToHHMM(row[col]) : '—') + '</td>';
-          }).join('')
-        + '<td>' + flags + '</td>'
-        + '<td>' + note  + '</td>'
-        + '</tr>';
+  } else {
+    // Ritorno: BT951 = Per Busto A. 90-Piscina (rit.), BT999_arr = BG capolinea
+    // Per le corse che transitano (non terminano a BG): BT205 o BT775 = fermata BG transito
+    if (thead) thead.innerHTML = [
+      '<th>Corsa</th>',
+      '<th>Arconate</th>',
+      '<th>90 – Piscina ↑</th>',
+      '<th>BG arr<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">o transito</span></th>',
+      '<th>Val.</th>'
+    ].join('');
+
+    var nextIdx2 = -1;
+    for (var j = 0; j < schedule.length; j++) {
+      var refR = schedule[j].BT951     != null ? schedule[j].BT951
+               : schedule[j].BT999_arr != null ? schedule[j].BT999_arr
+               : schedule[j].BT205     != null ? schedule[j].BT205
+               : null;
+      if (refR != null && refR >= nowMins) { nextIdx2 = j; break; }
+    }
+
+    if (tbody) tbody.innerHTML = schedule.map(function(c, i) {
+      var cls = i === nextIdx2 ? ' class="current-row"' : '';
+      var arc  = c.AC627     != null ? minsToHHMM(c.AC627)
+               : c.AC625     != null ? minsToHHMM(c.AC625) : '<span style="color:var(--faint)">—</span>';
+      var p90  = c.BT951     != null ? minsToHHMM(c.BT951) : '<span style="color:var(--faint)">—</span>';
+      // BG: se ha BT999_arr è capolinea, altrimenti mostra BT205 (transito) con nota
+      var bgArr;
+      if (c.BT999_arr != null) {
+        bgArr = minsToHHMM(c.BT999_arr) + ' <span style="font-size:0.7rem;color:var(--ok);">🏁 cap.</span>';
+      } else if (c.BT205 != null) {
+        bgArr = minsToHHMM(c.BT205) + ' <span style="font-size:0.7rem;color:var(--muted);">transito</span>';
+      } else if (c.BT775 != null) {
+        bgArr = minsToHHMM(c.BT775) + ' <span style="font-size:0.7rem;color:var(--muted);">transito</span>';
+      } else {
+        bgArr = '<span style="color:var(--faint)">—</span>';
+      }
+      var fHtml = flagsHtml(c.flags);
+      return '<tr' + cls + '><td>' + c.corsa + '</td><td>' + arc + '</td><td>' + p90 + '</td><td>' + bgArr + '</td><td>' + fHtml + '</td></tr>';
     }).join('');
   }
 }
 
-// ── Tabella orari Z647 ───────────────────────────────────────
-function showZ647Orari(mode) {
-  renderDynamicSchedule({
-    dataset:      Z647,
-    mode:         mode,
-    handlerName:  'showZ647Orari',
-    dayLabelId:   'z647DayLabel',
-    subtitleId:   'z647Subtitle',
-    filterBarId:  'z647FilterBar',
-    tableHeadId:  'z647TableHead',
-    bodyId:       'z647Body',
-    noteId:       'z647Note'
-  });
-}
-
 // ── Tabella orari Z642 ───────────────────────────────────────
+// Fermate mostrate (andata Magenta→Legnano):
+//   BT776 = Via Giacomo Rossini / Buonarroti (1a fermata BG)
+//   BT956 = Montebianco Fr.17 (ultima BG prima VC)
+//   LG090 = Legnano FS S5 🚂  |  LG001 = Legnano centro
+// Fermate mostrate (ritorno Legnano→Magenta):
+//   BT701 = Buonarroti / Via Curiel (1a fermata BG in ritorno)
+//   BT775 = fermata BG area Rossini
+//   LG090 o LG112 = Legnano FS (partenza)
+// Coincidenze: LG090 = Legnano FS → S5 Trenord (Milano Cadorna/Varese)
+
+var Z642_BTN_MAP = {
+  'feriale_andata':  'z642btnFerAnd',
+  'feriale_ritorno': 'z642btnFerRit',
+  'sabato_andata':   'z642btnSabAnd',
+  'sabato_ritorno':  'z642btnSabRit'
+};
+
 function showZ642Orari(mode) {
-  renderDynamicSchedule({
-    dataset:      Z642,
-    mode:         mode,
-    handlerName:  'showZ642Orari',
-    dayLabelId:   'z642DayLabel',
-    subtitleId:   'z642Subtitle',
-    filterBarId:  'z642FilterBar',
-    tableHeadId:  'z642TableHead',
-    bodyId:       'z642Body',
-    noteId:       'z642Note'
-  });
+  var now     = new Date();
+  var nowMins = now.getHours() * 60 + now.getMinutes();
+  var schedule = Z642[mode] || [];
+
+  var labels = {
+    feriale_andata:  'Feriale Andata → Legnano',
+    feriale_ritorno: 'Feriale Ritorno → Magenta',
+    sabato_andata:   'Sabato Andata → Legnano',
+    sabato_ritorno:  'Sabato Ritorno → Magenta'
+  };
+  document.getElementById('z642DayLabel').textContent = 'Orari Z642 — ' + (labels[mode] || mode);
+
+  var filterBar = document.getElementById('z642FilterBar');
+  if (filterBar) {
+    var modesAvail = ['feriale_andata','feriale_ritorno','sabato_andata','sabato_ritorno'].filter(function(m){
+      return Array.isArray(Z642[m]) && Z642[m].length > 0;
+    });
+    filterBar.innerHTML = modesAvail.map(function(m) {
+      var active = m === mode ? ' active' : '';
+      return '<button class="filter-btn' + active + '" id="' + (Z642_BTN_MAP[m] || '') + '" onclick="showZ642Orari(\'' + m + '\')">' + (labels[m] || m) + '</button>';
+    }).join('');
+  }
+
+  var isAndata = mode.indexOf('andata') >= 0;
+
+  var subtitleEl = document.getElementById('z642Subtitle');
+  if (subtitleEl) {
+    subtitleEl.innerHTML = isAndata
+      ? 'Busto Garolfo Via Buonarroti / Via Rossini → Legnano FS &nbsp;<span class="badge badge-rapido" style="font-size:0.7rem;">🚂 S5</span>'
+      : 'Legnano FS → Busto Garolfo Via Buonarroti / Via Rossini → Magenta &nbsp;<span class="badge badge-rapido" style="font-size:0.7rem;">🚂 S5</span>';
+  }
+
+  var noteEl = document.getElementById('z642Note');
+  if (noteEl) {
+    noteEl.innerHTML = '⚠️ Legnano FS (LG090/LG112): coincidenza <strong>S5 Trenord</strong> (Milano Cadorna ↔ Varese Nord). Non valido 3 settimane centrali agosto e festività natalizie.';
+  }
+
+  var thead = document.getElementById('z642TableHead');
+  var tbody = document.getElementById('z642Body');
+
+  if (!schedule.length) {
+    if (thead) thead.innerHTML = '<th colspan="6" style="text-align:center;color:var(--muted);">Nessun servizio.</th>';
+    if (tbody) tbody.innerHTML = '';
+    return;
+  }
+
+  if (isAndata) {
+    // Colonne: Corsa | BT776 Buonarroti | BT956 Montebianco | LG090 Legnano FS 🚂 | Val.
+    if (thead) thead.innerHTML = [
+      '<th>Corsa</th>',
+      '<th>Via Buonarroti<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">BT776</span></th>',
+      '<th>Montebianco Fr.17<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">BT956</span></th>',
+      '<th>Legnano FS ' + trainBadge('S5') + '<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">LG090/LG112</span></th>',
+      '<th>Legnano Centro</th>',
+      '<th>Val.</th>'
+    ].join('');
+
+    var nextIdx = -1;
+    for (var i = 0; i < schedule.length; i++) {
+      var refA = schedule[i].BT776 != null ? schedule[i].BT776
+               : schedule[i].BT956 != null ? schedule[i].BT956 : null;
+      if (refA != null && refA >= nowMins) { nextIdx = i; break; }
+    }
+
+    if (tbody) tbody.innerHTML = schedule.map(function(c, i) {
+      var cls    = i === nextIdx ? ' class="current-row"' : '';
+      var bt776  = c.BT776 != null ? minsToHHMM(c.BT776) : '<span style="color:var(--faint)">—</span>';
+      var bt956  = c.BT956 != null ? minsToHHMM(c.BT956) : '<span style="color:var(--faint)">—</span>';
+      // Legnano FS: prova LG090 poi LG112
+      var lgFs, lgFsNote = '';
+      if (c.LG090 != null) {
+        lgFs = minsToHHMM(c.LG090);
+        lgFsNote = '<br><span style="font-size:0.7rem;color:var(--ok);">← S5 Trenord</span>';
+      } else if (c.LG112 != null) {
+        lgFs = minsToHHMM(c.LG112);
+        lgFsNote = '<br><span style="font-size:0.7rem;color:var(--ok);">← S5 Trenord</span>';
+      } else {
+        lgFs = '<span style="color:var(--faint)">—</span>';
+      }
+      // Legnano centro: LG003 o LG001
+      var lgCtr = c.LG003 != null ? minsToHHMM(c.LG003)
+                : c.LG001 != null ? minsToHHMM(c.LG001)
+                : '<span style="color:var(--faint)">—</span>';
+      var fHtml  = flagsHtml(c.flags);
+      return '<tr' + cls + '><td>' + c.corsa + '</td><td>' + bt776 + '</td><td>' + bt956 + '</td><td>' + lgFs + lgFsNote + '</td><td>' + lgCtr + '</td><td>' + fHtml + '</td></tr>';
+    }).join('');
+
+  } else {
+    // Ritorno: Corsa | Legnano FS (LG090/LG112) | BT701 Buonarroti (1a BG) | BT775 area Rossini | Val.
+    if (thead) thead.innerHTML = [
+      '<th>Corsa</th>',
+      '<th>Legnano FS ' + trainBadge('S5') + '<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">LG090/LG112</span></th>',
+      '<th>Via Buonarroti<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">BT701</span></th>',
+      '<th>Area Via Rossini<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">BT775</span></th>',
+      '<th>Val.</th>'
+    ].join('');
+
+    var nextIdx2 = -1;
+    for (var j = 0; j < schedule.length; j++) {
+      var refR = schedule[j].BT701 != null ? schedule[j].BT701
+               : schedule[j].BT775 != null ? schedule[j].BT775 : null;
+      if (refR != null && refR >= nowMins) { nextIdx2 = j; break; }
+    }
+
+    if (tbody) tbody.innerHTML = schedule.map(function(c, i) {
+      var cls   = i === nextIdx2 ? ' class="current-row"' : '';
+      // Legnano FS partenza
+      var lgFs, lgFsNote = '';
+      if (c.LG112 != null) {
+        lgFs = minsToHHMM(c.LG112);
+        lgFsNote = '<br><span style="font-size:0.7rem;color:var(--ok);">→ S5 Trenord</span>';
+      } else if (c.LG090 != null) {
+        lgFs = minsToHHMM(c.LG090);
+        lgFsNote = '<br><span style="font-size:0.7rem;color:var(--ok);">→ S5 Trenord</span>';
+      } else {
+        lgFs = '<span style="color:var(--faint)">—</span>';
+      }
+      var bt701 = c.BT701 != null ? minsToHHMM(c.BT701) : '<span style="color:var(--faint)">—</span>';
+      var bt775 = c.BT775 != null ? minsToHHMM(c.BT775) : '<span style="color:var(--faint)">—</span>';
+      var fHtml = flagsHtml(c.flags);
+      return '<tr' + cls + '><td>' + c.corsa + '</td><td>' + lgFs + lgFsNote + '</td><td>' + bt701 + '</td><td>' + bt775 + '</td><td>' + fHtml + '</td></tr>';
+    }).join('');
+  }
 }
 
 // ── Tick principale (ogni secondo) ───────────────────────────
