@@ -176,7 +176,7 @@ function buildBusOptions(corsa) {
   return html;
 }
 
-// ── Render bus blocks Z649 ───────────────────────────────────
+// ── Render tutti i bus nel tab LIVE ─────────────────────────────
 function renderUnifiedLive(allUpcoming, allDeparted, effectiveNow) {
   var container = document.getElementById('unifiedBusBlocks');
   if (container) {
@@ -213,18 +213,37 @@ function renderUnifiedLive(allUpcoming, allDeparted, effectiveNow) {
           if (line === 'z625') bodyHtml = buildZ625Options(c);
         }
 
+        var startLoc = 'Via Rossini';
+        var endLoc = '';
+        var arrTime = null;
+
+        if (line === 'z649') {
+          endLoc = c.molino_dorino ? 'Molino Dorino M1' : 'Arluno';
+          arrTime = c.molino_dorino ? c.molino_dorino : (item.dep + 20);
+        } else if (line === 'z627') {
+          endLoc = 'Legnano FS';
+          arrTime = c.arrMins;
+        } else if (line === 'z644') {
+          endLoc = 'Parabiago FS';
+          arrTime = c.arrMins;
+        } else if (line === 'z625') {
+          startLoc = 'Via Curiel';
+          endLoc = 'Busto A. FS';
+          arrTime = c.arrMins;
+        }
+
+        var timelineHtml = buildTransitTimeline(item.dep, arrTime, startLoc, endLoc);
+
         return [
           '<div class="bus-block" id="unifiedblock-' + i + '">',
           '  <div class="bus-block-header" onclick="toggleUnifiedBlock(' + i + ')">',
-          '    <div class="bus-block-title">',
-          '      <span class="bus-number">' + item.label + '</span>',
-          '      <span class="bus-dep-time">' + minsToHHMM(item.dep) + '</span>',
-          '      ' + urgencyBadge(Math.max(diff, 0)),
-          '      <span class="bus-block-diff">tra ' + diff + ' min</span>',
-          '      ' + noteHtml,
+          '    <div class="transit-top-row">',
+          '      <div><span class="bus-number">' + item.label + '</span>' + badgesHtml + '</div>',
+          '      <div>' + urgencyBadge(Math.max(diff, 0)) + '<span class="bus-block-diff" style="margin-left:0.5rem;">tra ' + diff + ' min</span></div>',
           '    </div>',
-          '    ' + badgesHtml,
-          '    <span class="collapse-icon">▼</span>',
+          '    ' + timelineHtml,
+          '    ' + (noteHtml ? '<div style="margin-top:0.5rem;">' + noteHtml + '</div>' : ''),
+          '    <span class="collapse-icon-wrap">▼</span>',
           '  </div>',
           '  <div class="bus-block-body">' + bodyHtml + '</div>',
           '</div>'
@@ -245,7 +264,9 @@ function renderUnifiedLive(allUpcoming, allDeparted, effectiveNow) {
   deptSection.style.display = 'block';
   deptBlocks.innerHTML = allDeparted.map(function(item) {
     var c = item.data;
-    var minsAgo = effectiveNow - item.dep;
+    var now = new Date();
+    var nowMins = now.getHours() * 60 + now.getMinutes();
+    var minsAgo = nowMins - item.dep;
     var isShort = (item.line === 'z649') ? !c.molino_dorino : !c.arrMins;
     
     return [
@@ -379,7 +400,7 @@ function buildZ625Options(corsa) {
   return html;
 }
 
-// ── Render bus-block singolo (Z627/Z644/Z625) ────────────────────
+// ── Render blocco autonomo Via Canegrate FS ──────────────────
 function renderCanegrateBlock(nowMins) {
   var container = document.getElementById('canegrateBlock');
   if (!container) return;
@@ -387,40 +408,33 @@ function renderCanegrateBlock(nowMins) {
   var canArr        = nowMins + walkCanegrate;
   var t1            = calcNextS5S6(canArr + 1);
   var t2            = calcNextS5S6(t1 + 1);
+
+  // Update header summary
+  var headerSummary = document.getElementById('canegrateNextTrain');
+  if (headerSummary) headerSummary.textContent = 'S5/S6 ~' + minsToHHMM(t1) + ' → Cadorna ~' + minsToHHMM(t1 + CFG.canegrate.travelToMilano);
+
   var html = '';
   html += '<div class="option-group" style="margin-top:0;">';
-  html += '<div class="option-group-title" style="border-top:none;">🚗 Partenza in auto adesso → Canegrate FS (arr. ~' + minsToHHMM(canArr) + ')</div>';
+  html += '<div class="option-group-title" style="border-top:none;">Arrivo Canegrate FS ~' + minsToHHMM(canArr) + ' (auto ' + walkCanegrate + ' min)</div>';
   html += '<div class="route-line"><span class="route-arrow">└</span>';
-  html += '<div class="route-info"><span class="route-dest">🚂 1° treno — Canegrate → Cadorna</span>';
-  html += '<div class="route-times">S5/S6 ~' + minsToHHMM(t1) + ' → <strong>Cadorna ~' + minsToHHMM(t1 + CFG.canegrate.travelToMilano) + '</strong></div></div></div>';
+  html += '<div class="route-info"><span class="route-dest">🚂 1° treno S5/S6 → Cadorna</span>';
+  html += '<div class="route-times">parte ~' + minsToHHMM(t1) + ' → <strong>Cadorna ~' + minsToHHMM(t1 + CFG.canegrate.travelToMilano) + '</strong></div></div></div>';
   html += '<div class="route-line"><span class="route-arrow">└</span>';
-  html += '<div class="route-info"><span class="route-dest">🚂 2° treno — Canegrate → Cadorna</span>';
-  html += '<div class="route-times">S5/S6 ~' + minsToHHMM(t2) + ' → <strong>Cadorna ~' + minsToHHMM(t2 + CFG.canegrate.travelToMilano) + '</strong></div></div></div>';
-  html += '<div class="estimate-note">⚠️ Orari stimati (S5/S6 ogni ~15 min). Verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>. <span class="badge badge-short" style="font-size:0.7rem;">🚗 Indipendente dal bus</span></div>';
+  html += '<div class="route-info"><span class="route-dest">🚂 2° treno S5/S6 → Cadorna</span>';
+  html += '<div class="route-times">parte ~' + minsToHHMM(t2) + ' → <strong>Cadorna ~' + minsToHHMM(t2 + CFG.canegrate.travelToMilano) + '</strong></div></div></div>';
+  html += '<div class="estimate-note">⚠️ Orari stimati (S5/S6 ogni ~15 min). Verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</div>';
   html += '</div>';
   container.innerHTML = html;
 }
 
-// ── Render prossime coincidenze treno (tab LIVE) ─────────────────
-function renderTrainConnections() {
-  // noop: sostituito da renderOtherBuses()
+function toggleCanegrate() {
+  var card = document.getElementById('canegrateCard');
+  if (card) card.classList.toggle('active');
 }
 
 // ── Render tutti i bus nel tab LIVE ─────────────────────────────
 function renderOtherBuses(nowMins, dayType) {
-  var noServiceEl = document.getElementById('otherBusesNoService');
-  if (noServiceEl) {
-    noServiceEl.style.display = dayType === 'domenica' ? 'block' : 'none';
-  }
-
-  var z627deps = dayType !== 'domenica' ? getNextBusLive('z627', nowMins, dayType, 3) : [];
-  var z644deps = dayType !== 'domenica' ? getNextBusLive('z644', nowMins, dayType, 3) : [];
-  var z625deps = dayType !== 'domenica' ? getNextBusLive('z625', nowMins, dayType, 3) : [];
-
-  renderOtherBusBlocks('z627LiveBlocks', 'z627', 'Z627', z627deps, nowMins, buildZ627Options);
-  renderOtherBusBlocks('z644LiveBlocks', 'z644', 'Z644', z644deps, nowMins, buildZ644Options);
-  renderOtherBusBlocks('z625LiveBlocks', 'z625', 'Z625', z625deps, nowMins, buildZ625Options);
-
+  // noop: sostituito da renderUnifiedLive() chiamata in tick()
   renderCanegrateBlock(nowMins);
 }
 
@@ -940,28 +954,30 @@ function tick() {
   var allUpcoming = [];
   var allDeparted = [];
 
-  // Z649
+  // Z649 — upcoming = those the user can still catch (effectiveNow)
   var z649deps = getNextZ649(effectiveNow, dt, 5);
   z649deps.forEach(function(item) {
     allUpcoming.push({ line: 'z649', label: 'Z649', dep: item.rossini, data: item });
   });
+  // Z649 — departed = buses whose actual departure time is in the past (use nowMins)
   var z649past = (Z649[dt] || []).filter(function(item) {
-    return item.rossini <= effectiveNow && item.rossini >= effectiveNow - 30;
+    return item.rossini < nowMins && item.rossini >= nowMins - 30;
   });
   z649past.forEach(function(item) {
     allDeparted.push({ line: 'z649', label: 'Z649', dep: item.rossini, data: item });
   });
 
-  // Other lines
+  // Other lines — use nowMins for departed check, effectiveNow for catchable window
   if (dt !== 'domenica') {
     ['z627', 'z644', 'z625'].forEach(function(line) {
-      var deps = getNextBusLive(line, effectiveNow, dt, 5);
+      // fetch a wider window to catch near-past buses too
+      var deps = getNextBusLive(line, nowMins - 30, dt, 8);
       deps.forEach(function(item) {
-        if (item.depMins <= effectiveNow) {
-          if (item.depMins >= effectiveNow - 30) {
-            allDeparted.push({ line: line, label: line.toUpperCase(), dep: item.depMins, data: item });
-          }
-        } else {
+        if (item.depMins < nowMins && item.depMins >= nowMins - 30) {
+          // bus already left — show in departed
+          allDeparted.push({ line: line, label: line.toUpperCase(), dep: item.depMins, data: item });
+        } else if (item.depMins >= effectiveNow) {
+          // bus catchable — show in upcoming
           allUpcoming.push({ line: line, label: line.toUpperCase(), dep: item.depMins, data: item });
         }
       });
@@ -971,18 +987,23 @@ function tick() {
   allUpcoming.sort(function(a, b) { return a.dep - b.dep; });
   allDeparted.sort(function(a, b) { return b.dep - a.dep; });
 
-  var upcomingZ649 = allUpcoming.filter(function(item) { return item.line === 'z649'; });
+  var mainLabel = document.getElementById('mainCountdownLabel');
 
-  if (!upcomingZ649.length) {
+  if (!allUpcoming.length) {
     document.getElementById('cntMins').textContent  = '--';
-    document.getElementById('cntTime').textContent  = 'Nessuna corsa Z649 imminente';
+    document.getElementById('cntTime').textContent  = 'Nessuna corsa imminente';
     document.getElementById('cntBadge').innerHTML   = '';
     document.getElementById('progressFill').style.width = '0%';
     document.getElementById('mainCountdown').className = 'countdown-card';
+    if (mainLabel) mainLabel.textContent = 'Prossima Partenza';
   } else {
-    var next = upcomingZ649[0].data;
-    var diff = next.rossini - effectiveNow;
-    var urg  = urgencyClass(diff);
+    var nextItem = allUpcoming[0];
+    var nextData = nextItem.data;
+    var depTime  = (nextItem.line === 'z649') ? nextData.rossini : nextData.depMins;
+    var diff     = depTime - effectiveNow;
+    var urg      = urgencyClass(diff);
+
+    if (mainLabel) mainLabel.textContent = 'Prossimo ' + nextItem.label + ' da ' + (nextItem.line === 'z625' ? 'Via Curiel' : 'Via Rossini');
 
     var cntEl = document.getElementById('cntMins');
     cntEl.textContent = diff;
@@ -990,7 +1011,7 @@ function tick() {
     void cntEl.offsetWidth;
     cntEl.classList.add('fade-in');
 
-    document.getElementById('cntTime').textContent    = 'Parte alle ' + minsToHHMM(next.rossini) + ' da Via Rossini 35';
+    document.getElementById('cntTime').textContent    = 'Parte alle ' + minsToHHMM(depTime);
     document.getElementById('cntBadge').innerHTML     = urgencyBadge(diff);
     document.getElementById('mainCountdown').className = 'countdown-card ' + urg;
 
@@ -1000,12 +1021,25 @@ function tick() {
     var mt = document.getElementById('mainTimeline');
     if (mt) {
       mt.style.display = 'block';
-      var arr = next.molino_dorino;
-      var loc = 'Molino Dorino M1';
-      if (!arr) { arr = next.rossini + 20; loc = 'Arluno'; } // rough fallback for short trips
-      mt.innerHTML = buildTransitTimeline(next.rossini, arr, 'Via Rossini 35', loc);
-    }
+      var arrLoc = 'Stazione';
+      var arrMins = depTime + 20;
 
+      if (nextItem.line === 'z649') {
+        arrLoc = nextData.molino_dorino ? 'Molino Dorino M1' : 'Arluno';
+        arrMins = nextData.molino_dorino ? nextData.molino_dorino : (depTime + 20);
+      } else if (nextItem.line === 'z627') {
+        arrLoc = 'Legnano FS';
+        arrMins = nextData.arrMins;
+      } else if (nextItem.line === 'z644') {
+        arrLoc = 'Parabiago FS';
+        arrMins = nextData.arrMins;
+      } else if (nextItem.line === 'z625') {
+        arrLoc = 'Busto A. FS';
+        arrMins = nextData.arrMins;
+      }
+      
+      mt.innerHTML = buildTransitTimeline(depTime, arrMins, (nextItem.line === 'z625' ? 'Via Curiel' : 'Via Rossini'), arrLoc);
+    }
   }
 
   renderUnifiedLive(allUpcoming, allDeparted, effectiveNow);
@@ -1048,7 +1082,7 @@ document.addEventListener('DOMContentLoaded', function() {
     tick();
   });
 });
-\n
+
 function buildTransitTimeline(depTime, arrTime, startLoc, endLoc) {
   var dur = (arrTime != null) ? (arrTime - depTime) : '?';
   var arrStr = (arrTime != null) ? minsToHHMM(arrTime) : '--:--';

@@ -158,16 +158,18 @@ button{cursor:pointer;font-family:inherit;}
   .bus-block-body{padding:0 1rem 1rem;}
 }
 
-.transit-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
-.transit-timeline { display: flex; justify-content: space-between; align-items: center; position: relative; margin-top: 0.5rem; }
+.transit-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; padding-right: 1.5rem; }
+.transit-timeline { display: flex; justify-content: space-between; align-items: center; position: relative; margin-top: 0.5rem; padding-right: 1.5rem; }
 .transit-point { display: flex; flex-direction: column; z-index: 2; }
 .transit-point.right { text-align: right; }
 .transit-time { font-size: 1.15rem; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
 .transit-loc { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
 .transit-duration { flex-grow: 1; display: flex; align-items: center; justify-content: center; position: relative; margin: 0 1rem; }
 .duration-line { flex-grow: 1; height: 2px; background: linear-gradient(90deg, transparent, var(--faint), transparent); border-radius: 2px; }
-.duration-pill { font-size: 0.7rem; font-weight: 600; color: var(--accent); background: rgba(0, 122, 255, 0.1); padding: 0.15rem 0.5rem; border-radius: 1rem; margin: 0 0.5rem; white-space: nowrap; }
+.duration-pill { font-size: 0.7rem; font-weight: 600; color: var(--cyan); background: rgba(34, 211, 238, 0.1); padding: 0.15rem 0.5rem; border-radius: 1rem; margin: 0 0.5rem; white-space: nowrap; }
 .main-timeline { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); }
+.collapse-icon-wrap { position: absolute; right: 1rem; bottom: 1.1rem; color: var(--muted); font-size: 0.8rem; transition: transform 0.2s; }
+.bus-block.active .collapse-icon-wrap { transform: rotate(180deg); }
 </style>
 
 </head>
@@ -208,7 +210,7 @@ button{cursor:pointer;font-family:inherit;}
 
     <!-- Countdown Z649 -->
     <div class="countdown-card" id="mainCountdown">
-      <div class="countdown-label">Prossimo Z649 da Via Rossini 35</div>
+      <div class="countdown-label" id="mainCountdownLabel">Prossima Partenza</div>
       <div class="countdown-top">
         <div>
           <div class="countdown-main"><span class="mins" id="cntMins">--</span> <span style="font-size:1rem;color:var(--muted)">min</span></div>
@@ -230,10 +232,17 @@ button{cursor:pointer;font-family:inherit;}
     </div>
 
     <!-- ── Blocco autonomo Via Canegrate ── -->
-      <div class="canegrate-block">
-      <div class="canegrate-block-title">&#128663; Via Canegrate FS <span class="badge badge-short" style="font-size:0.7rem;">Indipendente dal bus</span></div>
-      <div style="font-size:0.78rem;color:var(--muted);margin-bottom:0.25rem;">Parti in auto adesso &rarr; Canegrate FS &rarr; S5/S6 &rarr; Cadorna</div>
-      <div id="canegrateBlock"></div>
+    <div class="bus-block" id="canegrateCard">
+      <div class="bus-block-header" onclick="toggleCanegrate()">
+        <div class="bus-block-title">
+          <span class="bus-number" style="color:var(--warn)">🚗 Auto</span>
+          <span class="bus-dep-time" id="canegrateNextTrain">...</span>
+          <span class="badge badge-short" style="font-size:0.7rem;">Indipendente</span>
+        </div>
+        <div style="font-size:0.75rem;color:var(--muted);">Via Canegrate FS &rarr; Milano</div>
+        <span class="collapse-icon-wrap">▼</span>
+      </div>
+      <div class="bus-block-body" id="canegrateBlock"></div>
     </div>
 
     <div class="estimate-note">&#9888;&#65039; Orari treni stimati (cadenze tipiche Trenord). Verificare sempre su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>. Z647/Z642 non inclusi.</div>

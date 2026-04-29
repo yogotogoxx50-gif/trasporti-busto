@@ -1,0 +1,27 @@
+# Dependency directories
+node_modules/
+
+# Local configuration and logs
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE / Editor folders
+.vscode/
+.idea/
+.sublime-project
+.sublime-workspace
+
+# Temporary scripts and work files
+*.py
+todo.md
+test.js
+fix_corruption.py
+patch_appjs.py
+rebuild_appjs.py
+fix_html.py
+fix_canegrate.py
+
+# Package manager files (if you only use them for local dev)
+package-lock.json
+# package.json  # Keep this if you want to track devDependencies
