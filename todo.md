@@ -54,21 +54,21 @@ I bus Z649 già partiti (fino a 30 min fa) vengono spostati in una sezione colla
 
 ## 🔲 Remaining
 
-### Fix 9 — `getDayType` ha holidays solo fino al 2026
+### Fix 9 — `getDayType` ha holidays solo fino al 2026 ✅
 **File:** `data/config.js`
-Il array `holidays` copre solo 2025–2026. Da aggiungere: commento prominente e/o toast di avviso su Jan 1 se l'anno corrente non è coperto.
+Il array `holidays` copre solo 2025–2026. Aggiunto commento prominente per avvisare di aggiungere le date per il 2027.
 
-### Fix 10 — SW cache name va aggiornato ad ogni rilascio
+### Fix 10 — SW cache name va aggiornato ad ogni rilascio ✅
 **File:** `sw.js`
-Attualmente hardcoded `trasporti-bg-v3.6.1`. Se i dati vengono aggiornati senza cambiare il nome cache, gli utenti ricevono dati stale. Aggiungere processo/commento.
+Aggiornato a `trasporti-bg-v3.7.0` e aggiunto commento per ricordare di effettuare il bump ad ogni rilascio per invalidare la cache.
 
-### Grafico 7 — Tabelle: scroll indicator su mobile 🔲
+### Grafico 7 — Tabelle: scroll indicator su mobile ✅
 **File:** `index.html`
-Aggiungere sfumatura laterale sui `div[overflow-x:auto]` delle tabelle Z625 (6 col) e Z642 (6 col) per indicare lo scroll orizzontale. Stesso approccio del tab-bar-wrap.
+Aggiunta la classe `.tab-bar-wrap` come wrapper dei div con `.orari-table` per le tabelle Z644, Z625, Z647, e Z642. Fornisce l'ombra per indicare lo scroll.
 
-### Fix 8b — `~` mancante anche su altri blocchi stimati 🔲
+### Fix 8b — `~` mancante anche su altri blocchi stimati ✅
 **File:** `js/app.js`
-Verificare `buildZ627Options`, `buildZ644Options`, `buildZ625Options`, `renderCanegrateBlock` — tutti i titoli `option-group-title` con orari stimati devono avere `~`.
+Aggiunto `~` prima dell'orario stimato nei titoli dei blocchi per Z627, Z644, Z625 e Canegrate.
 
 ---
 

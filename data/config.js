@@ -4,7 +4,8 @@
 // ============================================================
 var CFG = {
   // Festività italiane (trattate come domenica: orario domenicale)
-  // Aggiornare ogni anno con la data di Pasquetta (varia)
+  // ⚠️ ATTENZIONE: Aggiornare ogni anno con la data di Pasquetta!
+  // I dati attuali coprono solo fino a Dicembre 2026.
   holidays: [
     // 2025
     "2025-01-01", // Capodanno

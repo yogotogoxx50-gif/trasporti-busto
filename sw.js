@@ -1,10 +1,12 @@
 // ============================================================
-// sw.js — Service Worker per Trasporti LIVE v3.6.1
+// sw.js — Service Worker per Trasporti LIVE v3.7.0
 // Strategia: Cache-first per asset locali, fallback network.
 // Aggiornare CACHE_NAME ad ogni release per forzare un reload.
+// NOTA BENE: Il bump di versione DEVE esserci ad ogni update
+// per garantire che la cache venga invalidata sui client!
 // ============================================================
 
-const CACHE_NAME = 'trasporti-bg-v3.6.1';
+const CACHE_NAME = 'trasporti-bg-v3.7.0';
 
 // Asset da pre-cachare all'installazione
 const PRECACHE_ASSETS = [

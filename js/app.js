@@ -314,7 +314,7 @@ function buildZ627Options(corsa) {
   }
   var s5 = calcNextS5Legnano(corsa.arrMins + 1);
   var html = '<div class="option-group">';
-  html += '<div class="option-group-title">🔵 Scendi a Legnano FS <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">(arr. ' + minsToHHMM(corsa.arrMins) + ') → S5</span></div>';
+  html += '<div class="option-group-title">🔵 Scendi a Legnano FS <span class="opt-detail">(arr. ~' + minsToHHMM(corsa.arrMins) + ') → S5</span></div>';
   html += '<div class="route-line"><span class="route-arrow">└</span>';
   html += '<div class="route-info"><span class="route-dest">🚂 S5 Legnano → Cadorna</span>';
   html += '<div class="route-times">S5 ~' + minsToHHMM(s5) + ' → <strong>Cadorna ~' + minsToHHMM(s5 + 30) + '</strong></div></div></div>';
@@ -330,7 +330,7 @@ function buildZ644Options(corsa) {
   }
   var s5 = calcNextS5Parabiago(corsa.arrMins + 1);
   var html = '<div class="option-group">';
-  html += '<div class="option-group-title">🔵 Scendi a Parabiago FS <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">(arr. ' + minsToHHMM(corsa.arrMins) + ') → S5</span></div>';
+  html += '<div class="option-group-title">🔵 Scendi a Parabiago FS <span class="opt-detail">(arr. ~' + minsToHHMM(corsa.arrMins) + ') → S5</span></div>';
   html += '<div class="route-line"><span class="route-arrow">└</span>';
   html += '<div class="route-info"><span class="route-dest">🚂 S5 Parabiago → P.ta Garibaldi</span>';
   html += '<div class="route-times">S5 ~' + minsToHHMM(s5) + ' → <strong>P.ta Garibaldi ~' + minsToHHMM(s5 + 25) + '</strong></div></div></div>';
@@ -347,7 +347,7 @@ function buildZ625Options(corsa) {
   var s5 = calcNextS5BustoArsizio(corsa.arrMins + 1);
   var re = calcNextREBustoArsizio(corsa.arrMins + 1);
   var html = '<div class="option-group">';
-  html += '<div class="option-group-title">🔵 Scendi a Busto Arsizio FS <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">(arr. ' + minsToHHMM(corsa.arrMins) + ') → S5 / RE</span></div>';
+  html += '<div class="option-group-title">🔵 Scendi a Busto Arsizio FS <span class="opt-detail">(arr. ~' + minsToHHMM(corsa.arrMins) + ') → S5 / RE</span></div>';
   html += '<div class="route-line"><span class="route-arrow">└</span>';
   html += '<div class="route-info"><span class="route-dest">🚂 S5 → P.ta Garibaldi</span>';
   html += '<div class="route-times">S5 ~' + minsToHHMM(s5) + ' → <strong>P.ta Garibaldi ~' + minsToHHMM(s5 + 40) + '</strong></div></div></div>';
