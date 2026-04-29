@@ -3,8 +3,8 @@
 // Modifica qui tempi di percorrenza e destinazioni
 // ============================================================
 var CFG = {
-  version: "3.1",
-  lastUpdate: "2026-04-28",
+  version: "3.6.0",
+  lastUpdate: "2026-04-29",
   fermata: "Via Giacomo Rossini 35, Busto Garolfo (MI)",
   defaults: {
     walkRossini: 5,
