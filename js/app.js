@@ -1,7 +1,7 @@
 // ============================================================
-// APP.JS — Trasporti LIVE v3.4.0
+// APP.JS — Trasporti LIVE v3.5.0
 // Dipende da: data/config.js, data/z649.js, data/z627.js,
-//             data/z644.js, data/z625.js
+//             data/z644.js, data/z625.js, data/z647.js, data/z642.js
 // ============================================================
 
 // ── Inizializzazione ─────────────────────────────────────────
@@ -12,6 +12,8 @@ function loadData() {
   document.getElementById('walkCanegrate').value  = c != null ? c : CFG.defaults.driveCanegrate;
   document.getElementById('dataVersion').textContent =
     'Ultimo aggiornamento: ' + CFG.lastUpdate + ' · v' + CFG.version;
+  showZ647Orari('feriale_andata');
+  showZ642Orari('feriale_andata');
   tick();
   setInterval(tick, 1000);
   document.getElementById('loadingOverlay').style.display = 'none';
@@ -329,7 +331,6 @@ function showZ644Orari(mode) {
 }
 
 // ── Tabella orari Z625 ───────────────────────────────────────
-// Mapping mode → ID bottone filtro in HTML
 var Z625_BTN_MAP = {
   'feriale_andata':  'z625btnFerAnd',
   'feriale_ritorno': 'z625btnFerRit',
@@ -350,7 +351,6 @@ function showZ625Orari(mode) {
   };
   document.getElementById('z625DayLabel').textContent = 'Orari Z625 — ' + labels[mode];
 
-  // Aggiorna pulsanti filtro
   Object.keys(Z625_BTN_MAP).forEach(function(m) {
     var el = document.getElementById(Z625_BTN_MAP[m]);
     if (el) el.classList.toggle('active', m === mode);
@@ -358,7 +358,6 @@ function showZ625Orari(mode) {
 
   var isAndata = mode.indexOf('andata') >= 0;
 
-  // Aggiorna intestazione tabella in base alla direzione
   var thead = document.getElementById('z625TableHead');
   if (thead) {
     if (isAndata) {
@@ -375,7 +374,6 @@ function showZ625Orari(mode) {
     return;
   }
 
-  // Calcola prossima corsa (basato sul campo di partenza rilevante)
   var nextIdx;
   if (isAndata) {
     nextIdx = schedule.findIndex(function(c){
@@ -393,7 +391,6 @@ function showZ625Orari(mode) {
     var isCurrent = i === nextIdx;
 
     if (isAndata) {
-      // Calcola prossimo S5 a Busto Arsizio FS (ogni ~30 min :03 e :33)
       var s5Html = '';
       if (c.arr_ba_fs != null) {
         var s5slots = [3, 33];
@@ -408,7 +405,6 @@ function showZ625Orari(mode) {
       }
 
       var noDep  = c.dep_bg == null;
-      var noFS   = c.arr_ba_fs == null;
       var cls    = isCurrent ? 'current-row' : (noDep ? 'short-row' : '');
 
       var depCell = c.dep_bg != null
@@ -434,7 +430,6 @@ function showZ625Orari(mode) {
       ].join('');
 
     } else {
-      // Ritorno: dep_ba / dep_ba_fs → arr_bg
       var cls2 = isCurrent ? 'current-row' : '';
 
       var depBaCell   = c.dep_ba    != null ? minsToHHMM(c.dep_ba)    : '<span style="color:var(--faint)">—</span>';
@@ -454,6 +449,148 @@ function showZ625Orari(mode) {
       ].join('');
     }
   }).join('');
+}
+
+// ── Renderer dinamico generico (Z647 / Z642) ─────────────────
+var MODE_LABELS = {
+  feriale_andata:  'Feriale Andata',
+  feriale_ritorno: 'Feriale Ritorno',
+  sabato_andata:   'Sabato Andata',
+  sabato_ritorno:  'Sabato Ritorno'
+};
+
+function getAvailableModes(dataset) {
+  return ['feriale_andata','feriale_ritorno','sabato_andata','sabato_ritorno'].filter(function(mode) {
+    return Array.isArray(dataset[mode]) && dataset[mode].length > 0;
+  });
+}
+
+function getTimeColumns(schedule) {
+  var skip = { corsa: true, flags: true, note: true, val: true };
+  var cols = [], seen = {};
+  schedule.forEach(function(row) {
+    Object.keys(row).forEach(function(k) {
+      if (skip[k] || seen[k]) return;
+      var hasAny = schedule.some(function(r){ return r[k] != null; });
+      if (hasAny) { seen[k] = true; cols.push(k); }
+    });
+  });
+  return cols;
+}
+
+function getRowReferenceTime(row, columns) {
+  for (var i = 0; i < columns.length; i++) {
+    if (row[columns[i]] != null) return row[columns[i]];
+  }
+  return null;
+}
+
+function prettyStopLabel(code) {
+  return code.replace('_dep',' ↓').replace('_arr',' ↑').replace(/_/g,' ');
+}
+
+function buildDynamicFilterBar(containerId, handlerName, dataset, activeMode) {
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  var modes = getAvailableModes(dataset);
+  el.innerHTML = modes.map(function(mode) {
+    var active = mode === activeMode ? ' active' : '';
+    return '<button class="filter-btn' + active + '" onclick="' + handlerName + '(\'' + mode + '\')">'
+      + MODE_LABELS[mode] + '</button>';
+  }).join('');
+}
+
+function renderDynamicSchedule(opts) {
+  var dataset  = opts.dataset;
+  var mode     = opts.mode;
+  var schedule = dataset[mode] || [];
+  var now      = new Date();
+  var nowMins  = now.getHours() * 60 + now.getMinutes();
+
+  buildDynamicFilterBar(opts.filterBarId, opts.handlerName, dataset, mode);
+
+  var isRitorno = mode.indexOf('ritorno') >= 0;
+  var subtitle  = isRitorno
+    ? (dataset.meta.percorso_ritorno || dataset.meta.percorso_principale || '')
+    : (dataset.meta.percorso_andata  || dataset.meta.percorso_principale || '');
+
+  var dayLabelEl = document.getElementById(opts.dayLabelId);
+  if (dayLabelEl) dayLabelEl.textContent = 'Orari ' + dataset.meta.linea + ' — ' + (MODE_LABELS[mode] || mode);
+
+  var subtitleEl = document.getElementById(opts.subtitleId);
+  if (subtitleEl) subtitleEl.textContent = subtitle;
+
+  var noteEl = document.getElementById(opts.noteId);
+  if (noteEl) noteEl.textContent = '⚠️ ' + (dataset.meta.eccezioni || 'Verificare validità servizio.');
+
+  var thead = document.getElementById(opts.tableHeadId);
+  var tbody = document.getElementById(opts.bodyId);
+
+  if (!schedule.length) {
+    if (thead) thead.innerHTML = '<th>#</th><th>Val.</th><th>Note</th>';
+    if (tbody) tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--muted);">Nessun servizio in questo periodo.</td></tr>';
+    return;
+  }
+
+  var columns = getTimeColumns(schedule);
+
+  var nextIdx = -1;
+  for (var i = 0; i < schedule.length; i++) {
+    var t = getRowReferenceTime(schedule[i], columns);
+    if (t != null && t >= nowMins) { nextIdx = i; break; }
+  }
+
+  if (thead) {
+    thead.innerHTML = '<th>#</th>'
+      + columns.map(function(col){ return '<th>' + prettyStopLabel(col) + '</th>'; }).join('')
+      + '<th>Val.</th><th>Note</th>';
+  }
+
+  if (tbody) {
+    tbody.innerHTML = schedule.map(function(row, i) {
+      var cls    = i === nextIdx ? ' class="current-row"' : '';
+      var flags  = (row.flags || []).join(' / ') || '—';
+      var note   = row.note || '';
+      return '<tr' + cls + '>'
+        + '<td>' + (row.corsa != null ? row.corsa : '—') + '</td>'
+        + columns.map(function(col){
+            return '<td>' + (row[col] != null ? minsToHHMM(row[col]) : '—') + '</td>';
+          }).join('')
+        + '<td>' + flags + '</td>'
+        + '<td>' + note  + '</td>'
+        + '</tr>';
+    }).join('');
+  }
+}
+
+// ── Tabella orari Z647 ───────────────────────────────────────
+function showZ647Orari(mode) {
+  renderDynamicSchedule({
+    dataset:      Z647,
+    mode:         mode,
+    handlerName:  'showZ647Orari',
+    dayLabelId:   'z647DayLabel',
+    subtitleId:   'z647Subtitle',
+    filterBarId:  'z647FilterBar',
+    tableHeadId:  'z647TableHead',
+    bodyId:       'z647Body',
+    noteId:       'z647Note'
+  });
+}
+
+// ── Tabella orari Z642 ───────────────────────────────────────
+function showZ642Orari(mode) {
+  renderDynamicSchedule({
+    dataset:      Z642,
+    mode:         mode,
+    handlerName:  'showZ642Orari',
+    dayLabelId:   'z642DayLabel',
+    subtitleId:   'z642Subtitle',
+    filterBarId:  'z642FilterBar',
+    tableHeadId:  'z642TableHead',
+    bodyId:       'z642Body',
+    noteId:       'z642Note'
+  });
 }
 
 // ── Tick principale (ogni secondo) ───────────────────────────
@@ -523,6 +660,8 @@ function switchTab(tab) {
   if (tab === 'z627')   showZ627Orari(dt === 'sabato' ? 'sabato' : 'feriale');
   if (tab === 'z644')   showZ644Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
   if (tab === 'z625')   showZ625Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
+  if (tab === 'z647')   showZ647Orari('feriale_andata');
+  if (tab === 'z642')   showZ642Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
 }
 
 // ── Listeners impostazioni ───────────────────────────────────

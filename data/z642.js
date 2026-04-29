@@ -1,43 +1,57 @@
 // ============================================================
 // Z642.JS — Orari linea Z642
 // Tutti i tempi sono in MINUTI dall'inizio della giornata
-// dep  = partenza (minuti da mezzanotte, es. 480 = 08:00)
-// arr  = arrivo stimato
-// val  = FR5=feriale, SC5=scolastico, SAB=sabato
 // ============================================================
 var Z642 = {
   meta: {
     linea: "Z642",
-    partenza:     "TODO — inserire fermata di partenza",
-    destinazione: "TODO — inserire destinazione",
-    durata_minuti: "TODO",
+    percorso_andata: "Magenta → Corbetta → S.Stefano Ticino → Arluno → Ossona → Casorezzo → Busto Garolfo → Villa Cortese → S.Giorgio → Legnano",
+    percorso_ritorno: "Legnano → S.Giorgio → Villa Cortese → Busto Garolfo → Casorezzo → Ossona → Arluno → S.Stefano Ticino → Corbetta → Magenta",
     validita: {
-      FR5: "Lun\u2013Ven feriali",
-      SC5: "Lun\u2013Ven solo periodo scolastico",
-      SAB: "Sabato feriale",
-      domenica: "Nessun servizio"
+      FR5: "Lun–Ven feriali",
+      SC5: "Lun–Ven solo periodo scolastico",
+      SAB: "Sabato feriale"
     },
-    eccezioni: "TODO — verificare eccezioni estive/natalizie",
-    note: ""
+    eccezioni: "Non valido nelle 3 settimane centrali di agosto e nelle festività natalizie"
   },
 
-  // ── FERIALE ANDATA ──────────────────────────────────────────
   feriale_andata: [
-    // { corsa: 101, dep: 480, arr: 505, val: "FR5", note: "" }
+    { corsa: 102, MG888: null, MG756: null, MG306: null, MG501: null, MG561: null, MG502: null, MG402: null, MGB71: null, CB088: null, CB053: null, T1211: null, T1333: null, AL028: null, AL201: null, AL196: null, "05011": null, CZ093: null, CZ094: null, CZ080: null, BT215: null, BT300: null, BT776: null, BT956: 360, BT703: 361, BT704: 362, VC050: 364, VC051: 366, "5G050": 370, LG611: 374, LG805: 375, LG112: null, LG508: null, LG090: 376, LG003: 379, LG002: 381, LG001: 383, flags: ["SC5"] },
+    { corsa: 502, MG888: null, MG756: null, MG306: null, MG501: null, MG561: null, MG502: null, MG402: null, MGB71: null, CB088: null, CB053: null, T1211: null, T1333: null, AL028: null, AL201: 408, AL196: 411, "05011": 416, CZ093: 420, CZ094: 423, CZ080: 426, BT215: 429, BT300: 430, BT776: 431, BT956: 435, BT703: 437, BT704: 439, VC050: 443, VC051: 445, "5G050": 453, LG611: 457, LG805: 458, LG112: null, LG508: null, LG090: 460, LG003: 463, LG002: null, LG001: null, flags: ["SC5"] },
+    { corsa: 104, MG888: null, MG756: null, MG306: 397, MG501: 398, MG561: 400, MG502: 401, MG402: 403, MGB71: 405, CB088: 408, CB053: 411, T1211: 413, T1333: 415, AL028: 420, AL201: 423, AL196: 426, "05011": 431, CZ093: 435, CZ094: 438, CZ080: 441, BT215: 444, BT300: 445, BT776: 446, BT956: 450, BT703: 452, BT704: 454, VC050: 458, VC051: 460, "5G050": 468, LG611: null, LG805: null, LG112: 475, LG508: 481, LG090: null, LG003: null, LG002: null, LG001: 485, flags: ["FR5"] },
+    { corsa: 108, MG888: null, MG756: null, MG306: 475, MG501: 476, MG561: 478, MG502: 480, MG402: 483, MGB71: 484, CB088: null, CB053: 486, T1211: 487, T1333: 488, AL028: 491, AL201: 493, AL196: 495, "05011": 500, CZ093: 503, CZ094: 505, CZ080: 507, BT215: 511, BT300: 512, BT776: 513, BT956: 515, BT703: 516, BT704: 518, VC050: null, VC051: null, "5G050": null, LG611: null, LG805: null, LG112: null, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["FR5"] },
+    { corsa: 106, MG888: null, MG756: null, MG306: 485, MG501: 486, MG561: 488, MG502: 490, MG402: 493, MGB71: 494, CB088: null, CB053: 496, T1211: 497, T1333: 498, AL028: 501, AL201: 503, AL196: 505, "05011": 510, CZ093: 513, CZ094: 515, CZ080: 517, BT215: 521, BT300: 522, BT776: 523, BT956: 525, BT703: null, BT704: null, VC050: null, VC051: null, "5G050": null, LG611: null, LG805: null, LG112: null, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["SC5"] },
+    { corsa: 110, MG888: null, MG756: null, MG306: null, MG501: null, MG561: null, MG502: null, MG402: 605, MGB71: 607, CB088: 610, CB053: 613, T1211: 615, T1333: 617, AL028: 622, AL201: 624, AL196: 626, "05011": 631, CZ093: 635, CZ094: 638, CZ080: 640, BT215: 643, BT300: 644, BT776: 645, BT956: 647, BT703: 648, BT704: 650, VC050: null, VC051: null, "5G050": null, LG611: null, LG805: null, LG112: null, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["FR5"] },
+    { corsa: 128, MG888: 728, MG756: 733, MG306: null, MG501: null, MG561: null, MG502: null, MG402: 645, MGB71: 647, CB088: 650, CB053: 653, T1211: 655, T1333: 657, AL028: 662, AL201: 664, AL196: 666, "05011": 671, CZ093: 675, CZ094: 678, CZ080: 680, BT215: 683, BT300: 684, BT776: 685, BT956: 687, BT703: 688, BT704: 690, VC050: null, VC051: null, "5G050": null, LG611: null, LG805: null, LG112: null, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["FR5"] },
+    { corsa: 516, MG888: 768, MG756: 773, MG306: null, MG501: null, MG561: null, MG502: null, MG402: null, MGB71: null, CB088: null, CB053: null, T1211: null, T1333: null, AL028: null, AL201: null, AL196: null, "05011": null, CZ093: null, CZ094: null, CZ080: null, BT215: null, BT300: null, BT776: null, BT956: 770, BT703: 772, BT704: 774, VC050: 778, VC051: 780, "5G050": 788, LG611: 795, LG805: 796, LG112: 793, LG508: null, LG090: 798, LG003: 803, LG002: null, LG001: null, flags: ["SC5"] },
+    { corsa: 112, MG888: null, MG756: null, MG306: 735, MG501: 736, MG561: 738, MG502: 739, MG402: 741, MGB71: 743, CB088: 747, CB053: 751, T1211: 753, T1333: 755, AL028: 761, AL201: 761, AL196: 766, "05011": 771, CZ093: 775, CZ094: 777, CZ080: 780, BT215: 784, BT300: 785, BT776: 786, BT956: 788, BT703: 789, BT704: 792, VC050: 795, VC051: 797, "5G050": 802, LG611: null, LG805: null, LG112: null, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["SC5"] },
+    { corsa: 142, MG888: null, MG756: null, MG306: 775, MG501: 776, MG561: 778, MG502: 779, MG402: 781, MGB71: 783, CB088: 787, CB053: 791, T1211: 793, T1333: 795, AL028: 801, AL201: 803, AL196: 806, "05011": 811, CZ093: 815, CZ094: 817, CZ080: 820, BT215: 824, BT300: 825, BT776: 826, BT956: 828, BT703: 829, BT704: 832, VC050: 835, VC051: 837, "5G050": 844, LG611: null, LG805: null, LG112: 851, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["SC5"] },
+    { corsa: 116, MG888: null, MG756: null, MG306: 795, MG501: 796, MG561: 798, MG502: 799, MG402: 801, MGB71: 803, CB088: 807, CB053: 811, T1211: 813, T1333: 815, AL028: 821, AL201: 823, AL196: 826, "05011": 831, CZ093: 835, CZ094: 837, CZ080: 840, BT215: 844, BT300: 845, BT776: 846, BT956: 848, BT703: 849, BT704: 852, VC050: null, VC051: null, "5G050": null, LG611: null, LG805: null, LG112: null, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["SC5"] },
+    { corsa: 506, MG888: null, MG756: null, MG306: 825, MG501: 826, MG561: 828, MG502: 829, MG402: 831, MGB71: 833, CB088: 837, CB053: 841, T1211: 843, T1333: 845, AL028: 851, AL201: 853, AL196: 856, "05011": null, CZ093: null, CZ094: null, CZ080: null, BT215: null, BT300: null, BT776: null, BT956: null, BT703: null, BT704: null, VC050: null, VC051: null, "5G050": null, LG611: null, LG805: null, LG112: null, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["SC5"] },
+    { corsa: 124, MG888: null, MG756: null, MG306: 855, MG501: 856, MG561: 855, MG502: 859, MG402: 861, MGB71: 863, CB088: 867, CB053: 871, T1211: 873, T1333: 875, AL028: 881, AL201: 883, AL196: 886, "05011": 891, CZ093: 895, CZ094: 897, CZ080: 900, BT215: 904, BT300: 905, BT776: 906, BT956: 908, BT703: 909, BT704: 912, VC050: 915, VC051: 917, "5G050": 922, LG611: 925, LG805: 926, LG112: null, LG508: null, LG090: 928, LG003: 933, LG002: null, LG001: null, flags: ["SC5"] },
+    { corsa: 114, MG888: null, MG756: null, MG306: 915, MG501: 916, MG561: 918, MG502: 919, MG402: 921, MGB71: 923, CB088: 927, CB053: 931, T1211: 933, T1333: 935, AL028: 941, AL201: 943, AL196: 946, "05011": 951, CZ093: 955, CZ094: 957, CZ080: 960, BT215: 964, BT300: 965, BT776: 966, BT956: 968, BT703: 969, BT704: 972, VC050: null, VC051: null, "5G050": null, LG611: null, LG805: null, LG112: null, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["SC5"] }
   ],
 
-  // ── FERIALE RITORNO ─────────────────────────────────────────
-  feriale_ritorno: [
-    // { corsa: 102, dep: 510, arr: 535, val: "FR5", note: "" }
-  ],
-
-  // ── SABATO ANDATA ────────────────────────────────────────────
   sabato_andata: [
-    // { corsa: 701, dep: 480, arr: 505, val: "SAB" }
+    { corsa: 706, MG888: null, MG756: null, MG306: 473, MG501: 474, MG561: 476, MG502: 478, MG402: 481, MGB71: 482, CB088: null, CB053: 484, T1211: 485, T1333: 486, AL028: 489, AL201: 491, AL196: 493, "05011": 498, CZ093: 501, CZ094: 503, CZ080: 505, BT215: 509, BT300: 510, BT776: 511, BT956: 513, BT703: null, BT704: null, VC050: null, VC051: null, "5G050": null, LG611: null, LG805: null, LG112: null, LG508: null, LG090: null, LG003: null, LG002: null, LG001: null, flags: ["SAB"] }
   ],
 
-  // ── SABATO RITORNO ───────────────────────────────────────────
+  feriale_ritorno: [
+    { corsa: 103, LG112: null, LG171: null, LG172: null, LG173: null, LG990: null, LG091: null, LG807: null, LG061: null, LG025: null, SG001: null, SG182: null, VC005: null, VC006: null, BT701: 404, BT702: 405, BT947: 407, BT775: 409, BT400: 411, BT211: 412, CZ010: 416, CZ088: 418, CZ070: 420, OS001: 423, AL040: 429, AL501: 431, AL029: 433, T1033: 442, T1111: 445, CB080: 447, CB111: 451, MG701: 455, MG401: 457, MG801: 460, MG720: 463, MG708: 466, MG703: 469, MG704: null, MG888: null, flags: ["FR5"] },
+    { corsa: 101, LG112: null, LG171: null, LG172: null, LG173: null, LG990: null, LG091: null, LG807: null, LG061: null, LG025: null, SG001: null, SG182: null, VC005: null, VC006: null, BT701: 406, BT702: 407, BT947: 409, BT775: 411, BT400: 413, BT211: 414, CZ010: 418, CZ088: 420, CZ070: 422, OS001: 425, AL040: 431, AL501: 433, AL029: 435, T1033: 444, T1111: 446, CB080: 449, CB111: 453, MG701: 456, MG401: 459, MG801: 462, MG720: 465, MG708: 468, MG703: 470, MG704: null, MG888: null, flags: ["SC5"] },
+    { corsa: 107, LG112: null, LG171: null, LG172: null, LG173: null, LG990: null, LG091: null, LG807: null, LG061: null, LG025: null, SG001: null, SG182: null, VC005: null, VC006: null, BT701: 513, BT702: 515, BT947: 517, BT775: 519, BT400: 520, BT211: 521, CZ010: 525, CZ088: 526, CZ070: 528, OS001: 531, AL040: 536, AL501: 538, AL029: 540, T1033: 549, T1111: 551, CB080: 553, CB111: 557, MG701: 560, MG401: 562, MG801: 564, MG720: 566, MG708: 568, MG703: 570, MG704: null, MG888: null, flags: ["FR5"] },
+    { corsa: 109, LG112: 490, LG171: null, LG172: 491, LG173: 493, LG990: 497, LG091: 498, LG807: 499, LG061: 500, LG025: 502, SG001: 504, SG182: 506, VC005: 509, VC006: 511, BT701: 555, BT702: 556, BT947: 558, BT775: 560, BT400: 561, BT211: 562, CZ010: 566, CZ088: 567, CZ070: 571, OS001: 572, AL040: 577, AL501: 579, AL029: 581, T1033: 590, T1111: 592, CB080: 594, CB111: 598, MG701: 601, MG401: 603, MG801: null, MG720: null, MG708: null, MG703: null, MG704: 572, MG888: 577, flags: ["FR5"] },
+    { corsa: 129, LG112: null, LG171: null, LG172: null, LG173: null, LG990: null, LG091: null, LG807: null, LG061: null, LG025: null, SG001: null, SG182: null, VC005: null, VC006: null, BT701: 595, BT702: 596, BT947: 598, BT775: 600, BT400: 601, BT211: 602, CZ010: 606, CZ088: 607, CZ070: 611, OS001: 612, AL040: 617, AL501: 619, AL029: 621, T1033: 630, T1111: 632, CB080: 634, CB111: 638, MG701: 641, MG401: 643, MG801: null, MG720: null, MG708: null, MG703: null, MG704: null, MG888: null, flags: ["FR5"] },
+    { corsa: 503, LG112: null, LG171: null, LG172: null, LG173: null, LG990: null, LG091: null, LG807: null, LG061: null, LG025: null, SG001: null, SG182: null, VC005: null, VC006: null, BT701: 738, BT702: 739, BT947: 741, BT775: 743, BT400: 744, BT211: 745, CZ010: 749, CZ088: 750, CZ070: 754, OS001: 755, AL040: 760, AL501: 762, AL029: 764, T1033: 773, T1111: 775, CB080: 777, CB111: null, MG701: 781, MG401: 783, MG801: 785, MG720: 787, MG708: 789, MG703: 791, MG704: null, MG888: null, flags: ["SC5"] },
+    { corsa: 123, LG112: null, LG171: null, LG172: null, LG173: null, LG990: null, LG091: null, LG807: null, LG061: null, LG025: null, SG001: null, SG182: null, VC005: 791, VC006: 792, BT701: 794, BT702: 795, BT947: 797, BT775: 799, BT400: 800, BT211: 801, CZ010: 805, CZ088: 806, CZ070: 808, OS001: 811, AL040: 816, AL501: 818, AL029: 820, T1033: 829, T1111: 831, CB080: 833, CB111: 837, MG701: 840, MG401: 842, MG801: 844, MG720: 846, MG708: 848, MG703: 850, MG704: null, MG888: null, flags: ["SC5"] },
+    { corsa: 507, LG112: 795, LG171: null, LG172: null, LG173: 800, LG990: 804, LG091: 805, LG807: 806, LG061: 807, LG025: 809, SG001: 811, SG182: 813, VC005: 816, VC006: 818, BT701: 820, BT702: 821, BT947: 823, BT775: 825, BT400: 826, BT211: 827, CZ010: 831, CZ088: 832, CZ070: 834, OS001: 837, AL040: 842, AL501: 844, AL029: 846, T1033: 855, T1111: 857, CB080: 859, CB111: 863, MG701: 866, MG401: 868, MG801: 870, MG720: 872, MG708: 874, MG703: 876, MG704: null, MG888: null, flags: ["SC5"] },
+    { corsa: 115, LG112: null, LG171: null, LG172: null, LG173: 820, LG990: 824, LG091: 825, LG807: 826, LG061: 827, LG025: 829, SG001: 831, SG182: 833, VC005: 836, VC006: 838, BT701: 840, BT702: 841, BT947: 843, BT775: 845, BT400: 846, BT211: 847, CZ010: 851, CZ088: 852, CZ070: 854, OS001: 857, AL040: 862, AL501: 864, AL029: 866, T1033: 875, T1111: 877, CB080: 879, CB111: 883, MG701: 886, MG401: 888, MG801: 890, MG720: 892, MG708: 894, MG703: 896, MG704: null, MG888: null, flags: ["SC5"] },
+    { corsa: 141, LG112: null, LG171: null, LG172: null, LG173: null, LG990: null, LG091: null, LG807: null, LG061: null, LG025: null, SG001: null, SG182: null, VC005: 845, VC006: 847, BT701: 849, BT702: 850, BT947: 852, BT775: 854, BT400: 855, BT211: 856, CZ010: 860, CZ088: 861, CZ070: 863, OS001: 866, AL040: 871, AL501: 873, AL029: 875, T1033: 884, T1111: 886, CB080: 888, CB111: 892, MG701: 895, MG401: 897, MG801: 899, MG720: 901, MG708: 903, MG703: 905, MG704: null, MG888: null, flags: ["SC5"] },
+    { corsa: 217, LG112: 855, LG171: null, LG172: null, LG173: 860, LG990: 864, LG091: 865, LG807: 866, LG061: 867, LG025: 869, SG001: 871, SG182: 873, VC005: 876, VC006: 878, BT701: 880, BT702: 881, BT947: 883, BT775: 885, BT400: 886, BT211: 887, CZ010: 891, CZ088: 892, CZ070: 894, OS001: 897, AL040: 902, AL501: 904, AL029: 906, T1033: null, T1111: null, CB080: null, CB111: null, MG701: null, MG401: null, MG801: null, MG720: null, MG708: null, MG703: null, MG704: null, MG888: null, flags: ["SC5"] },
+    { corsa: 119, LG112: null, LG171: null, LG172: null, LG173: 940, LG990: 944, LG091: 945, LG807: 946, LG061: 947, LG025: 949, SG001: 951, SG182: 953, VC005: 956, VC006: 957, BT701: 959, BT702: 960, BT947: 962, BT775: 964, BT400: 965, BT211: 966, CZ010: 970, CZ088: 971, CZ070: 973, OS001: 976, AL040: 981, AL501: 983, AL029: 985, T1033: null, T1111: null, CB080: null, CB111: null, MG701: null, MG401: null, MG801: null, MG720: null, MG708: null, MG703: null, MG704: null, MG888: null, flags: ["SC5"] }
+  ],
+
   sabato_ritorno: [
-    // { corsa: 702, dep: 510, arr: 535, val: "SAB" }
+    { corsa: 703, LG112: 385, LG171: null, LG172: 386, LG173: 388, LG990: 391, LG091: 392, LG807: 393, LG061: 394, LG025: 396, SG001: 398, SG182: 400, VC005: 402, VC006: 404, BT701: 408, BT702: 409, BT947: 411, BT775: 413, BT400: 415, BT211: 416, CZ010: 420, CZ088: 422, CZ070: 424, OS001: 427, AL040: 431, AL501: 433, AL029: 435, T1033: 444, T1111: 447, CB080: 449, CB111: 453, MG701: 456, MG401: 458, MG801: 460, MG720: 462, MG708: 465, MG703: 467, MG704: null, MG888: null, flags: ["SAB"] }
   ]
 };
