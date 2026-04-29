@@ -1,0 +1,20 @@
+{
+  "name": "Trasporti LIVE — Busto Garolfo",
+  "short_name": "Trasporti BG",
+  "description": "Dashboard orari bus e treni da Via Rossini 35, Busto Garolfo. Z649, Z627, Z644, Z625, Z647, Z642.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#22d3ee",
+  "orientation": "portrait-primary",
+  "lang": "it",
+  "categories": ["travel", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b1020'/><text y='70' font-size='65' text-anchor='middle' x='50'>🚌</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
