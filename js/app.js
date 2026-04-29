@@ -10,8 +10,10 @@ function loadData() {
   var c = localStorage.getItem('driveCanegrate');
   document.getElementById('walkRossini').value    = w != null ? w : CFG.defaults.walkRossini;
   document.getElementById('walkCanegrate').value  = c != null ? c : CFG.defaults.driveCanegrate;
+  document.getElementById('appTitle').textContent =
+    'Trasporti LIVE v' + CFG.version + ' — ' + CFG.fermata;
   document.getElementById('dataVersion').textContent =
-    'Ultimo aggiornamento: ' + CFG.lastUpdate + ' · v' + CFG.version;
+    'Dati aggiornati al: ' + CFG.lastUpdate;
   showZ647Orari('feriale_andata');
   showZ642Orari('feriale_andata');
   tick();
