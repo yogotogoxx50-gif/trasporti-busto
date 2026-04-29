@@ -105,7 +105,9 @@ function getNextZ649(effectiveNow, dayType, count) {
   var results  = [];
   for (var i = 0; i < schedule.length && results.length < count; i++) {
     var c = schedule[i];
-    if (c.rossini > effectiveNow - 1 && c.rossini <= effectiveNow + 180) {
+    // Mostra la card finché il bus non ha superato Molino Dorino (o Pregnana se corsa breve)
+    var expiresAt = c.molino_dorino != null ? c.molino_dorino : (c.pregnana_fs != null ? c.pregnana_fs : c.rossini + 40);
+    if (c.rossini <= effectiveNow + 180 && expiresAt > effectiveNow) {
       results.push(c);
     }
   }
@@ -206,14 +208,15 @@ function renderBusBlocks(departures, effectiveNow) {
       ? '<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Corsa breve — termina ad Arluno, non arriva a Molino Dorino.</div><div class="estimate-note">Considera la prossima corsa completa per raggiungere Milano.</div></div>'
       : buildBusOptions(c);
     var isFirst = i === 0;
+    var diffLabel = diff > 0 ? 'tra ' + diff + ' min' : 'In viaggio';
     return [
       '<div class="bus-block ' + (isFirst ? 'active' : '') + '" id="busblock-' + i + '">',
       '  <div class="bus-block-header" onclick="toggleBusBlock(' + i + ')">',
       '    <div class="bus-block-title">',
       '      <span class="bus-number">Z649</span>',
       '      <span class="bus-dep-time">' + minsToHHMM(c.rossini) + '</span>',
-      '      ' + urgencyBadge(diff) + sc5Badge + lastBadge + shortBadge,
-      '      <span style="font-size:0.82rem;color:var(--muted);">tra ' + diff + ' min</span>',
+      '      ' + urgencyBadge(Math.max(diff, 0)) + sc5Badge + lastBadge + shortBadge,
+      '      <span style="font-size:0.82rem;color:var(--muted);">' + diffLabel + '</span>',
       '    </div>',
       '    <span class="collapse-icon">▼</span>',
       '  </div>',
@@ -224,101 +227,203 @@ function renderBusBlocks(departures, effectiveNow) {
 }
 
 function toggleBusBlock(i) {
-  document.querySelectorAll('.bus-block').forEach(function(el, idx) {
+  document.querySelectorAll('#busBlocks .bus-block').forEach(function(el, idx) {
     if (idx === i) el.classList.toggle('active');
     else           el.classList.remove('active');
   });
 }
 
-// ── Render coincidenze treno (tab LIVE) ───────────────────────────
-function renderTrainConnections() {
-  var container = document.getElementById('trainConnections');
+// ── Logica prossime corse altri bus (Z627/Z644/Z625) per tab LIVE ───
+// Restituisce array di oggetti { depMins, arrMins, label, note, val }
+// depMins  = orario di partenza (da via Rossini o fermata più vicina)
+// arrMins  = orario di arrivo alla stazione FS (usato come scadenza card)
+function getNextBusLive(line, nowMins, dayType, count) {
+  count = count || 3;
+  var results = [];
+
+  if (line === 'z627') {
+    var key = dayType === 'sabato' ? 'sabato' : 'feriale';
+    var sched = Z627[key] || [];
+    for (var i = 0; i < sched.length && results.length < count; i++) {
+      var c = sched[i];
+      var exp = c.arr != null ? c.arr : c.dep + 25;
+      if (c.dep <= nowMins + 180 && exp > nowMins) {
+        results.push({ depMins: c.dep, arrMins: c.arr, val: c.val, note: c.note || '' });
+      }
+    }
+  }
+
+  if (line === 'z644') {
+    var key644 = dayType === 'sabato' ? 'sabato_andata' : 'feriale_andata';
+    var sched644 = Z644[key644] || [];
+    for (var j = 0; j < sched644.length && results.length < count; j++) {
+      var c644 = sched644[j];
+      var exp644 = c644.parabiago_fs != null ? c644.parabiago_fs : (c644.parabiago_vb != null ? c644.parabiago_vb : c644.rossini + 25);
+      if (c644.rossini <= nowMins + 180 && exp644 > nowMins) {
+        results.push({ depMins: c644.rossini, arrMins: c644.parabiago_fs, val: c644.val, note: c644.parabiago_fs == null ? '⚠️ Non arriva FS' : '' });
+      }
+    }
+  }
+
+  if (line === 'z625') {
+    var key625 = dayType === 'sabato' ? 'sabato_andata' : 'feriale_andata';
+    var sched625 = Z625[key625] || [];
+    for (var k = 0; k < sched625.length && results.length < count; k++) {
+      var c625 = sched625[k];
+      var dep625 = c625.dep_bg != null ? c625.dep_bg : null;
+      if (dep625 == null) continue; // salta corse che non partono da BG
+      var exp625 = c625.arr_ba_fs != null ? c625.arr_ba_fs : (c625.arr_ba != null ? c625.arr_ba : dep625 + 35);
+      if (dep625 <= nowMins + 180 && exp625 > nowMins) {
+        results.push({ depMins: dep625, arrMins: c625.arr_ba_fs, val: c625.val, note: c625.arr_ba_fs == null ? '⚠️ Non arriva FS' : '' });
+      }
+    }
+  }
+
+  return results;
+}
+
+// ── Costruzione body bus-block per Z627 ────────────────────────
+function buildZ627Options(corsa) {
+  if (!corsa.arrMins) {
+    return '<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Corsa breve — non arriva a Legnano FS.</div><div class="estimate-note">Nessuna coincidenza ferroviaria disponibile.</div></div>';
+  }
+  var s5 = calcNextS5Legnano(corsa.arrMins + 1);
+  var html = '<div class="option-group">';
+  html += '<div class="option-group-title">🔵 Scendi a Legnano FS <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">(arr. ' + minsToHHMM(corsa.arrMins) + ') → S5</span></div>';
+  html += '<div class="route-line"><span class="route-arrow">└</span>';
+  html += '<div class="route-info"><span class="route-dest">🚂 S5 Legnano → Cadorna</span>';
+  html += '<div class="route-times">S5 ~' + minsToHHMM(s5) + ' → <strong>Cadorna ~' + minsToHHMM(s5 + 30) + '</strong></div></div></div>';
+  html += '<div class="estimate-note">⚠️ Orari S5 stimati (ogni 30 min). Verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</div>';
+  html += '</div>';
+  return html;
+}
+
+// ── Costruzione body bus-block per Z644 ────────────────────────
+function buildZ644Options(corsa) {
+  if (!corsa.arrMins) {
+    return '<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Corsa breve — termina a Via Butti, non arriva alla FS.</div><div class="estimate-note">Nessuna coincidenza ferroviaria disponibile.</div></div>';
+  }
+  var s5 = calcNextS5Parabiago(corsa.arrMins + 1);
+  var html = '<div class="option-group">';
+  html += '<div class="option-group-title">🔵 Scendi a Parabiago FS <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">(arr. ' + minsToHHMM(corsa.arrMins) + ') → S5</span></div>';
+  html += '<div class="route-line"><span class="route-arrow">└</span>';
+  html += '<div class="route-info"><span class="route-dest">🚂 S5 Parabiago → P.ta Garibaldi</span>';
+  html += '<div class="route-times">S5 ~' + minsToHHMM(s5) + ' → <strong>P.ta Garibaldi ~' + minsToHHMM(s5 + 25) + '</strong></div></div></div>';
+  html += '<div class="estimate-note">⚠️ Orari S5 stimati (ogni 30 min). Verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</div>';
+  html += '</div>';
+  return html;
+}
+
+// ── Costruzione body bus-block per Z625 ────────────────────────
+function buildZ625Options(corsa) {
+  if (!corsa.arrMins) {
+    return '<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Non arriva a Busto Arsizio FS.</div><div class="estimate-note">Nessuna coincidenza ferroviaria disponibile.</div></div>';
+  }
+  var s5 = calcNextS5BustoArsizio(corsa.arrMins + 1);
+  var re = calcNextREBustoArsizio(corsa.arrMins + 1);
+  var html = '<div class="option-group">';
+  html += '<div class="option-group-title">🔵 Scendi a Busto Arsizio FS <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">(arr. ' + minsToHHMM(corsa.arrMins) + ') → S5 / RE</span></div>';
+  html += '<div class="route-line"><span class="route-arrow">└</span>';
+  html += '<div class="route-info"><span class="route-dest">🚂 S5 → P.ta Garibaldi</span>';
+  html += '<div class="route-times">S5 ~' + minsToHHMM(s5) + ' → <strong>P.ta Garibaldi ~' + minsToHHMM(s5 + 40) + '</strong></div></div></div>';
+  html += '<div class="route-line"><span class="route-arrow">└</span>';
+  html += '<div class="route-info"><span class="route-dest">🚄 RE → P.ta Garibaldi</span>';
+  html += '<div class="route-times">RE ~' + minsToHHMM(re) + ' → <strong>P.ta Garibaldi ~' + minsToHHMM(re + 30) + '</strong></div></div></div>';
+  html += '<div class="estimate-note">⚠️ Orari stimati. Verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</div>';
+  html += '</div>';
+  return html;
+}
+
+// ── Render bus-block singolo (Z627/Z644/Z625) ────────────────────
+function renderOtherBusBlocks(containerId, line, lineLabel, departures, nowMins, buildFn) {
+  var container = document.getElementById(containerId);
   if (!container) return;
 
-  var now     = new Date();
-  var nowMins = now.getHours() * 60 + now.getMinutes();
-  var dt      = getDayType(now);
-
-  // Giorno senza servizio
-  if (dt === 'domenica') {
-    container.innerHTML = '<div class="train-conn-card" style="grid-column:1/-1;text-align:center;color:var(--faint);font-size:0.85rem;">🚫 Domenica: nessun servizio su Z627, Z644, Z625.</div>';
+  if (!departures.length) {
+    container.innerHTML = '<div style="color:var(--muted);padding:0.6rem;text-align:center;font-size:0.85rem;">Nessuna corsa nelle prossime 3 ore.</div>';
     return;
   }
 
-  var cards = [];
+  container.innerHTML = departures.map(function(c, i) {
+    var diff = c.depMins - nowMins;
+    var diffLabel = diff > 0 ? 'tra ' + diff + ' min' : 'In viaggio';
+    var sc5Badge = (c.val === 'SC5') ? ' <span class="badge badge-short">📚 SC5</span>' : '';
+    var shortBadge = !c.arrMins ? ' <span class="badge badge-short">⚠️ Corsa breve</span>' : '';
+    var noteHtml = c.note ? ' <span style="font-size:0.78rem;color:var(--faint);">' + c.note + '</span>' : '';
+    var bodyHtml = buildFn(c);
+    var isFirst = i === 0;
+    return [
+      '<div class="bus-block ' + (isFirst ? 'active' : '') + '" id="' + containerId + '-block-' + i + '">',
+      '  <div class="bus-block-header" onclick="toggleOtherBusBlock(\'' + containerId + '\',' + i + ')">',
+      '    <div class="bus-block-title">',
+      '      <span class="bus-number">' + lineLabel + '</span>',
+      '      <span class="bus-dep-time">' + minsToHHMM(c.depMins) + '</span>',
+      '      ' + urgencyBadge(Math.max(diff, 0)) + sc5Badge + shortBadge,
+      '      <span style="font-size:0.82rem;color:var(--muted);">' + diffLabel + '</span>',
+      '      ' + noteHtml,
+      '    </div>',
+      '    <span class="collapse-icon">▼</span>',
+      '  </div>',
+      '  <div class="bus-block-body">' + bodyHtml + '</div>',
+      '</div>'
+    ].join('\n');
+  }).join('\n');
+}
 
-  // ── Z627 → Legnano FS (S5) ──────────────────────────────────────
-  var schedule627 = Z627[dt === 'sabato' ? 'sabato' : 'feriale'] || [];
-  var next627 = [];
-  for (var i = 0; i < schedule627.length && next627.length < 2; i++) {
-    var c627 = schedule627[i];
-    if (c627.dep >= nowMins && c627.arr != null) next627.push(c627);
+function toggleOtherBusBlock(containerId, i) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  container.querySelectorAll('.bus-block').forEach(function(el, idx) {
+    if (idx === i) el.classList.toggle('active');
+    else           el.classList.remove('active');
+  });
+}
+
+// ── Render blocco autonomo 🚗 Via Canegrate FS ──────────────────
+function renderCanegrateBlock(nowMins) {
+  var container = document.getElementById('canegrateBlock');
+  if (!container) return;
+  var walkCanegrate = parseInt(document.getElementById('walkCanegrate').value) || CFG.defaults.driveCanegrate;
+  var canArr        = nowMins + walkCanegrate;
+  var t1            = calcNextS5S6(canArr + 1);
+  var t2            = calcNextS5S6(t1 + 1);
+  var html = '';
+  html += '<div class="option-group" style="margin-top:0;">';
+  html += '<div class="option-group-title" style="border-top:none;">🚗 Partenza in auto adesso → Canegrate FS (arr. ~' + minsToHHMM(canArr) + ')</div>';
+  html += '<div class="route-line"><span class="route-arrow">└</span>';
+  html += '<div class="route-info"><span class="route-dest">🚂 1° treno — Canegrate → Cadorna</span>';
+  html += '<div class="route-times">S5/S6 ~' + minsToHHMM(t1) + ' → <strong>Cadorna ~' + minsToHHMM(t1 + CFG.canegrate.travelToMilano) + '</strong></div></div></div>';
+  html += '<div class="route-line"><span class="route-arrow">└</span>';
+  html += '<div class="route-info"><span class="route-dest">🚂 2° treno — Canegrate → Cadorna</span>';
+  html += '<div class="route-times">S5/S6 ~' + minsToHHMM(t2) + ' → <strong>Cadorna ~' + minsToHHMM(t2 + CFG.canegrate.travelToMilano) + '</strong></div></div></div>';
+  html += '<div class="estimate-note">⚠️ Orari stimati (S5/S6 ogni ~15 min). Verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>. <span class="badge badge-short" style="font-size:0.7rem;">🚗 Indipendente dal bus</span></div>';
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// ── Render prossime coincidenze treno (tab LIVE) ─────────────────
+// Mantenuto per retrocompatibilità — ora non usato (sostituito da bus-blocks)
+function renderTrainConnections() {
+  // noop: sostituito da renderOtherBuses()
+}
+
+// ── Render tutti i bus nel tab LIVE ─────────────────────────────
+function renderOtherBuses(nowMins, dayType) {
+  // Giorno senza servizio
+  var noServiceEl = document.getElementById('otherBusesNoService');
+  if (noServiceEl) {
+    noServiceEl.style.display = dayType === 'domenica' ? 'block' : 'none';
   }
-  var rows627 = next627.map(function(c) {
-    var s5 = calcNextS5Legnano(c.arr + 1);
-    return '<div class="tc-row">' +
-      '<span class="tc-bus">🚌 ' + minsToHHMM(c.dep) + ' → LG090 ' + minsToHHMM(c.arr) + '</span>' +
-      '<span class="tc-train">🚂 S5 ~' + minsToHHMM(s5) + '<br>Cadorna ~' + minsToHHMM(s5 + 30) + '</span>' +
-      '</div>';
-  }).join('');
-  cards.push(
-    '<div class="train-conn-card">' +
-    '<div class="tc-line">Z627 → Legnano FS</div>' +
-    '<div class="tc-dest">🚂 S5 (Cadorna ~+30 min)</div>' +
-    (rows627.length ? rows627 : '<div class="tc-none">Nessuna corsa prossima con arrivo FS</div>') +
-    '</div>'
-  );
 
-  // ── Z644 → Parabiago FS (S5) ────────────────────────────────────
-  var mode644 = dt === 'sabato' ? 'sabato_andata' : 'feriale_andata';
-  var schedule644 = Z644[mode644] || [];
-  var next644 = [];
-  for (var j = 0; j < schedule644.length && next644.length < 2; j++) {
-    var c644 = schedule644[j];
-    if (c644.rossini >= nowMins && c644.parabiago_fs != null) next644.push(c644);
-  }
-  var rows644 = next644.map(function(c) {
-    var s5 = calcNextS5Parabiago(c.parabiago_fs + 1);
-    return '<div class="tc-row">' +
-      '<span class="tc-bus">🚌 ' + minsToHHMM(c.rossini) + ' → PB ' + minsToHHMM(c.parabiago_fs) + '</span>' +
-      '<span class="tc-train">🚂 S5 ~' + minsToHHMM(s5) + '<br>P.ta Gari. ~' + minsToHHMM(s5 + 25) + '</span>' +
-      '</div>';
-  }).join('');
-  cards.push(
-    '<div class="train-conn-card">' +
-    '<div class="tc-line">Z644 → Parabiago FS</div>' +
-    '<div class="tc-dest">🚂 S5 (P.ta Garibaldi ~+25 min)</div>' +
-    (rows644.length ? rows644 : '<div class="tc-none">Nessuna corsa prossima con arrivo FS</div>') +
-    '</div>'
-  );
+  var z627deps = dayType !== 'domenica' ? getNextBusLive('z627', nowMins, dayType, 3) : [];
+  var z644deps = dayType !== 'domenica' ? getNextBusLive('z644', nowMins, dayType, 3) : [];
+  var z625deps = dayType !== 'domenica' ? getNextBusLive('z625', nowMins, dayType, 3) : [];
 
-  // ── Z625 → Busto Arsizio FS (S5 + RE) ──────────────────────────
-  var mode625 = dt === 'sabato' ? 'sabato_andata' : 'feriale_andata';
-  var schedule625 = Z625[mode625] || [];
-  var next625 = [];
-  for (var k = 0; k < schedule625.length && next625.length < 2; k++) {
-    var c625 = schedule625[k];
-    var dep625 = c625.dep_bg != null ? c625.dep_bg : (c625.arr_ba != null ? c625.arr_ba - 29 : null);
-    if (dep625 != null && dep625 >= nowMins && c625.arr_ba_fs != null) next625.push(c625);
-  }
-  var rows625 = next625.map(function(c) {
-    var dep = c.dep_bg != null ? c.dep_bg : (c.arr_ba - 29);
-    var s5  = calcNextS5BustoArsizio(c.arr_ba_fs + 1);
-    var re  = calcNextREBustoArsizio(c.arr_ba_fs + 1);
-    return '<div class="tc-row">' +
-      '<span class="tc-bus">🚌 ' + minsToHHMM(dep) + ' → BA FS ' + minsToHHMM(c.arr_ba_fs) + '</span>' +
-      '<span class="tc-train">🚂 S5 ~' + minsToHHMM(s5) + ' (' + minsToHHMM(s5 + 40) + ')<br>🚄 RE ~' + minsToHHMM(re) + ' (' + minsToHHMM(re + 30) + ')</span>' +
-      '</div>';
-  }).join('');
-  cards.push(
-    '<div class="train-conn-card">' +
-    '<div class="tc-line">Z625 → Busto A. FS</div>' +
-    '<div class="tc-dest">🚂 S5 (+40 min) · 🚄 RE (+30 min) → P.ta Garibaldi</div>' +
-    (rows625.length ? rows625 : '<div class="tc-none">Nessuna corsa prossima con arrivo FS</div>') +
-    '</div>'
-  );
+  renderOtherBusBlocks('z627LiveBlocks', 'z627', 'Z627', z627deps, nowMins, buildZ627Options);
+  renderOtherBusBlocks('z644LiveBlocks', 'z644', 'Z644', z644deps, nowMins, buildZ644Options);
+  renderOtherBusBlocks('z625LiveBlocks', 'z625', 'Z625', z625deps, nowMins, buildZ625Options);
 
-  container.innerHTML = cards.join('');
+  renderCanegrateBlock(nowMins);
 }
 
 // ── Tabella orari Z649 ───────────────────────────────────────
@@ -814,12 +919,15 @@ function tick() {
     document.getElementById('progressFill').style.width = '0%';
     document.getElementById('busBlocks').innerHTML  = '<div style="color:var(--muted);padding:1rem;text-align:center;">Nessuna corsa disponibile.</div>';
     document.getElementById('mainCountdown').className = 'countdown-card';
-    renderTrainConnections();
+    renderOtherBuses(nowMins, dt);
     return;
   }
 
   var next = departures[0];
-  var diff = next.rossini - effectiveNow;
+  // Per il countdown: usa solo le corse future (non ancora partite da Via Rossini)
+  var futureDeps = departures.filter(function(c){ return c.rossini > effectiveNow; });
+  var nextFuture = futureDeps.length ? futureDeps[0] : next;
+  var diff = nextFuture.rossini - effectiveNow;
   var urg  = urgencyClass(diff);
 
   var cntEl = document.getElementById('cntMins');
@@ -828,7 +936,7 @@ function tick() {
   void cntEl.offsetWidth;
   cntEl.classList.add('fade-in');
 
-  document.getElementById('cntTime').textContent    = 'Parte alle ' + minsToHHMM(next.rossini) + ' da Via Rossini 35';
+  document.getElementById('cntTime').textContent    = 'Parte alle ' + minsToHHMM(nextFuture.rossini) + ' da Via Rossini 35';
   document.getElementById('cntBadge').innerHTML     = urgencyBadge(diff);
   document.getElementById('mainCountdown').className = 'countdown-card ' + urg;
 
@@ -836,7 +944,7 @@ function tick() {
   document.getElementById('progressFill').style.width = progress + '%';
 
   renderBusBlocks(departures, effectiveNow);
-  renderTrainConnections();
+  renderOtherBuses(nowMins, dt);
 }
 
 // ── Switch tab ───────────────────────────────────────────────
@@ -850,13 +958,13 @@ function switchTab(tab) {
 
   var dt = getDayType(new Date());
 
-  if (tab === 'live')   renderTrainConnections();
-  if (tab === 'orari')  showZ649Orari(dt);
-  if (tab === 'z627')   showZ627Orari(dt === 'sabato' ? 'sabato' : 'feriale');
-  if (tab === 'z644')   showZ644Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
-  if (tab === 'z625')   showZ625Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
-  if (tab === 'z647')   showZ647Orari('feriale_andata');
-  if (tab === 'z642')   showZ642Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
+  if (tab === 'live')     { var n = new Date(); renderOtherBuses(n.getHours()*60+n.getMinutes(), dt); }
+  if (tab === 'orari')    showZ649Orari(dt);
+  if (tab === 'z627')     showZ627Orari(dt === 'sabato' ? 'sabato' : 'feriale');
+  if (tab === 'z644')     showZ644Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
+  if (tab === 'z625')     showZ625Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
+  if (tab === 'z647')     showZ647Orari('feriale_andata');
+  if (tab === 'z642')     showZ642Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
 }
 
 // ── Listeners impostazioni ───────────────────────────────────
@@ -868,5 +976,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   document.getElementById('walkCanegrate').addEventListener('change', function(e) {
     localStorage.setItem('driveCanegrate', e.target.value);
+    lastMins = -1;
+    tick();
   });
 });
