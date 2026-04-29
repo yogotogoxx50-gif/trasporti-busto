@@ -1,5 +1,5 @@
 // ============================================================
-// APP.JS — Trasporti LIVE v3.6.0
+// APP.JS — Trasporti LIVE v3.6.1
 // Dipende da: data/config.js, data/z649.js, data/z627.js,
 //             data/z644.js, data/z625.js, data/z647.js, data/z642.js
 // ============================================================
@@ -99,15 +99,16 @@ function trainBadge(label) {
 }
 
 // ── Logica prossime corse Z649 ───────────────────────────────
+// La card è visibile solo finché effectiveNow < c.rossini (orario partenza da Via Rossini).
+// Appena l'orario di partenza è raggiunto o superato, la card scompare.
 function getNextZ649(effectiveNow, dayType, count) {
   count = count || 4;
   var schedule = Z649[dayType] || [];
   var results  = [];
   for (var i = 0; i < schedule.length && results.length < count; i++) {
     var c = schedule[i];
-    // Mostra la card finché il bus non ha superato Molino Dorino (o Pregnana se corsa breve)
-    var expiresAt = c.molino_dorino != null ? c.molino_dorino : (c.pregnana_fs != null ? c.pregnana_fs : c.rossini + 40);
-    if (c.rossini <= effectiveNow + 180 && expiresAt > effectiveNow) {
+    // Mostra solo corse non ancora partite da Via Rossini
+    if (c.rossini > effectiveNow && c.rossini <= effectiveNow + 180) {
       results.push(c);
     }
   }
@@ -208,14 +209,14 @@ function renderBusBlocks(departures, effectiveNow) {
       ? '<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Corsa breve — termina ad Arluno, non arriva a Molino Dorino.</div><div class="estimate-note">Considera la prossima corsa completa per raggiungere Milano.</div></div>'
       : buildBusOptions(c);
     var isFirst = i === 0;
-    var diffLabel = diff > 0 ? 'tra ' + diff + ' min' : 'In viaggio';
+    var diffLabel = 'tra ' + diff + ' min';
     return [
       '<div class="bus-block ' + (isFirst ? 'active' : '') + '" id="busblock-' + i + '">',
       '  <div class="bus-block-header" onclick="toggleBusBlock(' + i + ')">',
       '    <div class="bus-block-title">',
       '      <span class="bus-number">Z649</span>',
       '      <span class="bus-dep-time">' + minsToHHMM(c.rossini) + '</span>',
-      '      ' + urgencyBadge(Math.max(diff, 0)) + sc5Badge + lastBadge + shortBadge,
+      '      ' + urgencyBadge(diff) + sc5Badge + lastBadge + shortBadge,
       '      <span style="font-size:0.82rem;color:var(--muted);">' + diffLabel + '</span>',
       '    </div>',
       '    <span class="collapse-icon">▼</span>',
@@ -234,7 +235,6 @@ function toggleBusBlock(i) {
 }
 
 // ── Logica prossime corse altri bus (Z627/Z644/Z625) per tab LIVE ───
-// Restituisce array di oggetti { depMins, arrMins, label, note, val }
 // depMins  = orario di partenza (da via Rossini o fermata più vicina)
 // arrMins  = orario di arrivo alla stazione FS (usato come scadenza card)
 function getNextBusLive(line, nowMins, dayType, count) {
@@ -271,7 +271,7 @@ function getNextBusLive(line, nowMins, dayType, count) {
     for (var k = 0; k < sched625.length && results.length < count; k++) {
       var c625 = sched625[k];
       var dep625 = c625.dep_bg != null ? c625.dep_bg : null;
-      if (dep625 == null) continue; // salta corse che non partono da BG
+      if (dep625 == null) continue;
       var exp625 = c625.arr_ba_fs != null ? c625.arr_ba_fs : (c625.arr_ba != null ? c625.arr_ba : dep625 + 35);
       if (dep625 <= nowMins + 180 && exp625 > nowMins) {
         results.push({ depMins: dep625, arrMins: c625.arr_ba_fs, val: c625.val, note: c625.arr_ba_fs == null ? '⚠️ Non arriva FS' : '' });
@@ -402,14 +402,12 @@ function renderCanegrateBlock(nowMins) {
 }
 
 // ── Render prossime coincidenze treno (tab LIVE) ─────────────────
-// Mantenuto per retrocompatibilità — ora non usato (sostituito da bus-blocks)
 function renderTrainConnections() {
   // noop: sostituito da renderOtherBuses()
 }
 
 // ── Render tutti i bus nel tab LIVE ─────────────────────────────
 function renderOtherBuses(nowMins, dayType) {
-  // Giorno senza servizio
   var noServiceEl = document.getElementById('otherBusesNoService');
   if (noServiceEl) {
     noServiceEl.style.display = dayType === 'domenica' ? 'block' : 'none';
@@ -924,10 +922,7 @@ function tick() {
   }
 
   var next = departures[0];
-  // Per il countdown: usa solo le corse future (non ancora partite da Via Rossini)
-  var futureDeps = departures.filter(function(c){ return c.rossini > effectiveNow; });
-  var nextFuture = futureDeps.length ? futureDeps[0] : next;
-  var diff = nextFuture.rossini - effectiveNow;
+  var diff = next.rossini - effectiveNow;
   var urg  = urgencyClass(diff);
 
   var cntEl = document.getElementById('cntMins');
@@ -936,7 +931,7 @@ function tick() {
   void cntEl.offsetWidth;
   cntEl.classList.add('fade-in');
 
-  document.getElementById('cntTime').textContent    = 'Parte alle ' + minsToHHMM(nextFuture.rossini) + ' da Via Rossini 35';
+  document.getElementById('cntTime').textContent    = 'Parte alle ' + minsToHHMM(next.rossini) + ' da Via Rossini 35';
   document.getElementById('cntBadge').innerHTML     = urgencyBadge(diff);
   document.getElementById('mainCountdown').className = 'countdown-card ' + urg;
 
