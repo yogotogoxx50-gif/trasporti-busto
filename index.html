@@ -22,7 +22,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 a{color:var(--cyan);text-decoration:none;}
 button{cursor:pointer;font-family:inherit;}
 
-/* ── Header ────────────────────────────────────────────────── */
+/* ── Header ───────────────────────────────────────────────────────────────── */
 .hero-bar{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1.25rem;gap:1rem;}
 .hero-bar .clock{font-size:1.5rem;font-weight:700;color:var(--cyan);font-variant-numeric:tabular-nums;letter-spacing:0.02em;}
 .hero-bar .day-info{display:flex;flex-direction:column;gap:0.1rem;}
@@ -31,7 +31,7 @@ button{cursor:pointer;font-family:inherit;}
 .hero-bar .settings-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:0.4rem 0.75rem;color:var(--muted);font-size:0.8rem;transition:all 0.18s;}
 .hero-bar .settings-btn:hover{color:var(--text);border-color:var(--cyan);}
 
-/* ── Tab bar ────────────────────────────────────────────────── */
+/* ── Tab bar ───────────────────────────────────────────────────────────────── */
 .tab-bar{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
 .tab-bar::-webkit-scrollbar{display:none;}
 .tab-btn{flex:1;min-width:60px;padding:0.65rem 0.5rem;font-size:0.8rem;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
@@ -42,7 +42,7 @@ button{cursor:pointer;font-family:inherit;}
 
 .container{max-width:800px;margin:0 auto;padding:1rem;}
 
-/* ── Countdown card ──────────────────────────────────────── */
+/* ── Countdown card ─────────────────────────────────────────────────────── */
 .countdown-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:0.75rem;}
 .countdown-card.urgent{border-color:var(--urgent);animation:pulse-urgent 1.2s ease-in-out infinite;}
 .countdown-card.soon{border-color:var(--ok);}
@@ -53,7 +53,7 @@ button{cursor:pointer;font-family:inherit;}
 .countdown-main .mins{color:var(--cyan);}
 .countdown-time{font-size:0.9rem;color:var(--muted);}
 
-/* ── Badge ───────────────────────────────────────────────────── */
+/* ── Badge ────────────────────────────────────────────────────────────────────── */
 .badge{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;font-weight:600;padding:0.25rem 0.6rem;border-radius:9999px;}
 .badge-urgent{background:rgba(239,68,68,0.15);color:var(--urgent);}
 .badge-soon{background:rgba(34,197,94,0.12);color:var(--ok);}
@@ -61,11 +61,11 @@ button{cursor:pointer;font-family:inherit;}
 .badge-rapido{background:rgba(34,211,238,0.12);color:var(--cyan);}
 .badge-short{background:rgba(71,85,105,0.3);color:var(--muted);}
 
-/* ── Progress bar ───────────────────────────────────────────── */
+/* ── Progress bar ──────────────────────────────────────────────────────────── */
 .progress-wrap{background:var(--border);border-radius:9999px;height:6px;overflow:hidden;}
 .progress-fill{height:100%;border-radius:9999px;background:var(--cyan);transition:width 0.5s ease;}
 
-/* ── Bus blocks ──────────────────────────────────────────────── */
+/* ── Bus blocks ──────────────────────────────────────────────────────────────── */
 .bus-block{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:1rem;overflow:hidden;transition:border-color 0.18s;}
 .bus-block.active{border-color:var(--cyan);animation:glow-cyan 3s ease-in-out infinite;}
 @keyframes glow-cyan{0%,100%{box-shadow:0 0 0 0 rgba(34,211,238,0);}50%{box-shadow:0 0 16px 2px rgba(34,211,238,0.12);}}
@@ -79,7 +79,7 @@ button{cursor:pointer;font-family:inherit;}
 .collapse-icon{color:var(--muted);font-size:0.9rem;transition:transform 0.2s;flex-shrink:0;}
 .bus-block.active .collapse-icon{transform:rotate(180deg);}
 
-/* ── Opzioni per corsa ──────────────────────────────────────────── */
+/* ── Opzioni per corsa ─────────────────────────────────────────────────────────────── */
 .option-group{margin-top:0.75rem;}
 .option-group-title{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;padding:0.5rem 0;border-top:1px solid var(--border);flex-wrap:wrap;}
 .option-group-title:first-child{border-top:none;}
@@ -90,7 +90,18 @@ button{cursor:pointer;font-family:inherit;}
 .route-times{font-size:0.82rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:0.1rem;}
 .estimate-note{font-size:0.75rem;color:var(--faint);margin-top:0.5rem;padding:0.4rem 0.6rem;background:rgba(71,85,105,0.15);border-radius:var(--r-sm);}
 
-/* ── Tabelle orari ─────────────────────────────────────────────── */
+/* ── Train connection cards (tab LIVE) ─────────────────────────────────────── */
+.train-conn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.75rem;margin-bottom:1rem;}
+.train-conn-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem 1rem;}
+.train-conn-card .tc-line{font-size:0.95rem;font-weight:800;color:var(--cyan);}
+.train-conn-card .tc-dest{font-size:0.78rem;color:var(--muted);margin-bottom:0.5rem;}
+.train-conn-card .tc-row{display:flex;justify-content:space-between;align-items:center;padding:0.25rem 0;border-top:1px solid var(--border);gap:0.5rem;font-size:0.82rem;}
+.train-conn-card .tc-row:first-of-type{border-top:none;}
+.train-conn-card .tc-bus{font-variant-numeric:tabular-nums;font-weight:600;}
+.train-conn-card .tc-train{font-variant-numeric:tabular-nums;color:var(--ok);font-size:0.78rem;text-align:right;}
+.train-conn-card .tc-none{font-size:0.78rem;color:var(--faint);text-align:center;padding:0.35rem 0;}
+
+/* ── Tabelle orari ─────────────────────────────────────────────────────────────────── */
 .section-header{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin:1.25rem 0 0.75rem;}
 .orari-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
 .orari-table th{text-align:left;padding:0.5rem 0.75rem;color:var(--muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid var(--border);}
@@ -99,7 +110,7 @@ button{cursor:pointer;font-family:inherit;}
 .orari-table tr.short-row td{background:rgba(71,85,105,0.1);color:var(--faint);}
 .orari-table tr:hover td{background:rgba(34,211,238,0.03);}
 
-/* ── Impostazioni ─────────────────────────────────────────────── */
+/* ── Impostazioni ─────────────────────────────────────────────────────────────────── */
 .settings-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem;}
 .settings-row{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);gap:1rem;}
 .settings-row:last-child{border-bottom:none;}
@@ -108,12 +119,12 @@ button{cursor:pointer;font-family:inherit;}
 .settings-input{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:0.35rem 0.6rem;color:var(--text);font-size:0.9rem;width:70px;text-align:center;}
 .settings-input:focus{outline:2px solid var(--cyan);outline-offset:2px;}
 
-/* ── Filter bar ────────────────────────────────────────────────── */
+/* ── Filter bar ──────────────────────────────────────────────────────────────────── */
 .filter-bar{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;}
 .filter-btn{padding:0.35rem 0.8rem;border:1px solid var(--border);border-radius:var(--r-sm);background:none;color:var(--muted);font-size:0.8rem;transition:all 0.18s;cursor:pointer;}
 .filter-btn.active{color:var(--cyan);border-color:var(--cyan);}
 
-/* ── Loading / animazioni ────────────────────────────────────────── */
+/* ── Loading / animazioni ───────────────────────────────────────────────────────────────── */
 #loadingOverlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:1rem;}
 .loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--cyan);border-radius:50%;animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -125,6 +136,7 @@ button{cursor:pointer;font-family:inherit;}
   .container{padding:0.75rem;}
   .bus-block-header{padding:0.85rem 1rem;}
   .bus-block-body{padding:0 1rem 1rem;}
+  .train-conn-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -158,9 +170,11 @@ button{cursor:pointer;font-family:inherit;}
   <button class="tab-btn"        onclick="switchTab('settings')"id="tab-settings">&#9881;&#65039; DATI</button>
 </div>
 
-<!-- ── TAB: LIVE ───────────────────────────────────────────────── -->
+<!-- ── TAB: LIVE ───────────────────────────────────────────────────────────────── -->
 <div class="tab-content active" id="content-live">
   <div class="container">
+
+    <!-- Countdown Z649 -->
     <div class="countdown-card" id="mainCountdown">
       <div class="countdown-label">Prossimo Z649 da Via Rossini 35</div>
       <div class="countdown-top">
@@ -172,12 +186,20 @@ button{cursor:pointer;font-family:inherit;}
       </div>
       <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     </div>
+
+    <!-- Bus blocks Z649 -->
     <div class="section-header">Con questo bus puoi raggiungere:</div>
     <div id="busBlocks"></div>
+
+    <!-- Prossime coincidenze treno dagli altri bus -->
+    <div class="section-header" style="margin-top:1.5rem;">&#128652; Prossime coincidenze treno</div>
+    <div class="train-conn-grid" id="trainConnections"></div>
+    <div class="estimate-note">&#9888;&#65039; Orari treni stimati (cadenze tipiche Trenord). Verificare sempre su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>. Z647/Z642 non inclusi: nessuna stazione raggiungibile sul percorso.</div>
+
   </div>
 </div>
 
-<!-- ── TAB: Z649 ───────────────────────────────────────────────── -->
+<!-- ── TAB: Z649 ───────────────────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-orari">
   <div class="container">
     <div class="section-header" id="orariDayLabel">Orari Z649 — Feriale</div>
@@ -195,7 +217,7 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
-<!-- ── TAB: Z627 ───────────────────────────────────────────────── -->
+<!-- ── TAB: Z627 ───────────────────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z627">
   <div class="container">
     <div class="section-header" id="z627DayLabel">Orari Z627 — Feriale</div>
@@ -206,7 +228,7 @@ button{cursor:pointer;font-family:inherit;}
     </div>
     <div style="overflow-x:auto;">
       <table class="orari-table">
-        <thead><tr><th>Partenza BT301</th><th>Arrivo LG090</th><th>Val.</th><th>Note</th></tr></thead>
+        <thead><tr id="z627TableHead"><th>Partenza BT301</th><th>Arrivo LG090</th><th>Val.</th><th>Note</th></tr></thead>
         <tbody id="z627Body"></tbody>
       </table>
     </div>
@@ -214,7 +236,7 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
-<!-- ── TAB: Z644 ───────────────────────────────────────────────── -->
+<!-- ── TAB: Z644 ───────────────────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z644">
   <div class="container">
     <div class="section-header" id="z644DayLabel">Orari Z644 — Feriale</div>
@@ -235,7 +257,7 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
-<!-- ── TAB: Z625 ───────────────────────────────────────────────── -->
+<!-- ── TAB: Z625 ───────────────────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z625">
   <div class="container">
     <div class="section-header" id="z625DayLabel">Orari Z625 — Feriale Andata</div>
@@ -269,7 +291,7 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
-<!-- ── TAB: Z647 ───────────────────────────────────────────────── -->
+<!-- ── TAB: Z647 ───────────────────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z647">
   <div class="container">
     <div class="section-header" id="z647DayLabel">Orari Z647 — Feriale</div>
@@ -285,7 +307,7 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
-<!-- ── TAB: Z642 ───────────────────────────────────────────────── -->
+<!-- ── TAB: Z642 ───────────────────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z642">
   <div class="container">
     <div class="section-header" id="z642DayLabel">Orari Z642 — Feriale</div>
@@ -301,7 +323,7 @@ button{cursor:pointer;font-family:inherit;}
   </div>
 </div>
 
-<!-- ── TAB: IMPOSTAZIONI ───────────────────────────────────────────── -->
+<!-- ── TAB: IMPOSTAZIONI ───────────────────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-settings">
   <div class="container">
     <div class="section-header">Tempi di percorrenza</div>
@@ -323,7 +345,7 @@ button{cursor:pointer;font-family:inherit;}
     </div>
     <div class="section-header">Info</div>
     <div class="settings-panel" style="font-size:0.82rem;color:var(--muted);line-height:1.7;">
-      <p>Trasporti LIVE v3.5.0 — Via Giacomo Rossini 35, Busto Garolfo</p>
+      <p>Trasporti LIVE v3.6.0 — Via Giacomo Rossini 35, Busto Garolfo</p>
       <p>Dati Z649, Z627, Z644, Z625, Z647, Z642: orari reali. S5/S6 e Canegrate: stime — verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</p>
       <p id="dataVersion" style="margin-top:0.4rem;opacity:0.7;"></p>
     </div>
