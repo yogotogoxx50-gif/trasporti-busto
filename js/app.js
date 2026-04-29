@@ -21,11 +21,18 @@ function loadData() {
 
 // ── Utility ──────────────────────────────────────────────────
 function minsToHHMM(m) {
-  var h  = Math.floor(m / 60) % 24;
+  // No % 24: times past midnight show as 24:xx, not 00:xx
+  var h  = Math.floor(m / 60);
   var mm = m % 60;
   return String(h).padStart(2,'0') + ':' + String(mm).padStart(2,'0');
 }
 function getDayType(date) {
+  // Use local date string (YYYY-MM-DD) to avoid UTC midnight shift
+  var y   = date.getFullYear();
+  var mo  = String(date.getMonth() + 1).padStart(2, '0');
+  var day = String(date.getDate()).padStart(2, '0');
+  var iso = y + '-' + mo + '-' + day;
+  if (CFG.holidays && CFG.holidays.indexOf(iso) >= 0) return 'domenica';
   var d = date.getDay();
   if (d === 0) return 'domenica';
   if (d === 6) return 'sabato';
@@ -458,6 +465,13 @@ function showZ649Orari(type) {
 
 // ── Tabella orari Z627 ───────────────────────────────────────
 function showZ627Orari(type) {
+  if (type === 'domenica') {
+    document.getElementById('z627DayLabel').textContent = 'Orari Z627 — Domenica / Festivi';
+    ['z627btnFeriale','z627btnSabato'].forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
+    var tb627 = document.getElementById('z627Body');
+    if (tb627) tb627.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--muted);">🚫 Nessun servizio domenica e festivi.</td></tr>';
+    return;
+  }
   var now      = new Date();
   var nowMins  = now.getHours() * 60 + now.getMinutes();
   var schedule = Z627[type] || [];
@@ -513,6 +527,13 @@ var Z644_BTN_MAP = {
 };
 
 function showZ644Orari(mode) {
+  if (mode === 'domenica') {
+    document.getElementById('z644DayLabel').textContent = 'Orari Z644 — Domenica / Festivi';
+    Object.keys(Z644_BTN_MAP).forEach(function(m){ var el=document.getElementById(Z644_BTN_MAP[m]); if(el) el.classList.remove('active'); });
+    var tb644 = document.getElementById('z644Body');
+    if (tb644) tb644.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--muted);">🚫 Nessun servizio domenica e festivi.</td></tr>';
+    return;
+  }
   var now     = new Date();
   var nowMins = now.getHours() * 60 + now.getMinutes();
   var schedule = Z644[mode] || [];
@@ -597,6 +618,13 @@ var Z625_BTN_MAP = {
 };
 
 function showZ625Orari(mode) {
+  if (mode === 'domenica') {
+    document.getElementById('z625DayLabel').textContent = 'Orari Z625 — Domenica / Festivi';
+    Object.keys(Z625_BTN_MAP).forEach(function(m){ var el=document.getElementById(Z625_BTN_MAP[m]); if(el) el.classList.remove('active'); });
+    var tb625 = document.getElementById('z625Body');
+    if (tb625) tb625.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--muted);">🚫 Nessun servizio domenica e festivi.</td></tr>';
+    return;
+  }
   var now     = new Date();
   var nowMins = now.getHours() * 60 + now.getMinutes();
   var schedule = Z625[mode] || [];
@@ -797,6 +825,13 @@ var Z642_BTN_MAP = {
 };
 
 function showZ642Orari(mode) {
+  if (mode === 'domenica') {
+    document.getElementById('z642DayLabel').textContent = 'Orari Z642 — Domenica / Festivi';
+    Object.keys(Z642_BTN_MAP).forEach(function(m){ var el=document.getElementById(Z642_BTN_MAP[m]); if(el) el.classList.remove('active'); });
+    var tb642 = document.getElementById('z642Body');
+    if (tb642) tb642.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--muted);">🚫 Nessun servizio domenica e festivi.</td></tr>';
+    return;
+  }
   var now     = new Date();
   var nowMins = now.getHours() * 60 + now.getMinutes();
   var schedule = Z642[mode] || [];
@@ -953,13 +988,13 @@ function switchTab(tab) {
 
   var dt = getDayType(new Date());
 
-  if (tab === 'live')     { var n = new Date(); renderOtherBuses(n.getHours()*60+n.getMinutes(), dt); }
+  if (tab === 'live')     { lastMins = -1; tick(); } // force full refresh
   if (tab === 'orari')    showZ649Orari(dt);
-  if (tab === 'z627')     showZ627Orari(dt === 'sabato' ? 'sabato' : 'feriale');
-  if (tab === 'z644')     showZ644Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
-  if (tab === 'z625')     showZ625Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
+  if (tab === 'z627')     showZ627Orari(dt === 'domenica' ? 'domenica' : dt === 'sabato' ? 'sabato' : 'feriale');
+  if (tab === 'z644')     showZ644Orari(dt === 'domenica' ? 'domenica' : dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
+  if (tab === 'z625')     showZ625Orari(dt === 'domenica' ? 'domenica' : dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
   if (tab === 'z647')     showZ647Orari('feriale_andata');
-  if (tab === 'z642')     showZ642Orari(dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
+  if (tab === 'z642')     showZ642Orari(dt === 'domenica' ? 'domenica' : dt === 'sabato' ? 'sabato_andata' : 'feriale_andata');
 }
 
 // ── Listeners impostazioni ───────────────────────────────────

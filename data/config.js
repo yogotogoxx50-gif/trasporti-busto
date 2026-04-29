@@ -3,7 +3,35 @@
 // Modifica qui tempi di percorrenza e destinazioni
 // ============================================================
 var CFG = {
-  version: "3.6.0",
+  // Festività italiane (trattate come domenica: orario domenicale)
+  // Aggiornare ogni anno con la data di Pasquetta (varia)
+  holidays: [
+    // 2025
+    "2025-01-01", // Capodanno
+    "2025-01-06", // Epifania
+    "2025-04-21", // Pasquetta
+    "2025-04-25", // Liberazione
+    "2025-05-01", // Festa del Lavoro
+    "2025-06-02", // Festa della Repubblica
+    "2025-08-15", // Ferragosto
+    "2025-11-01", // Tutti i Santi
+    "2025-12-08", // Immacolata
+    "2025-12-25", // Natale
+    "2025-12-26", // Santo Stefano
+    // 2026
+    "2026-01-01", // Capodanno
+    "2026-01-06", // Epifania
+    "2026-04-06", // Pasquetta
+    "2026-04-25", // Liberazione
+    "2026-05-01", // Festa del Lavoro
+    "2026-06-02", // Festa della Repubblica
+    "2026-08-15", // Ferragosto
+    "2026-11-01", // Tutti i Santi
+    "2026-12-08", // Immacolata
+    "2026-12-25", // Natale
+    "2026-12-26"  // Santo Stefano
+  ],
+  version: "3.6.1",
   lastUpdate: "2026-04-29",
   fermata: "Via Giacomo Rossini 35, Busto Garolfo (MI)",
   defaults: {

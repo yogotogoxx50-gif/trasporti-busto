@@ -23,7 +23,7 @@ Dashboard giornaliera per **Via Giacomo Rossini 35, Busto Garolfo** → Milano.
 | File | Descrizione |
 |------|-------------|
 | `index.html` | Dashboard completa (self-contained, zero dipendenze esterne) |
-| `PROMPT_AI_dashboard_trasporti_live_v2.md` | Piano tecnico e UX per l'upgrade AI |
+
 
 ## Come aggiornare i dati
 
