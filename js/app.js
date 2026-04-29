@@ -40,51 +40,27 @@ function getDayType(date) {
   if (d === 6) return 'sabato';
   return 'feriale';
 }
-function calcNextS5S6(afterMinutes) {
-  var slots = [1, 16, 31, 46];
-  var hour  = Math.floor(afterMinutes / 60);
-  var min   = afterMinutes % 60;
+// ── Utility: calcolo prossimo treno (generica) ─────────────────
+// slots = minuti dentro l'ora in cui il treno parte (es. [1,16,31,46])
+function calcNextTrain(afterMinutes, slots) {
+  var hour = Math.floor(afterMinutes / 60);
+  var min  = afterMinutes % 60;
   for (var i = 0; i < slots.length; i++) {
     if (slots[i] > min) return hour * 60 + slots[i];
   }
   return (hour + 1) * 60 + slots[0];
 }
-function calcNextS5Legnano(afterMinutes) {
-  var slots = [3, 33];
-  var hour  = Math.floor(afterMinutes / 60);
-  var min   = afterMinutes % 60;
-  for (var i = 0; i < slots.length; i++) {
-    if (slots[i] > min) return hour * 60 + slots[i];
-  }
-  return (hour + 1) * 60 + slots[0];
-}
-function calcNextS5Parabiago(afterMinutes) {
-  var slots = [13, 43];
-  var hour  = Math.floor(afterMinutes / 60);
-  var min   = afterMinutes % 60;
-  for (var i = 0; i < slots.length; i++) {
-    if (slots[i] > min) return hour * 60 + slots[i];
-  }
-  return (hour + 1) * 60 + slots[0];
-}
-function calcNextS5BustoArsizio(afterMinutes) {
-  var slots = [3, 33];
-  var hour  = Math.floor(afterMinutes / 60);
-  var min   = afterMinutes % 60;
-  for (var i = 0; i < slots.length; i++) {
-    if (slots[i] > min) return hour * 60 + slots[i];
-  }
-  return (hour + 1) * 60 + slots[0];
-}
-function calcNextREBustoArsizio(afterMinutes) {
-  var slots = [20, 50];
-  var hour  = Math.floor(afterMinutes / 60);
-  var min   = afterMinutes % 60;
-  for (var i = 0; i < slots.length; i++) {
-    if (slots[i] > min) return hour * 60 + slots[i];
-  }
-  return (hour + 1) * 60 + slots[0];
-}
+var SLOTS_S5S6       = [1, 16, 31, 46];
+var SLOTS_S5_LEGNANO = [3, 33];
+var SLOTS_S5_PARABI  = [13, 43];
+var SLOTS_S5_BUSTO   = [3, 33];
+var SLOTS_RE_BUSTO   = [20, 50];
+function calcNextS5S6(a)           { return calcNextTrain(a, SLOTS_S5S6); }
+function calcNextS5Legnano(a)      { return calcNextTrain(a, SLOTS_S5_LEGNANO); }
+function calcNextS5Parabiago(a)    { return calcNextTrain(a, SLOTS_S5_PARABI); }
+function calcNextS5BustoArsizio(a) { return calcNextTrain(a, SLOTS_S5_BUSTO); }
+function calcNextREBustoArsizio(a) { return calcNextTrain(a, SLOTS_RE_BUSTO); }
+
 function urgencyClass(diff) {
   if (diff < 5)   return 'urgent';
   if (diff <= 15) return 'soon';
@@ -175,12 +151,12 @@ function buildBusOptions(corsa) {
 
     if (opt.type === 'pregnana') {
       html += '<div class="option-group">';
-      html += '<div class="option-group-title">🔄 Scendi a Pregnana FS <span style="color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;">';
-      html += '(arr. ' + minsToHHMM(opt.arrPregnana) + ') → S5/S6</span>' + rapidoBadge + '</div>';
+      html += '<div class="option-group-title">🔄 Scendi a Pregnana FS <span class="opt-detail">';
+      html += '(arr. ' + minsToHHMM(opt.arrPregnana) + ') → S5/S6 ~' + minsToHHMM(opt.nextTrain) + '</span>' + rapidoBadge + '</div>';
       opt.dests.forEach(function(d) {
         html += '<div class="route-line"><span class="route-arrow">└</span>';
         html += '<div class="route-info"><span class="route-dest">' + d.name + '</span>';
-        html += '<div class="route-times">S5/S6 ~' + minsToHHMM(opt.nextTrain) + ' → <strong>' + minsToHHMM(d.arrival) + '</strong></div></div></div>';
+        html += '<div class="route-times">~' + minsToHHMM(d.arrival) + '</div></div></div>';
       });
       html += '<div class="estimate-note">⚠️ Orari S5/S6 stimati (ogni 15 min). Verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</div>';
       html += '</div>';
@@ -201,40 +177,69 @@ function buildBusOptions(corsa) {
 }
 
 // ── Render bus blocks Z649 ───────────────────────────────────
-function renderBusBlocks(departures, effectiveNow) {
+function renderBusBlocks(departures, departedList, effectiveNow) {
   var container = document.getElementById('busBlocks');
-  if (!departures.length) {
+  if (!departures.length && !departedList.length) {
     container.innerHTML = '<div style="color:var(--muted);padding:1rem;text-align:center;">Nessuna corsa nelle prossime 3 ore.</div>';
+  } else if (!departures.length) {
+    container.innerHTML = '<div style="color:var(--muted);padding:1rem;text-align:center;">Nessuna corsa imminente.</div>';
+  } else {
+    container.innerHTML = departures.map(function(c, i) {
+      var diff    = c.rossini - effectiveNow;
+      var isShort = !c.molino_dorino;
+      var flags   = c.flags || [];
+      var sc5Badge   = flags.indexOf('SC5')  >= 0 ? ' <span class="badge badge-short">📚 SC5</span>'  : '';
+      var lastBadge  = flags.indexOf('last') >= 0 ? ' <span class="badge badge-short">🔚 Ultima</span>' : '';
+      var shortBadge = isShort ? ' <span class="badge badge-short">⚠️ Corsa breve</span>' : '';
+      var bodyHtml = isShort
+        ? '<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Corsa breve — termina ad Arluno, non arriva a Molino Dorino.</div><div class="estimate-note">Considera la prossima corsa completa per raggiungere Milano.</div></div>'
+        : buildBusOptions(c);
+      var isFirst = i === 0;
+      return [
+        '<div class="bus-block ' + (isFirst ? 'active' : '') + '" id="busblock-' + i + '">' ,
+        '  <div class="bus-block-header" onclick="toggleBusBlock(' + i + ')">' ,
+        '    <div class="bus-block-title">' ,
+        '      <span class="bus-number">Z649</span>' ,
+        '      <span class="bus-dep-time">' + minsToHHMM(c.rossini) + '</span>' ,
+        '      ' + urgencyBadge(diff) ,
+        '      <span class="bus-block-diff">tra ' + diff + ' min</span>' ,
+        '    </div>' ,
+        '    <div class="bus-block-badges">' + sc5Badge + lastBadge + shortBadge + '</div>' ,
+        '    <span class="collapse-icon">▼</span>' ,
+        '  </div>' ,
+        '  <div class="bus-block-body">' + bodyHtml + '</div>' ,
+        '</div>'
+      ].join('\n');
+    }).join('\n');
+  }
+
+  // ── Sezione Precedenti ──────────────────────────────────────
+  var deptSection = document.getElementById('departedSection');
+  var deptBlocks  = document.getElementById('departedBlocks');
+  if (!deptSection || !deptBlocks) return;
+  if (!departedList.length) {
+    deptSection.style.display = 'none';
     return;
   }
-  container.innerHTML = departures.map(function(c, i) {
-    var diff    = c.rossini - effectiveNow;
+  deptSection.style.display = 'block';
+  deptBlocks.innerHTML = departedList.map(function(c) {
+    var minsAgo = effectiveNow - c.rossini;
     var isShort = !c.molino_dorino;
-    var flags   = c.flags || [];
-    var sc5Badge   = flags.indexOf('SC5')  >= 0 ? ' <span class="badge badge-short">📚 SC5</span>'  : '';
-    var lastBadge  = flags.indexOf('last') >= 0 ? ' <span class="badge badge-short">🔚 Ultima</span>' : '';
-    var shortBadge = isShort ? ' <span class="badge badge-short">⚠️ Corsa breve</span>' : '';
-    var bodyHtml = isShort
-      ? '<div class="option-group"><div class="option-group-title" style="color:var(--muted);">⚠️ Corsa breve — termina ad Arluno, non arriva a Molino Dorino.</div><div class="estimate-note">Considera la prossima corsa completa per raggiungere Milano.</div></div>'
-      : buildBusOptions(c);
-    var isFirst = i === 0;
-    var diffLabel = 'tra ' + diff + ' min';
     return [
-      '<div class="bus-block ' + (isFirst ? 'active' : '') + '" id="busblock-' + i + '">',
-      '  <div class="bus-block-header" onclick="toggleBusBlock(' + i + ')">',
-      '    <div class="bus-block-title">',
-      '      <span class="bus-number">Z649</span>',
-      '      <span class="bus-dep-time">' + minsToHHMM(c.rossini) + '</span>',
-      '      ' + urgencyBadge(diff) + sc5Badge + lastBadge + shortBadge,
-      '      <span style="font-size:0.82rem;color:var(--muted);">' + diffLabel + '</span>',
-      '    </div>',
-      '    <span class="collapse-icon">▼</span>',
-      '  </div>',
-      '  <div class="bus-block-body">' + bodyHtml + '</div>',
+      '<div class="bus-block">' ,
+      '  <div class="bus-block-header" style="cursor:default;">' ,
+      '    <div class="bus-block-title">' ,
+      '      <span class="bus-number">Z649</span>' ,
+      '      <span class="bus-dep-time">' + minsToHHMM(c.rossini) + '</span>' ,
+      '      <span class="badge badge-short">🕐 partito ' + minsAgo + ' min fa</span>' ,
+      (isShort ? '      <span class="badge badge-short">⚠️ Corsa breve</span>' : '') ,
+      '    </div>' ,
+      '  </div>' ,
       '</div>'
     ].join('\n');
   }).join('\n');
 }
+
 
 function toggleBusBlock(i) {
   document.querySelectorAll('#busBlocks .bus-block').forEach(function(el, idx) {
@@ -242,6 +247,17 @@ function toggleBusBlock(i) {
     else           el.classList.remove('active');
   });
 }
+
+// ── Toggle sezione Precedenti ────────────────────────────────
+function toggleDeparted() {
+  var blocks  = document.getElementById('departedBlocks');
+  var toggle  = document.getElementById('departedToggle');
+  if (!blocks) return;
+  var isOpen = blocks.style.display !== 'none';
+  blocks.style.display  = isOpen ? 'none'  : 'block';
+  if (toggle) toggle.classList.toggle('open', !isOpen);
+}
+
 
 // ── Logica prossime corse altri bus (Z627/Z644/Z625) per tab LIVE ───
 // depMins  = orario di partenza (da via Rossini o fermata più vicina)
@@ -946,14 +962,19 @@ function tick() {
   var walkTime     = parseInt(document.getElementById('walkRossini').value) || CFG.defaults.walkRossini;
   var effectiveNow = nowMins + walkTime;
   var departures   = getNextZ649(effectiveNow, dt, 4);
+  // Corse già partite (fino a 30 min fa)
+  var schedule = Z649[dt] || [];
+  var departedList = schedule.filter(function(c) {
+    return c.rossini >= effectiveNow - 30 && c.rossini <= effectiveNow;
+  });
 
   if (!departures.length) {
     document.getElementById('cntMins').textContent  = '--';
     document.getElementById('cntTime').textContent  = 'Nessuna corsa nelle prossime 3 ore';
     document.getElementById('cntBadge').innerHTML   = '';
     document.getElementById('progressFill').style.width = '0%';
-    document.getElementById('busBlocks').innerHTML  = '<div style="color:var(--muted);padding:1rem;text-align:center;">Nessuna corsa disponibile.</div>';
     document.getElementById('mainCountdown').className = 'countdown-card';
+    renderBusBlocks([], departedList, effectiveNow);
     renderOtherBuses(nowMins, dt);
     return;
   }
@@ -975,7 +996,7 @@ function tick() {
   var progress = Math.max(0, Math.min(100, ((30 - diff) / 30) * 100));
   document.getElementById('progressFill').style.width = progress + '%';
 
-  renderBusBlocks(departures, effectiveNow);
+  renderBusBlocks(departures, departedList, effectiveNow);
   renderOtherBuses(nowMins, dt);
 }
 

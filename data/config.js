@@ -31,7 +31,7 @@ var CFG = {
     "2026-12-25", // Natale
     "2026-12-26"  // Santo Stefano
   ],
-  version: "3.6.1",
+  version: "3.7.0",
   lastUpdate: "2026-04-29",
   fermata: "Via Giacomo Rossini 35, Busto Garolfo (MI)",
   defaults: {

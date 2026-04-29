@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="it" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -131,6 +131,26 @@ button{cursor:pointer;font-family:inherit;}
 @keyframes fadeNum{0%{opacity:0;transform:translateY(4px);}100%{opacity:1;transform:translateY(0);}}
 .fade-in{animation:fadeNum 0.35s ease forwards;}
 
+/* ── Tab bar scroll fade ──────────────────────────────────────── */
+.tab-bar-wrap{position:relative;}
+.tab-bar-wrap::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2rem;background:linear-gradient(to right,transparent,var(--surface));pointer-events:none;z-index:1;}
+
+/* ── Bus block badge row ─────────────────────────────────────── */
+.bus-block-badges{display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap;margin-top:0.15rem;}
+.bus-block-diff{font-size:0.82rem;color:var(--muted);}
+.opt-detail{color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;}
+
+/* ── No-service notice ───────────────────────────────────────── */
+.no-service-notice{background:rgba(71,85,105,0.15);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem 1rem;margin-bottom:1rem;font-size:0.85rem;color:var(--muted);text-align:center;}
+
+/* ── Departed buses ──────────────────────────────────────────── */
+.departed-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:0.5rem 0;margin-top:1.25rem;}
+.departed-header:hover .section-header{color:var(--text);}
+.departed-toggle{font-size:0.8rem;color:var(--faint);transition:transform 0.2s;}
+.departed-toggle.open{transform:rotate(180deg);}
+.departed-section .bus-block{opacity:0.5;transition:opacity 0.2s;}
+.departed-section .bus-block:hover{opacity:0.85;}
+
 @media(max-width:600px){
   .countdown-main{font-size:1.6rem;}
   .container{padding:0.75rem;}
@@ -154,10 +174,11 @@ button{cursor:pointer;font-family:inherit;}
     <span class="day-name" id="dayName">...</span>
     <span class="day-type" id="dayType">...</span>
   </div>
-  <button class="settings-btn" onclick="switchTab('settings')">&#9881;&#65039; Impostazioni</button>
+  <button class="settings-btn" onclick="switchTab('settings')">&#9881;</button>
 </div>
 
 <!-- Tab bar -->
+<div class="tab-bar-wrap">
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('live')"     id="tab-live">&#127968; LIVE</button>
   <button class="tab-btn"        onclick="switchTab('orari')"    id="tab-orari">&#128197; Z649</button>
@@ -191,32 +212,43 @@ button{cursor:pointer;font-family:inherit;}
     <div id="busBlocks"></div>
 
     <!-- ── Z627 bus-blocks ── -->
-    <div class="section-header" style="margin-top:1.5rem;">&#128652; Z627 — Legnano FS (S5)</div>
+    <div class="section-header">&#128652; Z627 — Legnano FS (S5)</div>
     <div id="z627LiveBlocks"></div>
 
     <!-- ── Z644 bus-blocks ── -->
-    <div class="section-header" style="margin-top:1rem;">&#128652; Z644 — Parabiago FS (S5)</div>
+    <div class="section-header">&#128652; Z644 — Parabiago FS (S5)</div>
     <div id="z644LiveBlocks"></div>
 
     <!-- ── Z625 bus-blocks ── -->
-    <div class="section-header" style="margin-top:1rem;">&#128652; Z625 — Busto Arsizio FS (S5 + RE)</div>
+    <div class="section-header">&#128652; Z625 — Busto Arsizio FS (S5 + RE)</div>
     <div id="z625LiveBlocks"></div>
 
     <!-- ── Avviso domenica ── -->
-    <div id="otherBusesNoService" style="display:none;background:rgba(71,85,105,0.15);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem 1rem;margin-bottom:1rem;font-size:0.85rem;color:var(--muted);text-align:center;">
+    <div id="otherBusesNoService" class="no-service-notice" style="display:none;">
       &#128683; <strong>Domenica</strong>: nessun servizio su Z627, Z644 e Z625.
     </div>
 
     <!-- ── Blocco autonomo Via Canegrate ── -->
-    <div class="section-header" style="margin-top:1rem;">&#128663; Via Canegrate FS — Alternativa indipendente</div>
-    <div class="canegrate-block">
-      <div class="canegrate-block-title">&#128663; Via Canegrate FS <span class="badge badge-short" style="font-size:0.7rem;">&#128663; Indipendente dal bus</span></div>
+      <div class="canegrate-block">
+      <div class="canegrate-block-title">&#128663; Via Canegrate FS <span class="badge badge-short" style="font-size:0.7rem;">Indipendente dal bus</span></div>
       <div style="font-size:0.78rem;color:var(--muted);margin-bottom:0.25rem;">Parti in auto adesso &rarr; Canegrate FS &rarr; S5/S6 &rarr; Cadorna</div>
       <div id="canegrateBlock"></div>
     </div>
 
-    <div class="estimate-note" style="margin-top:0.5rem;">&#9888;&#65039; Orari treni stimati (cadenze tipiche Trenord). Verificare sempre su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>. Z647/Z642 non inclusi: nessuna stazione raggiungibile sul percorso.</div>
+    <div class="estimate-note">&#9888;&#65039; Orari treni stimati (cadenze tipiche Trenord). Verificare sempre su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>. Z647/Z642 non inclusi.</div>
+zione Precedenti (bus già partiti) -->
+    <div id="departedSection" style="display:none;">
+      <div class="departed-header" onclick="toggleDeparted()">
+        <div class="section-header" style="margin:0;">&#128337; Partiti di recente</div>
+        <span class="departed-toggle" id="departedToggle">&#9660;</span>
+      </div>
+      <div class="departed-section" id="departedBlocks" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+</div>
 
+<!-- 
   </div>
 </div>
 
