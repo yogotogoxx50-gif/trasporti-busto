@@ -1,0 +1,2549 @@
+{
+  "Z649": {
+    "meta": {
+      "linea": "Z649",
+      "partenza": "Busto Garolfo \u2013 Via Giacomo Rossini 35",
+      "capolinea": "Milano M1 \u2013 Molino Dorino",
+      "durata_minuti": "49-52",
+      "validita": {
+        "feriale": "Dal 03/11/2025 (Lun\u2013Ven)",
+        "sabato": "Dal 29/11/2025",
+        "domenica": "Dal 14/09/2025",
+        "eccezioni": "Non valido 3 settimane centrali agosto e festivit\u00e0 natalizie",
+        "festivi_esclusi": "1 Gennaio, 1 Maggio, 25 Dicembre"
+      },
+      "legenda": {
+        "SC5": "Corsa scolastica",
+        "last": "Ultima corsa del giorno"
+      },
+      "note": ""
+    },
+    "feriale": [
+      {
+        "corsa": 102,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 304,
+        "PG102": 335,
+        "MD111": 353,
+        "rossini": 304,
+        "pregnana_fs": 335,
+        "molino_dorino": 353,
+        "_comment_dep": "Partenza 05:04",
+        "_comment_arr": "Arrivo 05:53"
+      },
+      {
+        "corsa": 104,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 319,
+        "PG102": 352,
+        "MD111": 370,
+        "rossini": 319,
+        "pregnana_fs": 352,
+        "molino_dorino": 370,
+        "_comment_dep": "Partenza 05:19",
+        "_comment_arr": "Arrivo 06:10"
+      },
+      {
+        "corsa": 106,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 332,
+        "PG102": 365,
+        "MD111": 383,
+        "rossini": 332,
+        "pregnana_fs": 365,
+        "molino_dorino": 383,
+        "_comment_dep": "Partenza 05:32",
+        "_comment_arr": "Arrivo 06:23"
+      },
+      {
+        "corsa": 108,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 347,
+        "PG102": 380,
+        "MD111": 398,
+        "rossini": 347,
+        "pregnana_fs": 380,
+        "molino_dorino": 398,
+        "_comment_dep": "Partenza 05:47",
+        "_comment_arr": "Arrivo 06:38"
+      },
+      {
+        "corsa": 110,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 362,
+        "PG102": 396,
+        "MD111": 416,
+        "rossini": 362,
+        "pregnana_fs": 396,
+        "molino_dorino": 416,
+        "_comment_dep": "Partenza 06:02",
+        "_comment_arr": "Arrivo 06:56"
+      },
+      {
+        "corsa": 112,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 372,
+        "PG102": 406,
+        "MD111": 426,
+        "rossini": 372,
+        "pregnana_fs": 406,
+        "molino_dorino": 426,
+        "_comment_dep": "Partenza 06:12",
+        "_comment_arr": "Arrivo 07:06"
+      },
+      {
+        "corsa": 202,
+        "flags": [
+          "FR5"
+        ],
+        "PG102": 411,
+        "MD111": 431,
+        "rossini": 382,
+        "pregnana_fs": 411,
+        "molino_dorino": 431,
+        "_comment_dep": "Partenza 06:22",
+        "_comment_arr": "Arrivo 07:11"
+      },
+      {
+        "corsa": 114,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 382,
+        "PG102": 416,
+        "MD111": 437,
+        "rossini": 382,
+        "pregnana_fs": 416,
+        "molino_dorino": 437,
+        "_comment_dep": "Partenza 06:22",
+        "_comment_arr": "Arrivo 07:17"
+      },
+      {
+        "corsa": 204,
+        "flags": [
+          "FR5"
+        ],
+        "PG102": 421,
+        "MD111": 441,
+        "rossini": 392,
+        "pregnana_fs": 421,
+        "molino_dorino": 441,
+        "_comment_dep": "Partenza 06:32",
+        "_comment_arr": "Arrivo 07:21"
+      },
+      {
+        "corsa": 116,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 391,
+        "PG102": 426,
+        "MD111": 448,
+        "rossini": 391,
+        "pregnana_fs": 426,
+        "molino_dorino": 448,
+        "_comment_dep": "Partenza 06:31",
+        "_comment_arr": "Arrivo 07:28"
+      },
+      {
+        "corsa": 206,
+        "flags": [
+          "FR5"
+        ],
+        "PG102": 433,
+        "MD111": 454,
+        "rossini": 404,
+        "pregnana_fs": 433,
+        "molino_dorino": 454,
+        "_comment_dep": "Partenza 06:44",
+        "_comment_arr": "Arrivo 07:34"
+      },
+      {
+        "corsa": 118,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 403,
+        "PG102": 437,
+        "MD111": 461,
+        "rossini": 403,
+        "pregnana_fs": 437,
+        "molino_dorino": 461,
+        "_comment_dep": "Partenza 06:43",
+        "_comment_arr": "Arrivo 07:41"
+      },
+      {
+        "corsa": 208,
+        "flags": [
+          "FR5"
+        ],
+        "MD111": 466,
+        "rossini": null,
+        "pregnana_fs": null,
+        "molino_dorino": 466,
+        "_comment_arr": "Arrivo 07:46"
+      },
+      {
+        "corsa": 120,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 412,
+        "PG102": 447,
+        "MD111": 471,
+        "rossini": 412,
+        "pregnana_fs": 447,
+        "molino_dorino": 471,
+        "_comment_dep": "Partenza 06:52",
+        "_comment_arr": "Arrivo 07:51"
+      },
+      {
+        "corsa": 210,
+        "flags": [
+          "FR5"
+        ],
+        "MD111": 476,
+        "rossini": null,
+        "pregnana_fs": null,
+        "molino_dorino": 476,
+        "_comment_arr": "Arrivo 07:56"
+      },
+      {
+        "corsa": 122,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 422,
+        "PG102": 458,
+        "MD111": 483,
+        "rossini": 422,
+        "pregnana_fs": 458,
+        "molino_dorino": 483,
+        "_comment_dep": "Partenza 07:02",
+        "_comment_arr": "Arrivo 08:03"
+      },
+      {
+        "corsa": 124,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 432,
+        "PG102": 468,
+        "MD111": 493,
+        "rossini": 432,
+        "pregnana_fs": 468,
+        "molino_dorino": 493,
+        "_comment_dep": "Partenza 07:12",
+        "_comment_arr": "Arrivo 08:13"
+      },
+      {
+        "corsa": 126,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 442,
+        "PG102": 478,
+        "MD111": 503,
+        "rossini": 442,
+        "pregnana_fs": 478,
+        "molino_dorino": 503,
+        "_comment_dep": "Partenza 07:22",
+        "_comment_arr": "Arrivo 08:23"
+      },
+      {
+        "corsa": 128,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 452,
+        "PG102": 488,
+        "MD111": 513,
+        "rossini": 452,
+        "pregnana_fs": 488,
+        "molino_dorino": 513,
+        "_comment_dep": "Partenza 07:32",
+        "_comment_arr": "Arrivo 08:33"
+      },
+      {
+        "corsa": 130,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 462,
+        "PG102": 498,
+        "MD111": 523,
+        "rossini": 462,
+        "pregnana_fs": 498,
+        "molino_dorino": 523,
+        "_comment_dep": "Partenza 07:42",
+        "_comment_arr": "Arrivo 08:43"
+      },
+      {
+        "corsa": 216,
+        "flags": [
+          "FR5"
+        ],
+        "MD111": 531,
+        "rossini": null,
+        "pregnana_fs": null,
+        "molino_dorino": 531,
+        "_comment_arr": "Arrivo 08:51"
+      },
+      {
+        "corsa": 132,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 487,
+        "PG102": 523,
+        "MD111": 547,
+        "rossini": 487,
+        "pregnana_fs": 523,
+        "molino_dorino": 547,
+        "_comment_dep": "Partenza 08:07",
+        "_comment_arr": "Arrivo 09:07"
+      },
+      {
+        "corsa": 134,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 507,
+        "PG102": 542,
+        "MD111": 566,
+        "rossini": 507,
+        "pregnana_fs": 542,
+        "molino_dorino": 566,
+        "_comment_dep": "Partenza 08:27",
+        "_comment_arr": "Arrivo 09:26"
+      },
+      {
+        "corsa": 136,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 527,
+        "PG102": 562,
+        "MD111": 584,
+        "rossini": 527,
+        "pregnana_fs": 562,
+        "molino_dorino": 584,
+        "_comment_dep": "Partenza 08:47",
+        "_comment_arr": "Arrivo 09:44"
+      },
+      {
+        "corsa": 138,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 546,
+        "PG102": 580,
+        "MD111": 602,
+        "rossini": 546,
+        "pregnana_fs": 580,
+        "molino_dorino": 602,
+        "_comment_dep": "Partenza 09:06",
+        "_comment_arr": "Arrivo 10:02"
+      },
+      {
+        "corsa": 140,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 571,
+        "PG102": 605,
+        "MD111": 627,
+        "rossini": 571,
+        "pregnana_fs": 605,
+        "molino_dorino": 627,
+        "_comment_dep": "Partenza 09:31",
+        "_comment_arr": "Arrivo 10:27"
+      },
+      {
+        "corsa": 142,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 601,
+        "PG102": 635,
+        "MD111": 657,
+        "rossini": 601,
+        "pregnana_fs": 635,
+        "molino_dorino": 657,
+        "_comment_dep": "Partenza 10:01",
+        "_comment_arr": "Arrivo 10:57"
+      },
+      {
+        "corsa": 144,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 631,
+        "PG102": 665,
+        "MD111": 687,
+        "rossini": 631,
+        "pregnana_fs": 665,
+        "molino_dorino": 687,
+        "_comment_dep": "Partenza 10:31",
+        "_comment_arr": "Arrivo 11:27"
+      },
+      {
+        "corsa": 146,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 661,
+        "PG102": 695,
+        "MD111": 717,
+        "rossini": 661,
+        "pregnana_fs": 695,
+        "molino_dorino": 717,
+        "_comment_dep": "Partenza 11:01",
+        "_comment_arr": "Arrivo 11:57"
+      },
+      {
+        "corsa": 148,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 691,
+        "PG102": 725,
+        "MD111": 747,
+        "rossini": 691,
+        "pregnana_fs": 725,
+        "molino_dorino": 747,
+        "_comment_dep": "Partenza 11:31",
+        "_comment_arr": "Arrivo 12:27"
+      },
+      {
+        "corsa": 212,
+        "flags": [
+          "SC5"
+        ],
+        "MD111": 762,
+        "rossini": null,
+        "pregnana_fs": null,
+        "molino_dorino": 762,
+        "_comment_arr": "Arrivo 12:42"
+      },
+      {
+        "corsa": 150,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 721,
+        "PG102": 755,
+        "MD111": 777,
+        "rossini": 721,
+        "pregnana_fs": 755,
+        "molino_dorino": 777,
+        "_comment_dep": "Partenza 12:01",
+        "_comment_arr": "Arrivo 12:57"
+      },
+      {
+        "corsa": 214,
+        "flags": [
+          "SC5"
+        ],
+        "MD111": 792,
+        "rossini": null,
+        "pregnana_fs": null,
+        "molino_dorino": 792,
+        "_comment_arr": "Arrivo 13:12"
+      },
+      {
+        "corsa": 152,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 751,
+        "PG102": 785,
+        "MD111": 807,
+        "rossini": 751,
+        "pregnana_fs": 785,
+        "molino_dorino": 807,
+        "_comment_dep": "Partenza 12:31",
+        "_comment_arr": "Arrivo 13:27"
+      },
+      {
+        "corsa": 192,
+        "flags": [
+          "SC5"
+        ],
+        "BT775": 772,
+        "PG102": 804,
+        "MD111": 825,
+        "rossini": 772,
+        "pregnana_fs": 804,
+        "molino_dorino": 825,
+        "_comment_dep": "Partenza 12:52",
+        "_comment_arr": "Arrivo 13:45"
+      },
+      {
+        "corsa": 154,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 781,
+        "PG102": 815,
+        "MD111": 837,
+        "rossini": 781,
+        "pregnana_fs": 815,
+        "molino_dorino": 837,
+        "_comment_dep": "Partenza 13:01",
+        "_comment_arr": "Arrivo 13:57"
+      },
+      {
+        "corsa": 194,
+        "flags": [
+          "SC5"
+        ],
+        "BT775": 802,
+        "PG102": 834,
+        "MD111": 855,
+        "rossini": 802,
+        "pregnana_fs": 834,
+        "molino_dorino": 855,
+        "_comment_dep": "Partenza 13:22",
+        "_comment_arr": "Arrivo 14:15"
+      },
+      {
+        "corsa": 156,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 811,
+        "PG102": 845,
+        "MD111": 867,
+        "rossini": 811,
+        "pregnana_fs": 845,
+        "molino_dorino": 867,
+        "_comment_dep": "Partenza 13:31",
+        "_comment_arr": "Arrivo 14:27"
+      },
+      {
+        "corsa": 196,
+        "flags": [
+          "SC5"
+        ],
+        "BT775": 832,
+        "PG102": 866,
+        "MD111": 888,
+        "rossini": 832,
+        "pregnana_fs": 866,
+        "molino_dorino": 888,
+        "_comment_dep": "Partenza 13:52",
+        "_comment_arr": "Arrivo 14:48"
+      },
+      {
+        "corsa": 158,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 841,
+        "PG102": 875,
+        "MD111": 897,
+        "rossini": 841,
+        "pregnana_fs": 875,
+        "molino_dorino": 897,
+        "_comment_dep": "Partenza 14:01",
+        "_comment_arr": "Arrivo 14:57"
+      },
+      {
+        "corsa": 160,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 871,
+        "PG102": 905,
+        "MD111": 927,
+        "rossini": 871,
+        "pregnana_fs": 905,
+        "molino_dorino": 927,
+        "_comment_dep": "Partenza 14:31",
+        "_comment_arr": "Arrivo 15:27"
+      },
+      {
+        "corsa": 162,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 896,
+        "PG102": 930,
+        "MD111": 952,
+        "rossini": 896,
+        "pregnana_fs": 930,
+        "molino_dorino": 952,
+        "_comment_dep": "Partenza 14:56",
+        "_comment_arr": "Arrivo 15:52"
+      },
+      {
+        "corsa": 164,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 921,
+        "PG102": 955,
+        "MD111": 977,
+        "rossini": 921,
+        "pregnana_fs": 955,
+        "molino_dorino": 977,
+        "_comment_dep": "Partenza 15:21",
+        "_comment_arr": "Arrivo 16:17"
+      },
+      {
+        "corsa": 166,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 941,
+        "PG102": 975,
+        "MD111": 997,
+        "rossini": 941,
+        "pregnana_fs": 975,
+        "molino_dorino": 997,
+        "_comment_dep": "Partenza 15:41",
+        "_comment_arr": "Arrivo 16:37"
+      },
+      {
+        "corsa": 198,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 961,
+        "PG102": 995,
+        "MD111": 1017,
+        "rossini": 961,
+        "pregnana_fs": 995,
+        "molino_dorino": 1017,
+        "_comment_dep": "Partenza 16:01",
+        "_comment_arr": "Arrivo 16:57"
+      },
+      {
+        "corsa": 168,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 981,
+        "PG102": 1015,
+        "MD111": 1037,
+        "rossini": 981,
+        "pregnana_fs": 1015,
+        "molino_dorino": 1037,
+        "_comment_dep": "Partenza 16:21",
+        "_comment_arr": "Arrivo 17:17"
+      },
+      {
+        "corsa": 170,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1002,
+        "PG102": 1034,
+        "MD111": 1055,
+        "rossini": 1002,
+        "pregnana_fs": 1034,
+        "molino_dorino": 1055,
+        "_comment_dep": "Partenza 16:42",
+        "_comment_arr": "Arrivo 17:35"
+      },
+      {
+        "corsa": 172,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1025,
+        "PG102": 1058,
+        "MD111": 1080,
+        "rossini": 1025,
+        "pregnana_fs": 1058,
+        "molino_dorino": 1080,
+        "_comment_dep": "Partenza 17:05",
+        "_comment_arr": "Arrivo 18:00"
+      },
+      {
+        "corsa": 174,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1040,
+        "PG102": 1071,
+        "MD111": 1093,
+        "rossini": 1040,
+        "pregnana_fs": 1071,
+        "molino_dorino": 1093,
+        "_comment_dep": "Partenza 17:20",
+        "_comment_arr": "Arrivo 18:13"
+      },
+      {
+        "corsa": 176,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1055,
+        "PG102": 1088,
+        "MD111": 1110,
+        "rossini": 1055,
+        "pregnana_fs": 1088,
+        "molino_dorino": 1110,
+        "_comment_dep": "Partenza 17:35",
+        "_comment_arr": "Arrivo 18:30"
+      },
+      {
+        "corsa": 178,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1070,
+        "PG102": 1101,
+        "MD111": 1123,
+        "rossini": 1070,
+        "pregnana_fs": 1101,
+        "molino_dorino": 1123,
+        "_comment_dep": "Partenza 17:50",
+        "_comment_arr": "Arrivo 18:43"
+      },
+      {
+        "corsa": 180,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1085,
+        "PG102": 1118,
+        "MD111": 1140,
+        "rossini": 1085,
+        "pregnana_fs": 1118,
+        "molino_dorino": 1140,
+        "_comment_dep": "Partenza 18:05",
+        "_comment_arr": "Arrivo 19:00"
+      },
+      {
+        "corsa": 182,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1110,
+        "PG102": 1141,
+        "MD111": 1162,
+        "rossini": 1110,
+        "pregnana_fs": 1141,
+        "molino_dorino": 1162,
+        "_comment_dep": "Partenza 18:30",
+        "_comment_arr": "Arrivo 19:22"
+      },
+      {
+        "corsa": 184,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1134,
+        "PG102": 1166,
+        "MD111": 1186,
+        "rossini": 1134,
+        "pregnana_fs": 1166,
+        "molino_dorino": 1186,
+        "_comment_dep": "Partenza 18:54",
+        "_comment_arr": "Arrivo 19:46"
+      },
+      {
+        "corsa": 188,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1179,
+        "PG102": 1209,
+        "MD111": 1227,
+        "rossini": 1179,
+        "pregnana_fs": 1209,
+        "molino_dorino": 1227,
+        "_comment_dep": "Partenza 19:39",
+        "_comment_arr": "Arrivo 20:27"
+      },
+      {
+        "corsa": 190,
+        "flags": [
+          "FR5"
+        ],
+        "BT775": 1219,
+        "PG102": 1249,
+        "MD111": 1267,
+        "rossini": 1219,
+        "pregnana_fs": 1249,
+        "molino_dorino": 1267,
+        "_comment_dep": "Partenza 20:19",
+        "_comment_arr": "Arrivo 21:07"
+      }
+    ],
+    "sabato": [
+      {
+        "rossini": 337,
+        "pregnana_fs": 366,
+        "molino_dorino": 381,
+        "flags": [],
+        "_comment_dep": "Partenza 05:37",
+        "_comment_arr": "Arrivo 06:21"
+      },
+      {
+        "rossini": 367,
+        "pregnana_fs": 396,
+        "molino_dorino": 411,
+        "flags": [],
+        "_comment_dep": "Partenza 06:07",
+        "_comment_arr": "Arrivo 06:51"
+      },
+      {
+        "rossini": 392,
+        "pregnana_fs": 421,
+        "molino_dorino": 436,
+        "flags": [],
+        "_comment_dep": "Partenza 06:32",
+        "_comment_arr": "Arrivo 07:16"
+      },
+      {
+        "rossini": 412,
+        "pregnana_fs": 441,
+        "molino_dorino": 456,
+        "flags": [],
+        "_comment_dep": "Partenza 06:52",
+        "_comment_arr": "Arrivo 07:36"
+      },
+      {
+        "rossini": 427,
+        "pregnana_fs": 456,
+        "molino_dorino": 471,
+        "flags": [],
+        "_comment_dep": "Partenza 07:07",
+        "_comment_arr": "Arrivo 07:51"
+      },
+      {
+        "rossini": 457,
+        "pregnana_fs": 486,
+        "molino_dorino": 501,
+        "flags": [],
+        "_comment_dep": "Partenza 07:37",
+        "_comment_arr": "Arrivo 08:21"
+      },
+      {
+        "rossini": 487,
+        "pregnana_fs": 516,
+        "molino_dorino": 531,
+        "flags": [],
+        "_comment_dep": "Partenza 08:07",
+        "_comment_arr": "Arrivo 08:51"
+      },
+      {
+        "rossini": 517,
+        "pregnana_fs": 546,
+        "molino_dorino": 561,
+        "flags": [],
+        "_comment_dep": "Partenza 08:37",
+        "_comment_arr": "Arrivo 09:21"
+      },
+      {
+        "rossini": 547,
+        "pregnana_fs": 576,
+        "molino_dorino": 591,
+        "flags": [],
+        "_comment_dep": "Partenza 09:07",
+        "_comment_arr": "Arrivo 09:51"
+      },
+      {
+        "rossini": 577,
+        "pregnana_fs": 606,
+        "molino_dorino": 621,
+        "flags": [],
+        "_comment_dep": "Partenza 09:37",
+        "_comment_arr": "Arrivo 10:21"
+      },
+      {
+        "rossini": 607,
+        "pregnana_fs": 636,
+        "molino_dorino": 651,
+        "flags": [],
+        "_comment_dep": "Partenza 10:07",
+        "_comment_arr": "Arrivo 10:51"
+      },
+      {
+        "rossini": 637,
+        "pregnana_fs": 666,
+        "molino_dorino": 681,
+        "flags": [],
+        "_comment_dep": "Partenza 10:37",
+        "_comment_arr": "Arrivo 11:21"
+      },
+      {
+        "rossini": 667,
+        "pregnana_fs": 696,
+        "molino_dorino": 711,
+        "flags": [],
+        "_comment_dep": "Partenza 11:07",
+        "_comment_arr": "Arrivo 11:51"
+      },
+      {
+        "rossini": 697,
+        "pregnana_fs": 726,
+        "molino_dorino": 741,
+        "flags": [],
+        "_comment_dep": "Partenza 11:37",
+        "_comment_arr": "Arrivo 12:21"
+      },
+      {
+        "rossini": 727,
+        "pregnana_fs": 756,
+        "molino_dorino": 771,
+        "flags": [],
+        "_comment_dep": "Partenza 12:07",
+        "_comment_arr": "Arrivo 12:51"
+      },
+      {
+        "rossini": 757,
+        "pregnana_fs": 786,
+        "molino_dorino": 801,
+        "flags": [],
+        "_comment_dep": "Partenza 12:37",
+        "_comment_arr": "Arrivo 13:21"
+      },
+      {
+        "rossini": 787,
+        "pregnana_fs": 816,
+        "molino_dorino": 831,
+        "flags": [],
+        "_comment_dep": "Partenza 13:07",
+        "_comment_arr": "Arrivo 13:51"
+      },
+      {
+        "rossini": 817,
+        "pregnana_fs": 846,
+        "molino_dorino": 861,
+        "flags": [],
+        "_comment_dep": "Partenza 13:37",
+        "_comment_arr": "Arrivo 14:21"
+      },
+      {
+        "rossini": 847,
+        "pregnana_fs": 876,
+        "molino_dorino": 891,
+        "flags": [],
+        "_comment_dep": "Partenza 14:07",
+        "_comment_arr": "Arrivo 14:51"
+      },
+      {
+        "rossini": 877,
+        "pregnana_fs": 906,
+        "molino_dorino": 921,
+        "flags": [],
+        "_comment_dep": "Partenza 14:37",
+        "_comment_arr": "Arrivo 15:21"
+      },
+      {
+        "rossini": 907,
+        "pregnana_fs": 936,
+        "molino_dorino": 951,
+        "flags": [],
+        "_comment_dep": "Partenza 15:07",
+        "_comment_arr": "Arrivo 15:51"
+      },
+      {
+        "rossini": 937,
+        "pregnana_fs": 966,
+        "molino_dorino": 981,
+        "flags": [],
+        "_comment_dep": "Partenza 15:37",
+        "_comment_arr": "Arrivo 16:21"
+      },
+      {
+        "rossini": 967,
+        "pregnana_fs": 996,
+        "molino_dorino": 1011,
+        "flags": [],
+        "_comment_dep": "Partenza 16:07",
+        "_comment_arr": "Arrivo 16:51"
+      },
+      {
+        "rossini": 997,
+        "pregnana_fs": 1026,
+        "molino_dorino": 1041,
+        "flags": [],
+        "_comment_dep": "Partenza 16:37",
+        "_comment_arr": "Arrivo 17:21"
+      },
+      {
+        "rossini": 1027,
+        "pregnana_fs": 1056,
+        "molino_dorino": 1071,
+        "flags": [],
+        "_comment_dep": "Partenza 17:07",
+        "_comment_arr": "Arrivo 17:51"
+      },
+      {
+        "rossini": 1057,
+        "pregnana_fs": 1086,
+        "molino_dorino": 1101,
+        "flags": [],
+        "_comment_dep": "Partenza 17:37",
+        "_comment_arr": "Arrivo 18:21"
+      },
+      {
+        "rossini": 1087,
+        "pregnana_fs": 1116,
+        "molino_dorino": 1131,
+        "flags": [],
+        "_comment_dep": "Partenza 18:07",
+        "_comment_arr": "Arrivo 18:51"
+      },
+      {
+        "rossini": 1147,
+        "pregnana_fs": 1176,
+        "molino_dorino": 1191,
+        "flags": [],
+        "_comment_dep": "Partenza 19:07",
+        "_comment_arr": "Arrivo 19:51"
+      },
+      {
+        "rossini": 1207,
+        "pregnana_fs": 1236,
+        "molino_dorino": 1251,
+        "flags": [
+          "last"
+        ],
+        "_comment_dep": "Partenza 20:07",
+        "_comment_arr": "Arrivo 20:51"
+      }
+    ],
+    "domenica": [
+      {
+        "rossini": 427,
+        "pregnana_fs": 456,
+        "molino_dorino": 471,
+        "flags": [],
+        "_comment_dep": "Partenza 07:07",
+        "_comment_arr": "Arrivo 07:51"
+      },
+      {
+        "rossini": 487,
+        "pregnana_fs": 516,
+        "molino_dorino": 531,
+        "flags": [],
+        "_comment_dep": "Partenza 08:07",
+        "_comment_arr": "Arrivo 08:51"
+      },
+      {
+        "rossini": 552,
+        "pregnana_fs": 581,
+        "molino_dorino": 596,
+        "flags": [],
+        "_comment_dep": "Partenza 09:12",
+        "_comment_arr": "Arrivo 09:56"
+      },
+      {
+        "rossini": 617,
+        "pregnana_fs": 646,
+        "molino_dorino": 661,
+        "flags": [],
+        "_comment_dep": "Partenza 10:17",
+        "_comment_arr": "Arrivo 11:01"
+      },
+      {
+        "rossini": 717,
+        "pregnana_fs": 746,
+        "molino_dorino": 761,
+        "flags": [],
+        "_comment_dep": "Partenza 11:57",
+        "_comment_arr": "Arrivo 12:41"
+      },
+      {
+        "rossini": 787,
+        "pregnana_fs": 816,
+        "molino_dorino": 831,
+        "flags": [],
+        "_comment_dep": "Partenza 13:07",
+        "_comment_arr": "Arrivo 13:51"
+      },
+      {
+        "rossini": 847,
+        "pregnana_fs": 876,
+        "molino_dorino": 891,
+        "flags": [],
+        "_comment_dep": "Partenza 14:07",
+        "_comment_arr": "Arrivo 14:51"
+      },
+      {
+        "rossini": 927,
+        "pregnana_fs": 956,
+        "molino_dorino": 971,
+        "flags": [],
+        "_comment_dep": "Partenza 15:27",
+        "_comment_arr": "Arrivo 16:11"
+      },
+      {
+        "rossini": 992,
+        "pregnana_fs": 1021,
+        "molino_dorino": 1036,
+        "flags": [],
+        "_comment_dep": "Partenza 16:32",
+        "_comment_arr": "Arrivo 17:16"
+      },
+      {
+        "rossini": 1057,
+        "pregnana_fs": 1086,
+        "molino_dorino": 1101,
+        "flags": [],
+        "_comment_dep": "Partenza 17:37",
+        "_comment_arr": "Arrivo 18:21"
+      },
+      {
+        "rossini": 1127,
+        "pregnana_fs": 1156,
+        "molino_dorino": 1171,
+        "flags": [
+          "last"
+        ],
+        "_comment_dep": "Partenza 18:47",
+        "_comment_arr": "Arrivo 19:31"
+      }
+    ]
+  },
+  "Z627": {
+    "meta": {
+      "linea": "Z627",
+      "partenza": "Busto Garolfo \u2013 Via Buonarroti ang. Via Busto Arsizio (BT301)",
+      "destinazione": "Legnano \u2013 P.zza del Popolo FS (LG090)",
+      "durata_minuti": "~20",
+      "validita": {
+        "FR5": "Lun\u2013Ven feriali",
+        "SC5": "Lun\u2013Ven solo periodo scolastico",
+        "SAB": "Sabato feriale",
+        "domenica": "Nessun servizio"
+      },
+      "eccezioni": "Non valido 3 settimane centrali agosto e festivit\u00e0 natalizie",
+      "note": "Arrivi LG090 con ~ sono stimati (+20 min)"
+    },
+    "feriale": [
+      {
+        "dep": 352,
+        "arr": 371,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 05:52",
+        "_comment_arr": "Arrivo 06:11"
+      },
+      {
+        "dep": 372,
+        "arr": 391,
+        "val": "SC5",
+        "note": "",
+        "_comment_dep": "Partenza 06:12",
+        "_comment_arr": "Arrivo 06:31"
+      },
+      {
+        "dep": 386,
+        "arr": 405,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 06:26",
+        "_comment_arr": "Arrivo 06:45"
+      },
+      {
+        "dep": 402,
+        "arr": 421,
+        "val": "SC5",
+        "note": "",
+        "_comment_dep": "Partenza 06:42",
+        "_comment_arr": "Arrivo 07:01"
+      },
+      {
+        "dep": 414,
+        "arr": 435,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 06:54",
+        "_comment_arr": "Arrivo 07:15"
+      },
+      {
+        "dep": 435,
+        "arr": 458,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 07:15",
+        "_comment_arr": "Arrivo 07:38"
+      },
+      {
+        "dep": 437,
+        "arr": null,
+        "val": "SC5",
+        "note": "\u26a0\ufe0f Termina al Liceo",
+        "_comment_dep": "Partenza 07:17"
+      },
+      {
+        "dep": 439,
+        "arr": null,
+        "val": "SC5",
+        "note": "\u26a0\ufe0f Termina al Liceo",
+        "_comment_dep": "Partenza 07:19"
+      },
+      {
+        "dep": 445,
+        "arr": null,
+        "val": "SC5",
+        "note": "\u26a0\ufe0f Termina al Liceo",
+        "_comment_dep": "Partenza 07:25"
+      },
+      {
+        "dep": 476,
+        "arr": 500,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 07:56",
+        "_comment_arr": "Arrivo 08:20"
+      },
+      {
+        "dep": 483,
+        "arr": null,
+        "val": "SC5",
+        "note": "\u26a0\ufe0f Non arriva a P.zza Popolo FS",
+        "_comment_dep": "Partenza 08:03"
+      },
+      {
+        "dep": 514,
+        "arr": 536,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 08:34",
+        "_comment_arr": "Arrivo 08:56"
+      },
+      {
+        "dep": 544,
+        "arr": 566,
+        "val": "SC5",
+        "note": "",
+        "_comment_dep": "Partenza 09:04",
+        "_comment_arr": "Arrivo 09:26"
+      },
+      {
+        "dep": 574,
+        "arr": 596,
+        "val": "SC5",
+        "note": "",
+        "_comment_dep": "Partenza 09:34",
+        "_comment_arr": "Arrivo 09:56"
+      },
+      {
+        "dep": 604,
+        "arr": 624,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 10:04",
+        "_comment_arr": "Arrivo 10:24"
+      },
+      {
+        "dep": 634,
+        "arr": 654,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 10:34",
+        "_comment_arr": "Arrivo 10:54"
+      },
+      {
+        "dep": 664,
+        "arr": 684,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 11:04",
+        "_comment_arr": "Arrivo 11:24"
+      },
+      {
+        "dep": 694,
+        "arr": 714,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 11:34",
+        "_comment_arr": "Arrivo 11:54"
+      },
+      {
+        "dep": 724,
+        "arr": 744,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 12:04",
+        "_comment_arr": "Arrivo 12:24"
+      },
+      {
+        "dep": 759,
+        "arr": 779,
+        "val": "SC5",
+        "note": "",
+        "_comment_dep": "Partenza 12:39",
+        "_comment_arr": "Arrivo 12:59"
+      },
+      {
+        "dep": 766,
+        "arr": null,
+        "val": "SC5",
+        "note": "\u26a0\ufe0f Termina al Liceo",
+        "_comment_dep": "Partenza 12:46"
+      },
+      {
+        "dep": 779,
+        "arr": 801,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 12:59",
+        "_comment_arr": "Arrivo 13:21"
+      },
+      {
+        "dep": 813,
+        "arr": 834,
+        "val": "SC5",
+        "note": "",
+        "_comment_dep": "Partenza 13:33",
+        "_comment_arr": "Arrivo 13:54"
+      },
+      {
+        "dep": 814,
+        "arr": 836,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 13:34",
+        "_comment_arr": "Arrivo 13:56"
+      },
+      {
+        "dep": 842,
+        "arr": null,
+        "val": "SC5",
+        "note": "\u26a0\ufe0f Termina al Liceo",
+        "_comment_dep": "Partenza 14:02"
+      },
+      {
+        "dep": 844,
+        "arr": 866,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 14:04",
+        "_comment_arr": "Arrivo 14:26"
+      },
+      {
+        "dep": 869,
+        "arr": 891,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 14:29",
+        "_comment_arr": "Arrivo 14:51"
+      },
+      {
+        "dep": 903,
+        "arr": 923,
+        "val": "SC5",
+        "note": "",
+        "_comment_dep": "Partenza 15:03",
+        "_comment_arr": "Arrivo 15:23"
+      },
+      {
+        "dep": 904,
+        "arr": 926,
+        "val": "FR5",
+        "note": "",
+        "_comment_dep": "Partenza 15:04",
+        "_comment_arr": "Arrivo 15:26"
+      },
+      {
+        "dep": 939,
+        "arr": 960,
+        "val": "FR5",
+        "note": "~",
+        "_comment_dep": "Partenza 15:39",
+        "_comment_arr": "Arrivo 16:00"
+      },
+      {
+        "dep": 964,
+        "arr": 985,
+        "val": "FR5",
+        "note": "~",
+        "_comment_dep": "Partenza 16:04",
+        "_comment_arr": "Arrivo 16:25"
+      },
+      {
+        "dep": 1024,
+        "arr": 1045,
+        "val": "FR5",
+        "note": "~",
+        "_comment_dep": "Partenza 17:04",
+        "_comment_arr": "Arrivo 17:25"
+      },
+      {
+        "dep": 1051,
+        "arr": 1072,
+        "val": "FR5",
+        "note": "~",
+        "_comment_dep": "Partenza 17:31",
+        "_comment_arr": "Arrivo 17:52"
+      },
+      {
+        "dep": 1085,
+        "arr": 1106,
+        "val": "FR5",
+        "note": "~",
+        "_comment_dep": "Partenza 18:05",
+        "_comment_arr": "Arrivo 18:26"
+      },
+      {
+        "dep": 1106,
+        "arr": 1127,
+        "val": "FR5",
+        "note": "~",
+        "_comment_dep": "Partenza 18:26",
+        "_comment_arr": "Arrivo 18:47"
+      },
+      {
+        "dep": 1144,
+        "arr": 1165,
+        "val": "FR5",
+        "note": "~",
+        "_comment_dep": "Partenza 19:04",
+        "_comment_arr": "Arrivo 19:25"
+      },
+      {
+        "dep": 1174,
+        "arr": 1195,
+        "val": "FR5",
+        "note": "~",
+        "_comment_dep": "Partenza 19:34",
+        "_comment_arr": "Arrivo 19:55"
+      }
+    ],
+    "sabato": [
+      {
+        "dep": 387,
+        "arr": 406,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 06:27",
+        "_comment_arr": "Arrivo 06:46"
+      },
+      {
+        "dep": 419,
+        "arr": 439,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 06:59",
+        "_comment_arr": "Arrivo 07:19"
+      },
+      {
+        "dep": 477,
+        "arr": 501,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 07:57",
+        "_comment_arr": "Arrivo 08:21"
+      },
+      {
+        "dep": 512,
+        "arr": 536,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 08:32",
+        "_comment_arr": "Arrivo 08:56"
+      },
+      {
+        "dep": 542,
+        "arr": 567,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 09:02",
+        "_comment_arr": "Arrivo 09:27"
+      },
+      {
+        "dep": 572,
+        "arr": 596,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 09:32",
+        "_comment_arr": "Arrivo 09:56"
+      },
+      {
+        "dep": 602,
+        "arr": 626,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 10:02",
+        "_comment_arr": "Arrivo 10:26"
+      },
+      {
+        "dep": 662,
+        "arr": 686,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 11:02",
+        "_comment_arr": "Arrivo 11:26"
+      },
+      {
+        "dep": 722,
+        "arr": 746,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 12:02",
+        "_comment_arr": "Arrivo 12:26"
+      },
+      {
+        "dep": 777,
+        "arr": 801,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 12:57",
+        "_comment_arr": "Arrivo 13:21"
+      },
+      {
+        "dep": 842,
+        "arr": 866,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 14:02",
+        "_comment_arr": "Arrivo 14:26"
+      },
+      {
+        "dep": 902,
+        "arr": 926,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 15:02",
+        "_comment_arr": "Arrivo 15:26"
+      },
+      {
+        "dep": 964,
+        "arr": 986,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 16:04",
+        "_comment_arr": "Arrivo 16:26"
+      },
+      {
+        "dep": 1022,
+        "arr": 1046,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 17:02",
+        "_comment_arr": "Arrivo 17:26"
+      },
+      {
+        "dep": 1052,
+        "arr": 1076,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 17:32",
+        "_comment_arr": "Arrivo 17:56"
+      },
+      {
+        "dep": 1082,
+        "arr": 1106,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 18:02",
+        "_comment_arr": "Arrivo 18:26"
+      },
+      {
+        "dep": 1142,
+        "arr": 1166,
+        "val": "SAB",
+        "note": "",
+        "_comment_dep": "Partenza 19:02",
+        "_comment_arr": "Arrivo 19:26"
+      }
+    ]
+  },
+  "Z644": {
+    "meta": {
+      "linea": "Z644",
+      "partenza_andata": "Arconate / Dairago \u2192 Busto Garolfo \u2013 Via Rossini 35 \u2192 Parabiago FS",
+      "partenza_ritorno": "Parabiago FS \u2192 Busto Garolfo \u2013 Via Rossini 35 \u2192 Arconate",
+      "durata_andata": "~22 min (Via Rossini \u2192 Parabiago FS)",
+      "durata_ritorno": "~14 min (Parabiago FS \u2192 Via Rossini)",
+      "validita": {
+        "FI5": "Lun\u2013Ven feriali invernale",
+        "SC5": "Lun\u2013Ven solo periodo scolastico",
+        "SIS": "Sabato feriale invernale",
+        "domenica": "Nessun servizio"
+      },
+      "eccezioni": "Non valido dal 20 luglio al 6 settembre e nelle festivit\u00e0 natalizie",
+      "note": "Le corse senza parabiago_fs (\u2192 PB100 Via Butti) NON arrivano all'autostazione FS"
+    },
+    "feriale_andata": [
+      {
+        "corsa": 302,
+        "rossini": 399,
+        "parabiago_fs": 411,
+        "parabiago_vb": null,
+        "val": "FI5",
+        "_comment_dep": "Partenza 06:39",
+        "_comment_arr": "Arrivo 06:51"
+      },
+      {
+        "corsa": 304,
+        "rossini": 419,
+        "parabiago_fs": null,
+        "parabiago_vb": 440,
+        "val": "FI5",
+        "_comment_dep": "Partenza 06:59"
+      },
+      {
+        "corsa": 460,
+        "rossini": 445,
+        "parabiago_fs": null,
+        "parabiago_vb": 473,
+        "val": "SC5",
+        "_comment_dep": "Partenza 07:25"
+      },
+      {
+        "corsa": 502,
+        "rossini": 445,
+        "parabiago_fs": null,
+        "parabiago_vb": 470,
+        "val": "SC5",
+        "note": "Da Dairago",
+        "_comment_dep": "Partenza 07:25"
+      },
+      {
+        "corsa": 306,
+        "rossini": 449,
+        "parabiago_fs": null,
+        "parabiago_vb": 473,
+        "val": "FI5",
+        "_comment_dep": "Partenza 07:29"
+      },
+      {
+        "corsa": 310,
+        "rossini": 524,
+        "parabiago_fs": 536,
+        "parabiago_vb": null,
+        "val": "FI5",
+        "_comment_dep": "Partenza 08:44",
+        "_comment_arr": "Arrivo 08:56"
+      },
+      {
+        "corsa": 390,
+        "rossini": 579,
+        "parabiago_fs": 591,
+        "parabiago_vb": null,
+        "val": "FI5",
+        "_comment_dep": "Partenza 09:39",
+        "_comment_arr": "Arrivo 09:51"
+      },
+      {
+        "corsa": 316,
+        "rossini": 703,
+        "parabiago_fs": null,
+        "parabiago_vb": 724,
+        "val": "SC5",
+        "_comment_dep": "Partenza 11:43"
+      },
+      {
+        "corsa": 320,
+        "rossini": 774,
+        "parabiago_fs": null,
+        "parabiago_vb": 793,
+        "val": "SC5",
+        "_comment_dep": "Partenza 12:54"
+      },
+      {
+        "corsa": 318,
+        "rossini": 849,
+        "parabiago_fs": null,
+        "parabiago_vb": 868,
+        "val": "SC5",
+        "_comment_dep": "Partenza 14:09"
+      },
+      {
+        "corsa": 334,
+        "rossini": 876,
+        "parabiago_fs": null,
+        "parabiago_vb": 894,
+        "val": "SC5",
+        "_comment_dep": "Partenza 14:36"
+      },
+      {
+        "corsa": 406,
+        "rossini": 879,
+        "parabiago_fs": null,
+        "parabiago_vb": 898,
+        "val": "SC5",
+        "_comment_dep": "Partenza 14:39"
+      },
+      {
+        "corsa": 322,
+        "rossini": 914,
+        "parabiago_fs": 926,
+        "parabiago_vb": null,
+        "val": "SC5",
+        "_comment_dep": "Partenza 15:14",
+        "_comment_arr": "Arrivo 15:26"
+      },
+      {
+        "corsa": 324,
+        "rossini": 954,
+        "parabiago_fs": 966,
+        "parabiago_vb": null,
+        "val": "FI5",
+        "_comment_dep": "Partenza 15:54",
+        "_comment_arr": "Arrivo 16:06"
+      },
+      {
+        "corsa": 326,
+        "rossini": 979,
+        "parabiago_fs": 991,
+        "parabiago_vb": null,
+        "val": "FI5",
+        "_comment_dep": "Partenza 16:19",
+        "_comment_arr": "Arrivo 16:31"
+      }
+    ],
+    "feriale_ritorno": [
+      {
+        "corsa": 301,
+        "parabiago_prt": 415,
+        "rossini": 429,
+        "arconate": 436,
+        "val": "FI5",
+        "_comment_dep": "Partenza 07:09"
+      },
+      {
+        "corsa": 303,
+        "parabiago_prt": 445,
+        "rossini": 464,
+        "arconate": 473,
+        "val": "FI5",
+        "_comment_dep": "Partenza 07:44"
+      },
+      {
+        "corsa": 305,
+        "parabiago_prt": 480,
+        "rossini": 499,
+        "arconate": 508,
+        "val": "FI5",
+        "_comment_dep": "Partenza 08:19"
+      },
+      {
+        "corsa": 309,
+        "parabiago_prt": 540,
+        "rossini": 554,
+        "arconate": 561,
+        "val": "FI5",
+        "_comment_dep": "Partenza 09:14"
+      },
+      {
+        "corsa": 393,
+        "parabiago_prt": 595,
+        "rossini": 609,
+        "arconate": 616,
+        "val": "FI5",
+        "_comment_dep": "Partenza 10:09"
+      },
+      {
+        "corsa": 317,
+        "parabiago_prt": 730,
+        "rossini": 753,
+        "arconate": 761,
+        "val": "SC5",
+        "_comment_dep": "Partenza 12:33"
+      },
+      {
+        "corsa": 315,
+        "parabiago_prt": 800,
+        "rossini": 823,
+        "arconate": 831,
+        "val": "SC5",
+        "_comment_dep": "Partenza 13:43"
+      },
+      {
+        "corsa": 517,
+        "parabiago_prt": 800,
+        "rossini": 819,
+        "arconate": null,
+        "val": "SC5",
+        "note": "Termina a Dairago",
+        "_comment_dep": "Partenza 13:39"
+      },
+      {
+        "corsa": 329,
+        "parabiago_prt": 855,
+        "rossini": 874,
+        "arconate": null,
+        "val": "SC5",
+        "note": "Termina a Dairago",
+        "_comment_dep": "Partenza 14:34"
+      },
+      {
+        "corsa": 319,
+        "parabiago_prt": 860,
+        "rossini": 883,
+        "arconate": 891,
+        "val": "SC5",
+        "_comment_dep": "Partenza 14:43"
+      },
+      {
+        "corsa": 339,
+        "parabiago_prt": 905,
+        "rossini": 924,
+        "arconate": null,
+        "val": "SC5",
+        "note": "Termina a Dairago",
+        "_comment_dep": "Partenza 15:24"
+      },
+      {
+        "corsa": 333,
+        "parabiago_prt": 910,
+        "rossini": 933,
+        "arconate": 941,
+        "val": "SC5",
+        "_comment_dep": "Partenza 15:33"
+      },
+      {
+        "corsa": 321,
+        "parabiago_prt": 940,
+        "rossini": 954,
+        "arconate": 961,
+        "val": "SC5",
+        "_comment_dep": "Partenza 15:54"
+      },
+      {
+        "corsa": 323,
+        "parabiago_prt": 975,
+        "rossini": 989,
+        "arconate": 996,
+        "val": "FI5",
+        "_comment_dep": "Partenza 16:29"
+      },
+      {
+        "corsa": 325,
+        "parabiago_prt": 995,
+        "rossini": 1009,
+        "arconate": 1016,
+        "val": "FI5",
+        "_comment_dep": "Partenza 16:49"
+      }
+    ],
+    "sabato_andata": [
+      {
+        "corsa": 804,
+        "rossini": 419,
+        "parabiago_fs": null,
+        "parabiago_vb": 440,
+        "val": "SIS",
+        "_comment_dep": "Partenza 06:59"
+      },
+      {
+        "corsa": 806,
+        "rossini": 449,
+        "parabiago_fs": null,
+        "parabiago_vb": 473,
+        "val": "SIS",
+        "_comment_dep": "Partenza 07:29"
+      },
+      {
+        "corsa": 810,
+        "rossini": 524,
+        "parabiago_fs": 536,
+        "parabiago_vb": null,
+        "val": "SIS",
+        "_comment_dep": "Partenza 08:44",
+        "_comment_arr": "Arrivo 08:56"
+      },
+      {
+        "corsa": 824,
+        "rossini": 954,
+        "parabiago_fs": 966,
+        "parabiago_vb": null,
+        "val": "SIS",
+        "_comment_dep": "Partenza 15:54",
+        "_comment_arr": "Arrivo 16:06"
+      }
+    ],
+    "sabato_ritorno": [
+      {
+        "corsa": 803,
+        "parabiago_prt": 445,
+        "rossini": 464,
+        "arconate": 473,
+        "val": "SIS",
+        "_comment_dep": "Partenza 07:44"
+      },
+      {
+        "corsa": 805,
+        "parabiago_prt": 480,
+        "rossini": 499,
+        "arconate": 508,
+        "val": "SIS",
+        "_comment_dep": "Partenza 08:19"
+      },
+      {
+        "corsa": 809,
+        "parabiago_prt": 540,
+        "rossini": 554,
+        "arconate": 561,
+        "val": "SIS",
+        "_comment_dep": "Partenza 09:14"
+      },
+      {
+        "corsa": 823,
+        "parabiago_prt": 975,
+        "rossini": 989,
+        "arconate": 996,
+        "val": "SIS",
+        "_comment_dep": "Partenza 16:29"
+      }
+    ]
+  },
+  "Z625": {
+    "meta": {
+      "linea": "Z625",
+      "partenza": "Busto Garolfo \u2013 Via Curiel / Via Busto Arsizio (BT701)",
+      "destinazione": "Busto Arsizio \u2013 Stazione FS / Piazza Garibaldi",
+      "durata_minuti": "~29 min (BT701 \u2192 BA centro)",
+      "walk_da_rossini": "~6 min a piedi (350m)",
+      "validita": {
+        "FR5": "Lun\u2013Ven feriali",
+        "SC5": "Lun\u2013Ven solo periodo scolastico",
+        "SAB": "Sabato feriale",
+        "domenica": "Nessun servizio"
+      },
+      "eccezioni": "Non valido nelle 3 settimane centrali agosto e festivit\u00e0 natalizie",
+      "coincidenze_ba": "S5 Trenord (Milano Cadorna \u2194 Varese Nord), RE Varese\u2013Milano P.ta Garibaldi"
+    },
+    "feriale_andata": [
+      {
+        "corsa": 108,
+        "dep_bg": 416,
+        "arr_ba": 448,
+        "arr_ba_fs": 465,
+        "val": "SC5",
+        "_comment_dep": "Partenza 06:56",
+        "_comment_arr": "Arrivo 07:45"
+      },
+      {
+        "corsa": 106,
+        "dep_bg": 420,
+        "arr_ba": 454,
+        "arr_ba_fs": 470,
+        "val": "SC5",
+        "_comment_dep": "Partenza 07:00",
+        "_comment_arr": "Arrivo 07:50"
+      },
+      {
+        "corsa": 104,
+        "dep_bg": 425,
+        "arr_ba": 461,
+        "arr_ba_fs": null,
+        "val": "FR5",
+        "_comment_dep": "Partenza 07:05"
+      },
+      {
+        "corsa": 190,
+        "dep_bg": 441,
+        "arr_ba": 483,
+        "arr_ba_fs": null,
+        "val": "SC5",
+        "_comment_dep": "Partenza 07:21"
+      },
+      {
+        "corsa": 110,
+        "dep_bg": 510,
+        "arr_ba": 544,
+        "arr_ba_fs": null,
+        "val": "FR5",
+        "_comment_dep": "Partenza 08:30"
+      },
+      {
+        "corsa": 224,
+        "dep_bg": 545,
+        "arr_ba": 576,
+        "arr_ba_fs": null,
+        "val": "FR5",
+        "_comment_dep": "Partenza 09:05"
+      },
+      {
+        "corsa": 124,
+        "dep_bg": 615,
+        "arr_ba": 645,
+        "arr_ba_fs": null,
+        "val": "FR5",
+        "_comment_dep": "Partenza 10:15"
+      },
+      {
+        "corsa": 184,
+        "dep_bg": 705,
+        "arr_ba": 735,
+        "arr_ba_fs": null,
+        "val": "FR5",
+        "_comment_dep": "Partenza 11:45"
+      },
+      {
+        "corsa": 282,
+        "dep_bg": null,
+        "arr_ba": 777,
+        "arr_ba_fs": 790,
+        "val": "SC5",
+        "note": "Parte da Dairago",
+        "_comment_arr": "Arrivo 13:10"
+      },
+      {
+        "corsa": 132,
+        "dep_bg": 755,
+        "arr_ba": 785,
+        "arr_ba_fs": null,
+        "val": "FR5",
+        "_comment_dep": "Partenza 12:35"
+      },
+      {
+        "corsa": 218,
+        "dep_bg": null,
+        "arr_ba": 824,
+        "arr_ba_fs": null,
+        "val": "SC5",
+        "note": "Parte da Dairago"
+      },
+      {
+        "corsa": 118,
+        "dep_bg": 810,
+        "arr_ba": 841,
+        "arr_ba_fs": 852,
+        "val": "SC5",
+        "_comment_dep": "Partenza 13:30",
+        "_comment_arr": "Arrivo 14:12"
+      },
+      {
+        "corsa": 120,
+        "dep_bg": 870,
+        "arr_ba": 900,
+        "arr_ba_fs": null,
+        "val": "SC5",
+        "_comment_dep": "Partenza 14:30"
+      },
+      {
+        "corsa": 180,
+        "dep_bg": 922,
+        "arr_ba": 952,
+        "arr_ba_fs": 965,
+        "val": "FR5",
+        "_comment_dep": "Partenza 15:22",
+        "_comment_arr": "Arrivo 16:05"
+      },
+      {
+        "corsa": 666,
+        "dep_bg": 955,
+        "arr_ba": 985,
+        "arr_ba_fs": 997,
+        "val": "FR5",
+        "_comment_dep": "Partenza 15:55",
+        "_comment_arr": "Arrivo 16:37"
+      },
+      {
+        "corsa": 126,
+        "dep_bg": 1005,
+        "arr_ba": null,
+        "arr_ba_fs": 1046,
+        "val": "FR5",
+        "_comment_dep": "Partenza 16:45",
+        "_comment_arr": "Arrivo 17:26"
+      }
+    ],
+    "feriale_ritorno": [
+      {
+        "corsa": 111,
+        "dep_ba": 466,
+        "dep_ba_fs": null,
+        "arr_bg": 498,
+        "val": "FR5"
+      },
+      {
+        "corsa": 171,
+        "dep_ba": null,
+        "dep_ba_fs": 470,
+        "arr_bg": 519,
+        "val": "SC5"
+      },
+      {
+        "corsa": 153,
+        "dep_ba": 475,
+        "dep_ba_fs": null,
+        "arr_bg": 520,
+        "val": "SC5"
+      },
+      {
+        "corsa": 101,
+        "dep_ba": 490,
+        "dep_ba_fs": null,
+        "arr_bg": 524,
+        "val": "SC5"
+      },
+      {
+        "corsa": 151,
+        "dep_ba": 550,
+        "dep_ba_fs": null,
+        "arr_bg": null,
+        "val": "FR5"
+      },
+      {
+        "corsa": 223,
+        "dep_ba": 580,
+        "dep_ba_fs": null,
+        "arr_bg": null,
+        "val": "FR5"
+      },
+      {
+        "corsa": 159,
+        "dep_ba": 650,
+        "dep_ba_fs": null,
+        "arr_bg": null,
+        "val": "FR5"
+      },
+      {
+        "corsa": 199,
+        "dep_ba": 740,
+        "dep_ba_fs": null,
+        "arr_bg": null,
+        "val": "FR5"
+      },
+      {
+        "corsa": 113,
+        "dep_ba": 793,
+        "dep_ba_fs": 795,
+        "arr_bg": null,
+        "val": "FR5"
+      },
+      {
+        "corsa": 115,
+        "dep_ba": 807,
+        "dep_ba_fs": null,
+        "arr_bg": null,
+        "val": "SC5"
+      },
+      {
+        "corsa": 165,
+        "dep_ba": 830,
+        "dep_ba_fs": null,
+        "arr_bg": 843,
+        "val": "SC5"
+      },
+      {
+        "corsa": 163,
+        "dep_ba": 855,
+        "dep_ba_fs": 855,
+        "arr_bg": null,
+        "val": "SC5"
+      },
+      {
+        "corsa": 121,
+        "dep_ba": null,
+        "dep_ba_fs": null,
+        "arr_bg": 899,
+        "val": "SC5"
+      },
+      {
+        "corsa": 169,
+        "dep_ba": 905,
+        "dep_ba_fs": null,
+        "arr_bg": null,
+        "val": "SC5"
+      },
+      {
+        "corsa": 147,
+        "dep_ba": null,
+        "dep_ba_fs": 970,
+        "arr_bg": 1052,
+        "val": "FR5"
+      },
+      {
+        "corsa": 191,
+        "dep_ba": 1017,
+        "dep_ba_fs": 1005,
+        "arr_bg": null,
+        "val": "FR5"
+      },
+      {
+        "corsa": 149,
+        "dep_ba": 1062,
+        "dep_ba_fs": 1050,
+        "arr_bg": null,
+        "val": "FR5"
+      }
+    ],
+    "sabato_andata": [
+      {
+        "corsa": 704,
+        "dep_bg": 390,
+        "arr_ba": 420,
+        "val": "SAB",
+        "_comment_dep": "Partenza 06:30"
+      },
+      {
+        "corsa": 790,
+        "dep_bg": 450,
+        "arr_ba": 480,
+        "val": "SAB",
+        "_comment_dep": "Partenza 07:30"
+      },
+      {
+        "corsa": 710,
+        "dep_bg": 510,
+        "arr_ba": 540,
+        "val": "SAB",
+        "_comment_dep": "Partenza 08:30"
+      },
+      {
+        "corsa": 744,
+        "dep_bg": 570,
+        "arr_ba": 600,
+        "val": "SAB",
+        "_comment_dep": "Partenza 09:30"
+      },
+      {
+        "corsa": 784,
+        "dep_bg": 700,
+        "arr_ba": 730,
+        "val": "SAB",
+        "_comment_dep": "Partenza 11:40"
+      },
+      {
+        "corsa": 732,
+        "dep_bg": 755,
+        "arr_ba": 785,
+        "val": "SAB",
+        "_comment_dep": "Partenza 12:35"
+      },
+      {
+        "corsa": 718,
+        "dep_bg": 815,
+        "arr_ba": 846,
+        "val": "SAB",
+        "_comment_dep": "Partenza 13:35"
+      },
+      {
+        "corsa": 780,
+        "dep_bg": 910,
+        "arr_ba": 940,
+        "val": "SAB",
+        "_comment_dep": "Partenza 15:10"
+      },
+      {
+        "corsa": 766,
+        "dep_bg": 1005,
+        "arr_ba": 1035,
+        "val": "SAB",
+        "_comment_dep": "Partenza 16:45"
+      }
+    ],
+    "sabato_ritorno": [
+      {
+        "corsa": 711,
+        "dep_ba": 425,
+        "arr_bg": null,
+        "val": "SAB"
+      },
+      {
+        "corsa": 701,
+        "dep_ba": 485,
+        "arr_bg": null,
+        "val": "SAB"
+      },
+      {
+        "corsa": 751,
+        "dep_ba": 545,
+        "arr_bg": null,
+        "val": "SAB"
+      },
+      {
+        "corsa": 741,
+        "dep_ba": 605,
+        "arr_bg": null,
+        "val": "SAB"
+      },
+      {
+        "corsa": 799,
+        "dep_ba": 735,
+        "arr_bg": null,
+        "val": "SAB"
+      },
+      {
+        "corsa": 713,
+        "dep_ba": 790,
+        "arr_bg": null,
+        "val": "SAB"
+      },
+      {
+        "corsa": 763,
+        "dep_ba": 850,
+        "arr_bg": null,
+        "val": "SAB"
+      },
+      {
+        "corsa": 747,
+        "dep_ba": 945,
+        "arr_bg": null,
+        "val": "SAB"
+      },
+      {
+        "corsa": 771,
+        "dep_ba": 1040,
+        "arr_bg": null,
+        "val": "SAB"
+      }
+    ]
+  },
+  "Z647": {
+    "meta": {
+      "linea": "Z647",
+      "percorso_principale": "Cornaredo/Arluno \u2192 Pregnana/Rogorotto \u2192 Casorezzo \u2192 Busto Garolfo \u2192 Arconate \u2192 Buscate \u2192 Castano P.",
+      "percorso_ritorno": "Castano P. \u2192 Buscate \u2192 Arconate \u2192 Busto Garolfo \u2192 Casorezzo \u2192 Arluno \u2192 Rogorotto/Pregnana/Cuggiono",
+      "validita": {
+        "SC5": "Lun\u2013Ven solo periodo scolastico"
+      },
+      "eccezioni": "Non valido nelle 3 settimane centrali di agosto e nei giorni 1 gennaio, 1 maggio e 25 dicembre"
+    },
+    "feriale_andata": [
+      {
+        "corsa": 902,
+        "CD166": 410,
+        "CD155": 411,
+        "PG055": 414,
+        "PG030": 417,
+        "PG099": 419,
+        "PG101": 420,
+        "MN015": 424,
+        "RG011": 426,
+        "BT956": 456,
+        "AC628": 462,
+        "AC035": 465,
+        "BC250": 474,
+        "CT011": 484,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 904,
+        "AL050": 425,
+        "AL195": 427,
+        "AL196": 429,
+        "05011": 434,
+        "CZ093": 437,
+        "CZ094": 440,
+        "CZ080": 443,
+        "IN433": 449,
+        "IN351": 453,
+        "IN235": 455,
+        "IN403": 457,
+        "CG250": 460,
+        "CG143": 462,
+        "CG178": 464,
+        "CG998": 466,
+        "CT011": 474,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 908,
+        "AL050": 428,
+        "AL195": 429,
+        "AL196": 433,
+        "05011": 438,
+        "CZ093": 442,
+        "CZ094": 444,
+        "CZ080": 447,
+        "BT215": 452,
+        "BT300": 453,
+        "BT776": 454,
+        "BT999_dep": 775,
+        "BT949": 777,
+        "AC628": 781,
+        "AC035": 783,
+        "BC250": 792,
+        "CT011": 799,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 906,
+        "BT999_dep": 446,
+        "BT949": 448,
+        "BT956": 450,
+        "AC628": 454,
+        "AC035": 456,
+        "BC250": 463,
+        "CT011": 471,
+        "CT110": 475,
+        "CT100": 480,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 910,
+        "BT999_dep": 825,
+        "BT949": 827,
+        "AC628": 831,
+        "AC035": 832,
+        "BC250": 838,
+        "CT011": 846,
+        "flags": [
+          "SC5"
+        ]
+      }
+    ],
+    "feriale_ritorno": [
+      {
+        "corsa": 933,
+        "CT100": 483,
+        "CT050": 485,
+        "CT001": 488,
+        "BC211": 494,
+        "AC625": 501,
+        "AC627": 503,
+        "BT951": 506,
+        "BT999_arr": 507,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 905,
+        "CT001": 805,
+        "BC211": 811,
+        "AC625": 819,
+        "AC627": 820,
+        "CZ088": 835,
+        "CZ070": 838,
+        "05001": 840,
+        "AL040": 845,
+        "AL501": 847,
+        "AL185": 849,
+        "AL051": 852,
+        "RG001": 854,
+        "MN021": 855,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 907,
+        "CT001": 805,
+        "BC211": 811,
+        "CG999": 817,
+        "CG149": 819,
+        "CG143": 820,
+        "CG190": 821,
+        "IN285": 823,
+        "IN275": 826,
+        "IN350": 829,
+        "IN375": 831,
+        "BT205": 824,
+        "BT775": 826,
+        "BT400": 829,
+        "BT211": 830,
+        "CZ010": 833,
+        "CZ088": 836,
+        "CZ070": 838,
+        "05001": 841,
+        "AL040": 844,
+        "AL501": 845,
+        "AL185": 847,
+        "AL051": 849,
+        "RG001": 852,
+        "MN021": 854,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 949,
+        "CT001": 860,
+        "BC211": 866,
+        "AC625": 873,
+        "AC627": 875,
+        "CZ088": 886,
+        "CZ070": 889,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 909,
+        "CT001": 865,
+        "BC211": 870,
+        "CG999": 876,
+        "CG149": 878,
+        "CG143": 879,
+        "CG190": 880,
+        "IN285": 882,
+        "IN275": 885,
+        "IN350": 888,
+        "IN375": 890,
+        "BT205": 878,
+        "BT775": 879,
+        "BT400": 880,
+        "BT211": 881,
+        "CZ010": 884,
+        "CZ088": 895,
+        "CZ070": 897,
+        "05001": 900,
+        "AL040": 904,
+        "AL501": 905,
+        "AL185": 907,
+        "AL051": 909,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 951,
+        "CT001": 925,
+        "BC211": 931,
+        "AC625": 938,
+        "AC627": 940,
+        "BT205": 943,
+        "BT775": 944,
+        "BT400": 945,
+        "BT211": 946,
+        "CZ010": 949,
+        "CZ088": 951,
+        "CZ070": 954,
+        "05001": 957,
+        "AL040": 961,
+        "AL501": 962,
+        "AL185": 964,
+        "AL051": 966,
+        "flags": [
+          "SC5"
+        ]
+      },
+      {
+        "corsa": 953,
+        "CT001": 980,
+        "BC211": 986,
+        "AC625": 993,
+        "AC627": 995,
+        "BT205": 998,
+        "BT775": 999,
+        "BT400": 1000,
+        "BT211": 1001,
+        "CZ010": 1004,
+        "IN433": 1010,
+        "flags": [
+          "SC5"
+        ]
+      }
+    ]
+  },
+  "_comment_help": "MODIFICA GLI ORARI USANDO I NUMERI. I campi '_comment' servono solo come guida.",
+  "_comment_formula": "FORMULA MINUTI: (Ore * 60) + Minuti. Esempio: 06:30 -> (6*60)+30 = 390."
+}

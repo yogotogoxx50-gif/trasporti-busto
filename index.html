@@ -414,6 +414,17 @@ zione Precedenti (bus già partiti) -->
         <input class="settings-input" type="number" id="walkCanegrate" value="8" min="0" max="30">
       </div>
     </div>
+    <div class="section-header">Dati e Backup</div>
+    <div class="settings-panel">
+      <div class="settings-desc" style="margin-bottom:1rem;">Esporta gli orari per modificarli in un editor di testo o importa un file salvato in precedenza.</div>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <button class="settings-btn" style="flex:1;background:var(--surface);padding:0.75rem;" onclick="exportTimetables()">📥 Esporta JSON</button>
+        <button class="settings-btn" style="flex:1;background:var(--surface);padding:0.75rem;" onclick="document.getElementById('importFile').click()">📤 Importa JSON</button>
+      </div>
+      <input type="file" id="importFile" style="display:none" accept=".json" onchange="importTimetables(event)">
+      <div id="importStatus" style="font-size:0.75rem;margin-top:0.75rem;text-align:center;display:none;"></div>
+    </div>
+
     <div class="section-header">Info</div>
     <div class="settings-panel" style="font-size:0.82rem;color:var(--muted);line-height:1.7;">
       <p id="appTitle"></p>

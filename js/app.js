@@ -6,6 +6,21 @@
 
 // ── Inizializzazione ─────────────────────────────────────────
 function loadData() {
+  // Restore overrides from localStorage
+  var savedData = localStorage.getItem('userTimetables');
+  if (savedData) {
+    try {
+      var parsed = JSON.parse(savedData);
+      if (parsed.Z649) Z649 = parsed.Z649;
+      if (parsed.Z627) Z627 = parsed.Z627;
+      if (parsed.Z644) Z644 = parsed.Z644;
+      if (parsed.Z625) Z625 = parsed.Z625;
+      if (parsed.Z647) Z647 = parsed.Z647;
+      if (parsed.Z642) Z642 = parsed.Z642;
+      console.log('[Data] Orari caricati da memoria locale.');
+    } catch(e) { console.error('Errore ripristino dati:', e); }
+  }
+
   var w = localStorage.getItem('walkRossini');
   var c = localStorage.getItem('driveCanegrate');
   document.getElementById('walkRossini').value    = w != null ? w : CFG.defaults.walkRossini;
@@ -13,7 +28,7 @@ function loadData() {
   document.getElementById('appTitle').textContent =
     'Trasporti LIVE v' + CFG.version + ' — ' + CFG.fermata;
   document.getElementById('dataVersion').textContent =
-    'Dati aggiornati al: ' + CFG.lastUpdate;
+    'Dati aggiornati al: ' + (savedData ? 'IMPORT UTENTE' : CFG.lastUpdate);
   showZ647Orari('feriale_andata');
   showZ642Orari('feriale_andata');
   tick();
@@ -177,7 +192,7 @@ function buildBusOptions(corsa) {
 }
 
 // ── Render tutti i bus nel tab LIVE ─────────────────────────────
-function renderUnifiedLive(allUpcoming, allDeparted, effectiveNow) {
+function renderUnifiedLive(allUpcoming, allDeparted, effectiveNow, nowMins) {
   var container = document.getElementById('unifiedBusBlocks');
   if (container) {
     if (!allUpcoming.length) {
@@ -234,12 +249,19 @@ function renderUnifiedLive(allUpcoming, allDeparted, effectiveNow) {
 
         var timelineHtml = buildTransitTimeline(item.dep, arrTime, startLoc, endLoc);
 
+        var isUnreachable = item.dep < effectiveNow;
+        var displayDiff = isUnreachable ? (item.dep - nowMins) : (item.dep - effectiveNow);
+        var urgencyHtml = isUnreachable 
+          ? '<span class="badge badge-urgent">⚠️ Perso?</span>' 
+          : urgencyBadge(Math.max(displayDiff, 0));
+        var diffLabel = isUnreachable ? '<span style="color:var(--urgent);font-weight:700;">tra ' + displayDiff + ' min</span>' : 'tra ' + displayDiff + ' min';
+
         return [
           '<div class="bus-block" id="unifiedblock-' + i + '">',
           '  <div class="bus-block-header" onclick="toggleUnifiedBlock(' + i + ')">',
           '    <div class="transit-top-row">',
           '      <div><span class="bus-number">' + item.label + '</span>' + badgesHtml + '</div>',
-          '      <div>' + urgencyBadge(Math.max(diff, 0)) + '<span class="bus-block-diff" style="margin-left:0.5rem;">tra ' + diff + ' min</span></div>',
+          '      <div>' + urgencyHtml + '<span class="bus-block-diff" style="margin-left:0.5rem;">' + diffLabel + '</span></div>',
           '    </div>',
           '    ' + timelineHtml,
           '    ' + (noteHtml ? '<div style="margin-top:0.5rem;">' + noteHtml + '</div>' : ''),
@@ -954,8 +976,8 @@ function tick() {
   var allUpcoming = [];
   var allDeparted = [];
 
-  // Z649 — upcoming = those the user can still catch (effectiveNow)
-  var z649deps = getNextZ649(effectiveNow, dt, 5);
+  // Z649 — upcoming = those that haven't actually left yet (nowMins)
+  var z649deps = getNextZ649(nowMins, dt, 5);
   z649deps.forEach(function(item) {
     allUpcoming.push({ line: 'z649', label: 'Z649', dep: item.rossini, data: item });
   });
@@ -967,17 +989,19 @@ function tick() {
     allDeparted.push({ line: 'z649', label: 'Z649', dep: item.rossini, data: item });
   });
 
-  // Other lines — use nowMins for departed check, effectiveNow for catchable window
+  // Other lines — use nowMins for departed check, nowMins for upcoming check
   if (dt !== 'domenica') {
     ['z627', 'z644', 'z625'].forEach(function(line) {
-      // fetch a wider window to catch near-past buses too
-      var deps = getNextBusLive(line, nowMins - 30, dt, 8);
+      // fetch from nowMins - 30 to get both departed and upcoming
+      var deps = getNextBusLive(line, nowMins - 30, dt, 10);
       deps.forEach(function(item) {
-        if (item.depMins < nowMins && item.depMins >= nowMins - 30) {
-          // bus already left — show in departed
-          allDeparted.push({ line: line, label: line.toUpperCase(), dep: item.depMins, data: item });
-        } else if (item.depMins >= effectiveNow) {
-          // bus catchable — show in upcoming
+        if (item.depMins < nowMins) {
+          // bus already left
+          if (item.depMins >= nowMins - 30) {
+            allDeparted.push({ line: line, label: line.toUpperCase(), dep: item.depMins, data: item });
+          }
+        } else {
+          // bus hasn't left yet
           allUpcoming.push({ line: line, label: line.toUpperCase(), dep: item.depMins, data: item });
         }
       });
@@ -1000,23 +1024,33 @@ function tick() {
     var nextItem = allUpcoming[0];
     var nextData = nextItem.data;
     var depTime  = (nextItem.line === 'z649') ? nextData.rossini : nextData.depMins;
-    var diff     = depTime - effectiveNow;
-    var urg      = urgencyClass(diff);
+    
+    var isUnreachable = depTime < effectiveNow;
+    var diff = isUnreachable ? (depTime - nowMins) : (depTime - effectiveNow);
+    var urg  = isUnreachable ? 'urgent' : urgencyClass(diff);
 
     if (mainLabel) mainLabel.textContent = 'Prossimo ' + nextItem.label + ' da ' + (nextItem.line === 'z625' ? 'Via Curiel' : 'Via Rossini');
 
     var cntEl = document.getElementById('cntMins');
     cntEl.textContent = diff;
+    if (isUnreachable) {
+        cntEl.style.color = 'var(--urgent)';
+        document.getElementById('cntTime').innerHTML = '<strong style="color:var(--urgent)">Perso?</strong> Parte tra ' + diff + ' min (alle ' + minsToHHMM(depTime) + ')';
+    } else {
+        cntEl.style.color = '';
+        document.getElementById('cntTime').textContent = 'Parte alle ' + minsToHHMM(depTime);
+    }
+    
     cntEl.classList.remove('fade-in');
     void cntEl.offsetWidth;
     cntEl.classList.add('fade-in');
 
-    document.getElementById('cntTime').textContent    = 'Parte alle ' + minsToHHMM(depTime);
-    document.getElementById('cntBadge').innerHTML     = urgencyBadge(diff);
+    document.getElementById('cntBadge').innerHTML     = isUnreachable ? '<span class="badge badge-urgent">⚠️ In partenza</span>' : urgencyBadge(diff);
     document.getElementById('mainCountdown').className = 'countdown-card ' + urg;
 
     var progress = Math.max(0, Math.min(100, ((30 - diff) / 30) * 100));
     document.getElementById('progressFill').style.width = progress + '%';
+    document.getElementById('progressFill').style.background = isUnreachable ? 'var(--urgent)' : '';
 
     var mt = document.getElementById('mainTimeline');
     if (mt) {
@@ -1042,7 +1076,7 @@ function tick() {
     }
   }
 
-  renderUnifiedLive(allUpcoming, allDeparted, effectiveNow);
+  renderUnifiedLive(allUpcoming, allDeparted, effectiveNow, nowMins);
 
   var noServiceEl = document.getElementById('otherBusesNoService');
   if (noServiceEl) noServiceEl.style.display = dt === 'domenica' ? 'block' : 'none';
@@ -1103,4 +1137,42 @@ function buildTransitTimeline(depTime, arrTime, startLoc, endLoc) {
     '  </div>',
     '</div>'
   ].join('');
+}
+function exportTimetables() {
+  var data = {
+    Z649: Z649, Z627: Z627, Z644: Z644, Z625: Z625, Z647: Z647, Z642: Z642,
+    _meta: { exportDate: new Date().toISOString(), version: CFG.version }
+  };
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'trasporti_busto_export_' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importTimetables(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  var status = document.getElementById('importStatus');
+  status.style.display = 'block';
+  status.textContent = 'Caricamento...';
+  
+  reader.onload = function(e) {
+    try {
+      var parsed = JSON.parse(e.target.result);
+      if (!parsed.Z649) throw new Error('Formato non valido (manca Z649)');
+      
+      localStorage.setItem('userTimetables', JSON.stringify(parsed));
+      status.textContent = '✅ Successo! Riavvio...';
+      status.style.color = 'var(--ok)';
+      setTimeout(function(){ location.reload(); }, 1200);
+    } catch(err) {
+      status.textContent = '❌ Errore: ' + err.message;
+      status.style.color = 'var(--bad)';
+    }
+  };
+  reader.readAsText(file);
 }
