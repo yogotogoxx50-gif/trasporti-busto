@@ -228,6 +228,7 @@
       <div class="settings-actions">
         <button class="settings-action" onclick="exportTimetables()">Esporta JSON</button>
         <button class="settings-action" onclick="document.getElementById('importFile').click()">Importa JSON</button>
+        <button class="settings-action action-danger" id="dangerResetBtn">Ripristina orari originali</button>
       </div>
       <input type="file" id="importFile" class="hidden" accept=".json" onchange="importTimetables(event)">
       <div id="importStatus" class="import-status hidden"></div>

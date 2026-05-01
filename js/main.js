@@ -192,15 +192,22 @@ export function loadData() {
   if (savedData) {
     try {
       const parsed = JSON.parse(savedData);
-      if (parsed.Z649) Z649 = parsed.Z649;
-      if (parsed.Z627) Z627 = parsed.Z627;
-      if (parsed.Z644) Z644 = parsed.Z644;
-      if (parsed.Z625) Z625 = parsed.Z625;
-      if (parsed.Z647) Z647 = parsed.Z647;
-      if (parsed.Z642) Z642 = parsed.Z642;
-      console.log('[Data] Orari caricati da memoria locale.');
+      // Validazione minima: se Z649 non ha la struttura ad oggetti v4, scartiamo tutto
+      if (parsed.Z649 && typeof parsed.Z649 === 'object' && !Array.isArray(parsed.Z649)) {
+        if (parsed.Z649) Z649 = parsed.Z649;
+        if (parsed.Z627) Z627 = parsed.Z627;
+        if (parsed.Z644) Z644 = parsed.Z644;
+        if (parsed.Z625) Z625 = parsed.Z625;
+        if (parsed.Z647) Z647 = parsed.Z647;
+        if (parsed.Z642) Z642 = parsed.Z642;
+        console.log('[Data] Orari v4 caricati correttamente.');
+      } else {
+        console.warn('[Data] Rilevati dati vecchio formato o corrotti. Uso i file di sistema.');
+        localStorage.removeItem('userTimetables');
+      }
     } catch (e) {
       console.error('Errore ripristino dati:', e);
+      localStorage.removeItem('userTimetables');
     }
   }
 
@@ -253,6 +260,16 @@ if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {
     loadData();
     initSettings();
+
+    const resetBtn = document.getElementById('dangerResetBtn');
+    if (resetBtn) {
+      resetBtn.onclick = () => {
+        if (confirm('Sicuro di voler cancellare tutte le modifiche e tornare agli orari originali?')) {
+          localStorage.removeItem('userTimetables');
+          location.reload();
+        }
+      };
+    }
   });
 }
 

@@ -32,6 +32,14 @@ Poi apri `http://localhost:8000`.
 
 ## Come aggiornare fermate e orari
 
+L'aggiornamento può essere manuale o automatizzato tramite script.
+
+### ⚙️ Metodo Automatizzato (Consigliato)
+1. Prepara i CSV nelle cartelle `Orari_ZXXX/`.
+2. Esegui lo script: `node tools/csv-to-js.mjs zXXX`.
+3. Consulta [tools/README.md](tools/README.md) per i dettagli sul formato e la configurazione.
+
+### ✍️ Metodo Manuale
 1. Aggiungi o aggiorna tutte le fermate nei file `data/z*.js`, dentro `stops`.
 2. In `js/line-config.js`, imposta:
    - `visibleStops` per le colonne mostrate di default nelle tabelle.
