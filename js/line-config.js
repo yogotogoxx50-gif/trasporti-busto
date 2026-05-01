@@ -34,30 +34,30 @@ export const LINE_CONFIG = {
 
   z627: {
     label: 'Z627',
-    type: 'simple',
+    type: 'stopCode',
     directions: ['all'],
     tabId: 'z627',
-    departureStop: 'buonarroti',
-    arrivalStop: 'legnano_fs',
-    shortRunCheck: 'legnano_fs',
+    departureStop: 'BT301',
+    arrivalStop: 'LG090',
+    shortRunCheck: 'LG090',
     departureLocation: 'Via Buonarroti',
     arrivalLocation: 'Legnano FS',
     shortRunLabel: 'Liceo / tratta breve',
     scheduleKeys: ['weekday', 'saturday'],
     columns: {
       all: [
-        { key: 'buonarroti', label: 'Partenza BT301', sublabel: 'Via Buonarroti' },
-        { key: 'legnano_fs', label: 'Arrivo LG090', sublabel: 'Legnano FS' },
+        { key: 'BT301', label: 'Partenza BT301', sublabel: 'Via Buonarroti' },
+        { key: 'LG090', label: 'Arrivo LG090', sublabel: 'Legnano FS' },
         { key: '_connection_S5_LEGNANO', label: 'Coincidenza', sublabel: 'S5 -> Milano' },
         { key: 'validity', label: 'Val.', type: 'validity' },
         { key: 'note', label: 'Note', alwaysVisible: true }
       ]
     },
-    visibleStops: { all: ['buonarroti', 'legnano_fs'] },
-    liveStops: { all: { departure: 'buonarroti', arrival: 'legnano_fs' } },
-    referenceStops: { all: ['buonarroti'] },
+    visibleStops: { all: ['BT301', 'LG090'] },
+    liveStops: { all: { departure: 'BT301', arrival: 'LG090' } },
+    referenceStops: { all: ['BT301'] },
     connections: [
-      { type: 'S5_LEGNANO', stop: 'legnano_fs', label: 'S5', slotKey: 'S5_LEGNANO', destination: 'Cadorna', travelToDest: 30 }
+      { type: 'S5_LEGNANO', stop: 'LG090', label: 'S5', slotKey: 'S5_LEGNANO', destination: 'Cadorna', travelToDest: 30 }
     ],
     showInLive: true,
     noService: ['sunday']
