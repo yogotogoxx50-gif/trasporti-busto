@@ -1,5 +1,5 @@
-// Service Worker per Trasporti LIVE v4.0.1
-const CACHE_NAME = 'trasporti-bg-v4.0.1';
+// Service Worker per Trasporti LIVE v4.0.2
+const CACHE_NAME = 'trasporti-bg-v4.0.2';
 
 const PRECACHE_ASSETS = [
   './',

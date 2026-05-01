@@ -22,13 +22,40 @@ export { CFG };
 
 let lastMins = -1;
 let intervalId = null;
+const TIME_TRAVEL_KEY = 'timeTravelDateTime';
 
 function resetMinuteCache() {
   lastMins = -1;
 }
 
+export function getTimeTravelValue() {
+  if (typeof localStorage === 'undefined') return '';
+  return localStorage.getItem(TIME_TRAVEL_KEY) || '';
+}
+
+export function getCurrentDate() {
+  const value = getTimeTravelValue();
+  if (!value) return new Date();
+  const simulated = new Date(value);
+  return Number.isNaN(simulated.getTime()) ? new Date() : simulated;
+}
+
+export function isTimeTravelActive() {
+  return Boolean(getTimeTravelValue());
+}
+
+export function setTimeTravelValue(value) {
+  if (typeof localStorage === 'undefined') return;
+  if (value) localStorage.setItem(TIME_TRAVEL_KEY, value);
+  else localStorage.removeItem(TIME_TRAVEL_KEY);
+}
+
+export function clearTimeTravelValue() {
+  setTimeTravelValue('');
+}
+
 export function tick() {
-  const now = new Date();
+  const now = getCurrentDate();
   const h = now.getHours();
   const m = now.getMinutes();
   const s = now.getSeconds();
@@ -42,7 +69,10 @@ export function tick() {
 
   const dt = getDayType(now);
   const dayTypeEl = document.getElementById('dayType');
-  if (dayTypeEl) dayTypeEl.textContent = dayTypeLabel(dt).toUpperCase();
+  if (dayTypeEl) {
+    const suffix = isTimeTravelActive() ? ' · SIMULATO' : '';
+    dayTypeEl.textContent = `${dayTypeLabel(dt).toUpperCase()}${suffix}`;
+  }
 
   const nowMins = h * 60 + m;
   if (nowMins === lastMins) return;
@@ -146,7 +176,7 @@ export function switchTab(tab) {
   const button = document.getElementById(`tab-${tab}`);
   if (button) button.classList.add('active');
 
-  const dt = getDayType(new Date());
+  const dt = getDayType(getCurrentDate());
   if (tab === 'live') {
     resetMinuteCache();
     tick();
@@ -186,7 +216,7 @@ export function loadData() {
   if (appTitleEl) appTitleEl.textContent = `Trasporti LIVE v${CFG.version} - ${CFG.fermata}`;
   if (dataVersionEl) dataVersionEl.textContent = `Dati aggiornati al: ${savedData ? 'IMPORT UTENTE' : CFG.lastUpdate}`;
 
-  renderTimetable('z649', getDayType(new Date()));
+  renderTimetable('z649', getDayType(getCurrentDate()));
   tick();
   if (!intervalId) intervalId = setInterval(tick, 1000);
   const loadingOverlay = document.getElementById('loadingOverlay');
@@ -210,7 +240,13 @@ if (typeof window !== 'undefined') {
   window.forceRefresh = () => {
     resetMinuteCache();
     tick();
+    const active = document.querySelector('.tab-content.active')?.id?.replace('content-', '');
+    const dt = getDayType(getCurrentDate());
+    if (active === 'orari') renderTimetable('z649', dt);
+    else if (LINE_CONFIG[active]) renderTimetable(active, getDefaultScheduleKey(LINE_CONFIG[active], dt));
   };
+  window.setTimeTravelValue = setTimeTravelValue;
+  window.clearTimeTravelValue = clearTimeTravelValue;
 }
 
 if (typeof document !== 'undefined') {

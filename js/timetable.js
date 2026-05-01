@@ -76,7 +76,7 @@ export function renderTimetable(lineId, scheduleKey) {
 
   renderFilterButtons(lineId, scheduleKey);
 
-  const now = new Date();
+  const now = DATA.getCurrentDate();
   const nowMins = now.getHours() * 60 + now.getMinutes();
   const allData = DATA[lineId.toUpperCase()] || {};
   const refKey = getReferenceStop(config, scheduleKey);

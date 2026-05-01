@@ -1,5 +1,5 @@
 import { CFG, Z649, Z627, Z644, Z625, Z647, Z642 } from './main.js';
-import { tick } from './main.js';
+import { tick, getTimeTravelValue, setTimeTravelValue, clearTimeTravelValue, isTimeTravelActive } from './main.js';
 import { renderVisibleStopsSettings } from './stop-settings.js';
 
 function refreshApp() {
@@ -61,6 +61,26 @@ export function importTimetables(event) {
 export function initSettings() {
   const walkRossini = document.getElementById('walkRossini');
   const walkCanegrate = document.getElementById('walkCanegrate');
+  const timeTravelInput = document.getElementById('timeTravelDateTime');
+  const applyTimeTravel = document.getElementById('applyTimeTravel');
+  const resetTimeTravel = document.getElementById('resetTimeTravel');
+  const timeTravelStatus = document.getElementById('timeTravelStatus');
+
+  const updateTimeTravelStatus = () => {
+    if (!timeTravelStatus) return;
+    const value = getTimeTravelValue();
+    if (!value || !isTimeTravelActive()) {
+      timeTravelStatus.textContent = 'Stai usando data e ora reali.';
+      timeTravelStatus.classList.remove('time-travel-active');
+      return;
+    }
+    const dt = new Date(value);
+    timeTravelStatus.textContent = `Modalita simulata attiva: ${dt.toLocaleString('it-IT', {
+      dateStyle: 'short',
+      timeStyle: 'short'
+    })}`;
+    timeTravelStatus.classList.add('time-travel-active');
+  };
 
   if (walkRossini) {
     walkRossini.addEventListener('change', e => {
@@ -76,5 +96,26 @@ export function initSettings() {
     });
   }
 
+  if (timeTravelInput) timeTravelInput.value = getTimeTravelValue();
+
+  if (applyTimeTravel) {
+    applyTimeTravel.addEventListener('click', () => {
+      if (!timeTravelInput?.value) return;
+      setTimeTravelValue(timeTravelInput.value);
+      updateTimeTravelStatus();
+      refreshApp();
+    });
+  }
+
+  if (resetTimeTravel) {
+    resetTimeTravel.addEventListener('click', () => {
+      clearTimeTravelValue();
+      if (timeTravelInput) timeTravelInput.value = '';
+      updateTimeTravelStatus();
+      refreshApp();
+    });
+  }
+
+  updateTimeTravelStatus();
   renderVisibleStopsSettings(refreshApp);
 }

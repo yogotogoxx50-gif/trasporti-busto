@@ -11,6 +11,7 @@ Live: [https://yogotogoxx50-gif.github.io/trasporti-busto/](https://yogotogoxx50
 - Dati in schema unificato: ogni corsa ha `tripId`, `stops`, `validity`, `flags`, `note`.
 - Fermate complete nei file `data/*.js`, con visualizzazione controllata da `js/line-config.js`.
 - Impostazioni locali per tempi di percorrenza, import/export JSON e fermate visibili.
+- Simulazione di data e ora per verificare LIVE e tabelle come in un momento futuro/passato.
 - PWA con service worker e cache degli asset locali.
 
 ## Sviluppo locale

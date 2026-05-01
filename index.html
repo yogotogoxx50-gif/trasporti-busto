@@ -180,6 +180,23 @@
 
 <div class="tab-content" id="content-settings">
   <div class="container">
+    <div class="section-header">Simula data e ora</div>
+    <div class="settings-panel">
+      <div class="settings-desc settings-desc-spaced">Imposta un momento specifico per vedere LIVE e tabelle come se fosse la data e l'ora attuali.</div>
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">Data e ora simulata</div>
+          <div class="settings-desc">Lascia vuoto per usare l'orario reale</div>
+        </div>
+        <input class="settings-input datetime-input" type="datetime-local" id="timeTravelDateTime">
+      </div>
+      <div class="settings-actions">
+        <button class="settings-action" id="applyTimeTravel" type="button">Applica simulazione</button>
+        <button class="settings-action" id="resetTimeTravel" type="button">Reset ora reale</button>
+      </div>
+      <div id="timeTravelStatus" class="time-travel-status"></div>
+    </div>
+
     <div class="section-header">Tempi di percorrenza</div>
     <div class="settings-panel">
       <div class="settings-row">

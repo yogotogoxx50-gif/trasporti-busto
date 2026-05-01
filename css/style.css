@@ -137,6 +137,9 @@ button{cursor:pointer;font-family:inherit;}
 .settings-desc{font-size:0.75rem;color:var(--muted);margin-top:0.15rem;}
 .settings-input{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:0.35rem 0.6rem;color:var(--text);font-size:0.9rem;width:70px;text-align:center;}
 .settings-input:focus{outline:2px solid var(--cyan);outline-offset:2px;}
+.datetime-input{width:min(240px,100%);text-align:left;color-scheme:dark;}
+.time-travel-status{font-size:0.78rem;color:var(--muted);margin-top:0.75rem;text-align:center;}
+.time-travel-status.time-travel-active{color:var(--warn);font-weight:700;}
 
 /* ── Filter bar ──────────────────────────────────────────────────── */
 .filter-bar{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;}
