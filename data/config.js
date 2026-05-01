@@ -2,7 +2,7 @@
 // CONFIG.JS — parametri statici dell'app
 // Modifica qui tempi di percorrenza e destinazioni
 // ============================================================
-var CFG = {
+export const CFG = {
   // Festività italiane (trattate come domenica: orario domenicale)
   // ⚠️ ATTENZIONE: Aggiornare ogni anno con la data di Pasquetta!
   // I dati attuali coprono solo fino a Dicembre 2026.
@@ -32,8 +32,8 @@ var CFG = {
     "2026-12-25", // Natale
     "2026-12-26"  // Santo Stefano
   ],
-  version: "3.7.0",
-  lastUpdate: "2026-04-29",
+  version: "4.0.1",
+  lastUpdate: "2026-05-01",
   fermata: "Via Giacomo Rossini 35, Busto Garolfo (MI)",
   defaults: {
     walkRossini: 5,
@@ -60,6 +60,6 @@ var CFG = {
   // Parametri stima Canegrate
   canegrate: {
     travelToMilano: 25,
-    note: "Stima Canegrate→Cadorna via Trenord"
+    note: "Stima Canegrate -> Cadorna via Trenord"
   }
 };

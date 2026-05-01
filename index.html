@@ -3,461 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trasporti LIVE — Busto Garolfo</title>
+<title>Trasporti LIVE - Busto Garolfo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap" rel="stylesheet">
-<!-- PWA -->
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#22d3ee">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Trasporti BG">
-<style>
-:root {
-  --bg:#0b1020;--surface:#12182b;--card:#151d33;--border:#27304a;
-  --cyan:#22d3ee;--blue:#60a5fa;--warn:#f59e0b;--ok:#22c55e;--bad:#ef4444;
-  --urgent:#ef4444;--soon:#22c55e;--later:#60a5fa;
-  --text:#e2e8f0;--muted:#94a3b8;--faint:#475569;
-  --r:0.75rem;--r-sm:0.5rem;
-  --font:'Inter',ui-sans-serif,system-ui,sans-serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;}
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100dvh;font-size:1rem;line-height:1.6;}
-a{color:var(--cyan);text-decoration:none;}
-button{cursor:pointer;font-family:inherit;}
-
-/* ── Header ─────────────────────────────────────────────────────── */
-.hero-bar{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1.25rem;gap:1rem;}
-.hero-bar .clock{font-size:1.5rem;font-weight:700;color:var(--cyan);font-variant-numeric:tabular-nums;letter-spacing:0.02em;}
-.hero-bar .day-info{display:flex;flex-direction:column;gap:0.1rem;}
-.hero-bar .day-name{font-size:0.9rem;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:0.05em;}
-.hero-bar .day-type{font-size:0.75rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
-.hero-bar .settings-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);padding:0.4rem 0.75rem;color:var(--muted);font-size:0.8rem;transition:all 0.18s;}
-.hero-bar .settings-btn:hover{color:var(--text);border-color:var(--cyan);}
-
-/* ── Tab bar ──────────────────────────────────────────────────────── */
-.tab-bar{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
-.tab-bar::-webkit-scrollbar{display:none;}
-.tab-btn{flex:1;min-width:60px;padding:0.65rem 0.5rem;font-size:0.8rem;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
-.tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan);}
-.tab-btn:hover:not(.active){color:var(--text);}
-.tab-content{display:none;}
-.tab-content.active{display:block;}
-
-.container{max-width:800px;margin:0 auto;padding:1rem;}
-
-/* ── Countdown card ─────────────────────────────────────────────── */
-.countdown-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.25rem;display:flex;flex-direction:column;gap:0.75rem;}
-.countdown-card.urgent{border-color:var(--urgent);animation:pulse-urgent 1.2s ease-in-out infinite;}
-.countdown-card.soon{border-color:var(--ok);}
-@keyframes pulse-urgent{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0);}50%{box-shadow:0 0 0 6px rgba(239,68,68,0.15);}}
-.countdown-top{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;}
-.countdown-label{font-size:0.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;}
-.countdown-main{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums;}
-.countdown-main .mins{color:var(--cyan);}
-.countdown-time{font-size:0.9rem;color:var(--muted);}
-
-/* ── Badge ───────────────────────────────────────────────────────── */
-.badge{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.75rem;font-weight:600;padding:0.25rem 0.6rem;border-radius:9999px;}
-.badge-urgent{background:rgba(239,68,68,0.15);color:var(--urgent);}
-.badge-soon{background:rgba(34,197,94,0.12);color:var(--ok);}
-.badge-later{background:rgba(96,165,250,0.12);color:var(--later);}
-.badge-rapido{background:rgba(34,211,238,0.12);color:var(--cyan);}
-.badge-short{background:rgba(71,85,105,0.3);color:var(--muted);}
-
-/* ── Progress bar ────────────────────────────────────────────────── */
-.progress-wrap{background:var(--border);border-radius:9999px;height:6px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:9999px;background:var(--cyan);transition:width 0.5s ease;}
-
-/* ── Bus blocks ──────────────────────────────────────────────────── */
-.bus-block{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:1rem;overflow:hidden;transition:border-color 0.18s;}
-.bus-block.active{border-color:var(--cyan);animation:glow-cyan 3s ease-in-out infinite;}
-@keyframes glow-cyan{0%,100%{box-shadow:0 0 0 0 rgba(34,211,238,0);}50%{box-shadow:0 0 16px 2px rgba(34,211,238,0.12);}}
-.bus-block-header{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;padding:1rem 1.25rem;gap:0.25rem;cursor:pointer;position:relative;}
-.bus-block-header:hover{background:rgba(34,211,238,0.03);}
-.bus-block-title{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;}
-.bus-number{font-size:1rem;font-weight:800;color:var(--cyan);}
-.bus-dep-time{font-size:1rem;font-weight:600;font-variant-numeric:tabular-nums;}
-.bus-block-body{padding:0 1.25rem 1.25rem;display:none;}
-.bus-block.active .bus-block-body{display:block;}
-.collapse-icon{color:var(--muted);font-size:0.9rem;transition:transform 0.2s;flex-shrink:0;}
-.bus-block.active .collapse-icon{transform:rotate(180deg);}
-
-/* ── Blocco Canegrate autonomo ───────────────────────────────────── */
-.canegrate-block{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1rem;}
-.canegrate-block-title{display:flex;align-items:center;gap:0.5rem;font-size:1rem;font-weight:800;color:var(--cyan);margin-bottom:0.25rem;}
-
-/* ── Opzioni per corsa ──────────────────────────────────────────── */
-.option-group{margin-top:0.75rem;}
-.option-group-title{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;padding:0.5rem 0;border-top:1px solid var(--border);flex-wrap:wrap;}
-.option-group-title:first-child{border-top:none;}
-.route-line{display:flex;align-items:flex-start;gap:0.5rem;padding:0.35rem 0 0.35rem 0.5rem;font-size:0.9rem;}
-.route-arrow{color:var(--faint);flex-shrink:0;margin-top:0.1rem;}
-.route-info{flex:1;}
-.route-dest{font-weight:600;color:var(--text);}
-.route-times{font-size:0.82rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:0.1rem;}
-.estimate-note{font-size:0.75rem;color:var(--faint);margin-top:0.5rem;padding:0.4rem 0.6rem;background:rgba(71,85,105,0.15);border-radius:var(--r-sm);}
-
-/* ── Tabelle orari ──────────────────────────────────────────────── */
-.section-header{font-size:0.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin:1.25rem 0 0.75rem;}
-.orari-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
-.orari-table th{text-align:left;padding:0.5rem 0.75rem;color:var(--muted);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid var(--border);}
-.orari-table td{padding:0.5rem 0.75rem;border-bottom:1px solid rgba(39,48,74,0.5);font-variant-numeric:tabular-nums;}
-.orari-table tr.current-row td{background:rgba(34,211,238,0.06);color:var(--cyan);font-weight:600;}
-.orari-table tr.short-row td{background:rgba(71,85,105,0.1);color:var(--faint);}
-.orari-table tr:hover td{background:rgba(34,211,238,0.03);}
-
-/* ── Impostazioni ────────────────────────────────────────────────── */
-.settings-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem;}
-.settings-row{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);gap:1rem;}
-.settings-row:last-child{border-bottom:none;}
-.settings-label{font-size:0.9rem;color:var(--text);}
-.settings-desc{font-size:0.75rem;color:var(--muted);margin-top:0.15rem;}
-.settings-input{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);padding:0.35rem 0.6rem;color:var(--text);font-size:0.9rem;width:70px;text-align:center;}
-.settings-input:focus{outline:2px solid var(--cyan);outline-offset:2px;}
-
-/* ── Filter bar ──────────────────────────────────────────────────── */
-.filter-bar{display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;}
-.filter-btn{padding:0.35rem 0.8rem;border:1px solid var(--border);border-radius:var(--r-sm);background:none;color:var(--muted);font-size:0.8rem;transition:all 0.18s;cursor:pointer;}
-.filter-btn.active{color:var(--cyan);border-color:var(--cyan);}
-
-/* ── Loading ─────────────────────────────────────────────────────── */
-#loadingOverlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:1rem;}
-.loading-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--cyan);border-radius:50%;animation:spin 0.8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-@keyframes fadeNum{0%{opacity:0;transform:translateY(4px);}100%{opacity:1;transform:translateY(0);}}
-.fade-in{animation:fadeNum 0.35s ease forwards;}
-
-/* ── Tab bar scroll fade ──────────────────────────────────────── */
-.tab-bar-wrap{position:relative;}
-.tab-bar-wrap::after{content:'';position:absolute;right:0;top:0;bottom:0;width:2rem;background:linear-gradient(to right,transparent,var(--surface));pointer-events:none;z-index:1;}
-
-/* ── Bus block badge row ─────────────────────────────────────── */
-.bus-block-badges{display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap;margin-top:0.15rem;}
-.bus-block-diff{font-size:0.82rem;color:var(--muted);}
-.opt-detail{color:var(--text);font-weight:400;text-transform:none;letter-spacing:0;}
-
-/* ── No-service notice ───────────────────────────────────────── */
-.no-service-notice{background:rgba(71,85,105,0.15);border:1px solid var(--border);border-radius:var(--r);padding:0.9rem 1rem;margin-bottom:1rem;font-size:0.85rem;color:var(--muted);text-align:center;}
-
-/* ── Departed buses ──────────────────────────────────────────── */
-.departed-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:0.5rem 0;margin-top:1.25rem;}
-.departed-header:hover .section-header{color:var(--text);}
-.departed-toggle{font-size:0.8rem;color:var(--faint);transition:transform 0.2s;}
-.departed-toggle.open{transform:rotate(180deg);}
-.departed-section .bus-block{opacity:0.5;transition:opacity 0.2s;}
-.departed-section .bus-block:hover{opacity:0.85;}
-
-@media(max-width:600px){
-  .countdown-main{font-size:1.6rem;}
-  .container{padding:0.75rem;}
-  .bus-block-header{padding:0.85rem 1rem;}
-  .bus-block-body{padding:0 1rem 1rem;}
-}
-
-.transit-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; padding-right: 1.5rem; }
-.transit-timeline { display: flex; justify-content: space-between; align-items: center; position: relative; margin-top: 0.5rem; padding-right: 1.5rem; }
-.transit-point { display: flex; flex-direction: column; z-index: 2; }
-.transit-point.right { text-align: right; }
-.transit-time { font-size: 1.15rem; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
-.transit-loc { font-size: 0.78rem; color: var(--muted); font-weight: 500; }
-.transit-duration { flex-grow: 1; display: flex; align-items: center; justify-content: center; position: relative; margin: 0 1rem; }
-.duration-line { flex-grow: 1; height: 2px; background: linear-gradient(90deg, transparent, var(--faint), transparent); border-radius: 2px; }
-.duration-pill { font-size: 0.7rem; font-weight: 600; color: var(--cyan); background: rgba(34, 211, 238, 0.1); padding: 0.15rem 0.5rem; border-radius: 1rem; margin: 0 0.5rem; white-space: nowrap; }
-.main-timeline { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); }
-.collapse-icon-wrap { position: absolute; right: 1rem; bottom: 1.1rem; color: var(--muted); font-size: 0.8rem; transition: transform 0.2s; }
-.bus-block.active .collapse-icon-wrap { transform: rotate(180deg); }
-</style>
-
+<link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-
-<!-- Overlay di caricamento -->
 <div id="loadingOverlay">
   <div class="loading-spinner"></div>
-  <span style="color:var(--muted);font-size:0.9rem;">Avvio...</span>
+  <span class="loading-text">Avvio...</span>
 </div>
 
-<!-- Header sticky -->
 <div class="hero-bar">
   <div class="clock" id="clock">--:--:--</div>
   <div class="day-info">
     <span class="day-name" id="dayName">...</span>
     <span class="day-type" id="dayType">...</span>
   </div>
-  <button class="settings-btn" onclick="switchTab('settings')">&#9881;</button>
+  <button class="settings-btn" onclick="switchTab('settings')" title="Impostazioni">&#9881;</button>
 </div>
 
-<!-- Tab bar -->
 <div class="tab-bar-wrap">
-<div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('live')"     id="tab-live">&#127968; LIVE</button>
-  <button class="tab-btn"        onclick="switchTab('orari')"    id="tab-orari">&#128197; Z649</button>
-  <button class="tab-btn"        onclick="switchTab('z627')"     id="tab-z627">&#128652; Z627</button>
-  <button class="tab-btn"        onclick="switchTab('z644')"     id="tab-z644">&#128652; Z644</button>
-  <button class="tab-btn"        onclick="switchTab('z625')"     id="tab-z625">&#128652; Z625</button>
-  <button class="tab-btn"        onclick="switchTab('z647')"     id="tab-z647">&#128652; Z647</button>
-  <button class="tab-btn"        onclick="switchTab('z642')"     id="tab-z642">&#128652; Z642</button>
-  <button class="tab-btn"        onclick="switchTab('settings')" id="tab-settings">&#9881;&#65039; DATI</button>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('live')" id="tab-live">&#127968; LIVE</button>
+    <button class="tab-btn" onclick="switchTab('orari')" id="tab-orari">&#128197; Z649</button>
+    <button class="tab-btn" onclick="switchTab('z627')" id="tab-z627">&#128652; Z627</button>
+    <button class="tab-btn" onclick="switchTab('z644')" id="tab-z644">&#128652; Z644</button>
+    <button class="tab-btn" onclick="switchTab('z625')" id="tab-z625">&#128652; Z625</button>
+    <button class="tab-btn" onclick="switchTab('z647')" id="tab-z647">&#128652; Z647</button>
+    <button class="tab-btn" onclick="switchTab('z642')" id="tab-z642">&#128652; Z642</button>
+    <button class="tab-btn" onclick="switchTab('settings')" id="tab-settings">&#9881;&#65039; DATI</button>
+  </div>
 </div>
 
-<!-- ── TAB: LIVE ─────────────────────────────────────────────────── -->
 <div class="tab-content active" id="content-live">
   <div class="container">
-
-    <!-- Countdown Z649 -->
     <div class="countdown-card" id="mainCountdown">
-      <div class="countdown-label" id="mainCountdownLabel">Prossima Partenza</div>
+      <div class="countdown-label" id="mainCountdownLabel">Prossima partenza</div>
       <div class="countdown-top">
         <div>
-          <div class="countdown-main"><span class="mins" id="cntMins">--</span> <span style="font-size:1rem;color:var(--muted)">min</span></div>
-          <div class="countdown-time" id="cntTime">Avvio in corso...</div>
+          <div class="countdown-main"><span class="mins" id="cntMins">--</span> <span class="countdown-unit">min</span></div>
+          <div class="countdown-time" id="cntTime">Avvio...</div>
         </div>
         <div id="cntBadge"></div>
       </div>
-      <div class="progress-wrap"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-      <div id="mainTimeline" class="main-timeline" style="display:none;"></div>
+      <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+      <div id="mainTimeline" class="main-timeline hidden"></div>
     </div>
 
-    <!-- Unified Bus blocks -->
-    <div class="section-header">&#128652; Prossime Partenze</div>
+    <div class="section-header">&#128652; Prossime partenze</div>
     <div id="unifiedBusBlocks"></div>
 
-    <!-- ── Avviso domenica ── -->
-    <div id="otherBusesNoService" class="no-service-notice" style="display:none;">
-      &#128683; <strong>Domenica</strong>: nessun servizio su Z627, Z644 e Z625.
+    <div id="otherBusesNoService" class="no-service-notice hidden">
+      &#128683; <strong>Domenica e festivi</strong>: nessun servizio su Z627, Z644 e Z625.
     </div>
 
-    <!-- ── Blocco autonomo Via Canegrate ── -->
     <div class="bus-block" id="canegrateCard">
       <div class="bus-block-header" onclick="toggleCanegrate()">
         <div class="bus-block-title">
-          <span class="bus-number" style="color:var(--warn)">🚗 Auto</span>
+          <span class="bus-number bus-number-warn">Auto</span>
           <span class="bus-dep-time" id="canegrateNextTrain">...</span>
-          <span class="badge badge-short" style="font-size:0.7rem;">Indipendente</span>
+          <span class="badge badge-short badge-mini">Indipendente</span>
         </div>
-        <div style="font-size:0.75rem;color:var(--muted);">Via Canegrate FS &rarr; Milano</div>
-        <span class="collapse-icon-wrap">▼</span>
+        <div class="bus-subtitle">Via Canegrate FS &rarr; Milano</div>
+        <span class="collapse-icon-wrap">v</span>
       </div>
       <div class="bus-block-body" id="canegrateBlock"></div>
     </div>
 
-    <div class="estimate-note">&#9888;&#65039; Orari treni stimati (cadenze tipiche Trenord). Verificare sempre su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>. Z647/Z642 non inclusi.</div>
-zione Precedenti (bus già partiti) -->
-    <div id="departedSection" style="display:none;">
+    <div class="estimate-note">Orari treni stimati (cadenze tipiche Trenord). Verificare sempre su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>. Z647/Z642 non inclusi nel LIVE.</div>
+
+    <div id="departedSection" class="hidden">
       <div class="departed-header" onclick="toggleDeparted()">
-        <div class="section-header" style="margin:0;">&#128337; Partiti di recente</div>
-        <span class="departed-toggle" id="departedToggle">&#9660;</span>
+        <div class="section-header section-header-inline">&#128337; Partiti di recente</div>
+        <span class="departed-toggle" id="departedToggle">v</span>
       </div>
-      <div class="departed-section" id="departedBlocks" style="display:none;"></div>
+      <div class="departed-section hidden" id="departedBlocks"></div>
     </div>
   </div>
 </div>
-</div>
 
-<!-- 
-  </div>
-</div>
-
-<!-- ── TAB: Z649 ─────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-orari">
   <div class="container">
-    <div class="section-header" id="orariDayLabel">Orari Z649 — Feriale</div>
-    <div class="filter-bar">
-      <button class="filter-btn active" id="btnFeriale"  onclick="showZ649Orari('feriale')">Feriale</button>
-      <button class="filter-btn"        id="btnSabato"   onclick="showZ649Orari('sabato')">Sabato</button>
-      <button class="filter-btn"        id="btnDomenica" onclick="showZ649Orari('domenica')">Domenica</button>
-    </div>
-    <div style="overflow-x:auto;">
+    <div class="section-header" id="orariDayLabel">Orari Z649 - Feriale</div>
+    <div class="filter-bar"></div>
+    <div class="table-wrap"><div class="table-scroll">
       <table class="orari-table">
-        <thead><tr><th>#</th><th>Via Rossini</th><th>Pregnana FS</th><th>Molino Dorino</th><th>Tipo</th></tr></thead>
+        <thead><tr><th>Via Rossini</th><th>Pregnana FS</th><th>Molino Dorino</th><th>Tipo</th></tr></thead>
         <tbody id="orariBody"></tbody>
       </table>
-    </div>
+    </div></div>
   </div>
 </div>
 
-<!-- ── TAB: Z627 ─────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z627">
   <div class="container">
-    <div class="section-header" id="z627DayLabel">Orari Z627 — Feriale</div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">Busto Garolfo Via Buonarroti &#8594; Legnano P.zza Popolo FS (~20 min)</div>
-    <div class="filter-bar">
-      <button class="filter-btn active" id="z627btnFeriale" onclick="showZ627Orari('feriale')">Feriale (FR5/SC5)</button>
-      <button class="filter-btn"        id="z627btnSabato"  onclick="showZ627Orari('sabato')">Sabato</button>
-    </div>
-    <div style="overflow-x:auto;">
+    <div class="section-header" id="z627DayLabel">Orari Z627 - Feriale</div>
+    <div class="tab-subtitle">Busto Garolfo Via Buonarroti -> Legnano P.zza Popolo FS (~20 min)</div>
+    <div class="filter-bar"></div>
+    <div class="table-wrap"><div class="table-scroll">
       <table class="orari-table">
-        <thead><tr id="z627TableHead"><th>Partenza BT301</th><th>Arrivo LG090</th><th>Val.</th><th>Note</th></tr></thead>
+        <thead><tr id="z627TableHead"></tr></thead>
         <tbody id="z627Body"></tbody>
       </table>
-    </div>
-    <div class="estimate-note" style="margin-top:1rem;">&#9888;&#65039; Arrivi con ~ sono stimati. Domenica e festivi: nessun servizio. Non valido 3 settimane centrali agosto e festivit&#224; natalizie.</div>
+    </div></div>
+    <div class="estimate-note">Arrivi con ~ stimati. Domenica e festivi: nessun servizio. Non valido 3 settimane centrali agosto e festivita natalizie.</div>
   </div>
 </div>
 
-<!-- ── TAB: Z644 ─────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z644">
   <div class="container">
-    <div class="section-header" id="z644DayLabel">Orari Z644 — Feriale</div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">Arconate / Dairago &#8594; Via Rossini 35 &#8594; Parabiago FS (~22 min)</div>
-    <div class="filter-bar">
-      <button class="filter-btn active" id="z644btnAndata"  onclick="showZ644Orari('feriale_andata')">Feriale &#8594; Parabiago</button>
-      <button class="filter-btn"        id="z644btnRitorno" onclick="showZ644Orari('feriale_ritorno')">Feriale &#8594; Arconate</button>
-      <button class="filter-btn"        id="z644btnSabAnd"  onclick="showZ644Orari('sabato_andata')">Sabato &#8594; Parabiago</button>
-      <button class="filter-btn"        id="z644btnSabRit"  onclick="showZ644Orari('sabato_ritorno')">Sabato &#8594; Arconate</button>
-    </div>
-    <div class="tab-bar-wrap">
-    <div style="overflow-x:auto;">
+    <div class="section-header" id="z644DayLabel">Orari Z644 - Feriale</div>
+    <div class="tab-subtitle">Arconate / Dairago -> Via Rossini 35 -> Parabiago FS (~22 min)</div>
+    <div class="filter-bar"></div>
+    <div class="table-wrap"><div class="table-scroll">
       <table class="orari-table">
-        <thead><tr id="z644TableHead"><th>Via Rossini 35</th><th>Parabiago FS</th><th>Val.</th><th>Note</th></tr></thead>
+        <thead><tr id="z644TableHead"></tr></thead>
         <tbody id="z644Body"></tbody>
       </table>
-    </div>
-    </div>
-    <div class="estimate-note" style="margin-top:1rem;">&#9888;&#65039; Le corse &#8594; PB100 (Via Butti) <strong>NON</strong> arrivano all&#8217;autostazione FS. Domenica e festivi: nessun servizio. Non attivo 20 lug&#8211;6 set e festivit&#224; natalizie.</div>
+    </div></div>
+    <div class="estimate-note">Le corse verso PB100 (Via Butti) non arrivano all'autostazione FS. Domenica e festivi: nessun servizio.</div>
   </div>
 </div>
 
-<!-- ── TAB: Z625 ─────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z625">
   <div class="container">
-    <div class="section-header" id="z625DayLabel">Orari Z625 — Feriale Andata</div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;">
-      Busto Garolfo BT701 (Via Curiel) &#8594; Busto Arsizio FS (~29 min) &nbsp;|&nbsp;
-      <span style="color:var(--faint);">&#9656; ~6 min a piedi da Via Rossini 35 (350m)</span>
-    </div>
-    <div class="filter-bar">
-      <button class="filter-btn active" id="z625btnFerAnd" onclick="showZ625Orari('feriale_andata')">Feriale &#8594; BA</button>
-      <button class="filter-btn"        id="z625btnFerRit" onclick="showZ625Orari('feriale_ritorno')">Feriale &#8594; BG</button>
-      <button class="filter-btn"        id="z625btnSabAnd" onclick="showZ625Orari('sabato_andata')">Sabato &#8594; BA</button>
-      <button class="filter-btn"        id="z625btnSabRit" onclick="showZ625Orari('sabato_ritorno')">Sabato &#8594; BG</button>
-    </div>
-    <div class="tab-bar-wrap">
-    <div style="overflow-x:auto;">
+    <div class="section-header" id="z625DayLabel">Orari Z625 - Feriale andata</div>
+    <div class="tab-subtitle">Busto Garolfo BT701 (Via Curiel) -> Busto Arsizio FS (~29 min). La fermata dista circa 350m da Via Rossini 35.</div>
+    <div class="filter-bar"></div>
+    <div class="table-wrap"><div class="table-scroll">
       <table class="orari-table">
-        <thead><tr id="z625TableHead">
-          <th>Partenza BT701<br><span style="font-size:0.7rem;font-weight:400;color:var(--muted);">Via Curiel</span></th>
-          <th>Arr. BA Centro</th>
-          <th>Arr. BA FS</th>
-          <th>Val.</th>
-          <th>Note</th>
-        </tr></thead>
+        <thead><tr id="z625TableHead"></tr></thead>
         <tbody id="z625Body"></tbody>
       </table>
-    </div>
-    </div>
-    <div class="estimate-note" style="margin-top:1rem;">
-      &#9888;&#65039; La fermata BT701 (Via Curiel / Via Busto Arsizio) dista ~350m / ~6 min a piedi da Via Rossini 35.
-      A Busto Arsizio FS: <strong>S5 Trenord</strong> (Milano Cadorna &#8594; Varese Nord) e <strong>RE</strong> Varese&#8211;Milano P.ta Garibaldi.
-      Domenica e festivi: nessun servizio. Non valido 3 settimane centrali agosto e festivit&#224; natalizie.
-    </div>
+    </div></div>
+    <div class="estimate-note">A Busto Arsizio FS: S5 Trenord e RE. Domenica e festivi: nessun servizio.</div>
   </div>
 </div>
 
-<!-- ── TAB: Z647 ─────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z647">
   <div class="container">
-    <div class="section-header" id="z647DayLabel">Orari Z647 — Feriale</div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;" id="z647Subtitle"></div>
+    <div class="section-header" id="z647DayLabel">Orari Z647 - Feriale</div>
+    <div class="tab-subtitle" id="z647Subtitle">Fermate principali configurate per la vista tabella.</div>
     <div class="filter-bar" id="z647FilterBar"></div>
-    <div class="tab-bar-wrap">
-    <div style="overflow-x:auto;">
+    <div class="table-wrap"><div class="table-scroll">
       <table class="orari-table">
         <thead><tr id="z647TableHead"></tr></thead>
         <tbody id="z647Body"></tbody>
       </table>
-    </div>
-    </div>
-    <div class="estimate-note" style="margin-top:1rem;" id="z647Note"></div>
+    </div></div>
+    <div class="estimate-note" id="z647Note">Linea non inclusa nel LIVE finche non vengono definite le fermate operative principali.</div>
   </div>
 </div>
 
-<!-- ── TAB: Z642 ─────────────────────────────────────────────────── -->
 <div class="tab-content" id="content-z642">
   <div class="container">
-    <div class="section-header" id="z642DayLabel">Orari Z642 — Feriale</div>
-    <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.75rem;" id="z642Subtitle"></div>
+    <div class="section-header" id="z642DayLabel">Orari Z642 - Feriale</div>
+    <div class="tab-subtitle" id="z642Subtitle">Fermate principali configurate per la vista tabella.</div>
     <div class="filter-bar" id="z642FilterBar"></div>
-    <div class="tab-bar-wrap">
-    <div style="overflow-x:auto;">
+    <div class="table-wrap"><div class="table-scroll">
       <table class="orari-table">
         <thead><tr id="z642TableHead"></tr></thead>
         <tbody id="z642Body"></tbody>
       </table>
-    </div>
-    </div>
-    <div class="estimate-note" style="margin-top:1rem;" id="z642Note"></div>
+    </div></div>
+    <div class="estimate-note" id="z642Note">Linea non inclusa nel LIVE finche non vengono definite le fermate operative principali.</div>
   </div>
 </div>
 
-<!-- ── TAB: IMPOSTAZIONI ─────────────────────────────────────────── -->
 <div class="tab-content" id="content-settings">
   <div class="container">
     <div class="section-header">Tempi di percorrenza</div>
     <div class="settings-panel">
       <div class="settings-row">
         <div>
-          <div class="settings-label">Minuti a piedi &#8594; Via Rossini 35</div>
-          <div class="settings-desc">Da casa tua alla fermata Z649</div>
+          <div class="settings-label">Minuti a piedi -> Via Rossini 35</div>
+          <div class="settings-desc">Da casa alla fermata Z649</div>
         </div>
         <input class="settings-input" type="number" id="walkRossini" value="5" min="0" max="30">
       </div>
       <div class="settings-row">
         <div>
-          <div class="settings-label">Minuti in auto &#8594; Canegrate FS</div>
+          <div class="settings-label">Minuti in auto -> Canegrate FS</div>
           <div class="settings-desc">Da Via Rossini alla stazione</div>
         </div>
         <input class="settings-input" type="number" id="walkCanegrate" value="8" min="0" max="30">
       </div>
     </div>
-    <div class="section-header">Dati e Backup</div>
+
+    <div class="section-header">Fermate visibili</div>
     <div class="settings-panel">
-      <div class="settings-desc" style="margin-bottom:1rem;">Esporta gli orari per modificarli in un editor di testo o importa un file salvato in precedenza.</div>
-      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-        <button class="settings-btn" style="flex:1;background:var(--surface);padding:0.75rem;" onclick="exportTimetables()">📥 Esporta JSON</button>
-        <button class="settings-btn" style="flex:1;background:var(--surface);padding:0.75rem;" onclick="document.getElementById('importFile').click()">📤 Importa JSON</button>
+      <div class="settings-desc settings-desc-spaced">Scegli quali fermate mostrare nelle tabelle. I dati completi restano comunque caricati.</div>
+      <div id="visibleStopsSettings"></div>
+      <button class="settings-action" id="resetVisibleStops" type="button">Ripristina fermate default</button>
+    </div>
+
+    <div class="section-header">Dati e backup</div>
+    <div class="settings-panel">
+      <div class="settings-desc settings-desc-spaced">Esporta gli orari in JSON o importa un file salvato in precedenza.</div>
+      <div class="settings-actions">
+        <button class="settings-action" onclick="exportTimetables()">Esporta JSON</button>
+        <button class="settings-action" onclick="document.getElementById('importFile').click()">Importa JSON</button>
       </div>
-      <input type="file" id="importFile" style="display:none" accept=".json" onchange="importTimetables(event)">
-      <div id="importStatus" style="font-size:0.75rem;margin-top:0.75rem;text-align:center;display:none;"></div>
+      <input type="file" id="importFile" class="hidden" accept=".json" onchange="importTimetables(event)">
+      <div id="importStatus" class="import-status hidden"></div>
     </div>
 
     <div class="section-header">Info</div>
-    <div class="settings-panel" style="font-size:0.82rem;color:var(--muted);line-height:1.7;">
+    <div class="settings-panel settings-info">
       <p id="appTitle"></p>
-      <p>Dati Z649, Z627, Z644, Z625, Z647, Z642: orari reali. S5/S6 e Canegrate: stime — verificare su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</p>
-      <p id="dataVersion" style="margin-top:0.4rem;opacity:0.7;"></p>
+      <p>Dati Z649, Z627, Z644, Z625, Z647, Z642: orari reali. S5/S6 e Canegrate: stime da verificare sempre su <a href="https://www.trenord.it" target="_blank">Trenord.it</a>.</p>
+      <p id="dataVersion" class="data-version"></p>
     </div>
   </div>
 </div>
 
-<!-- Dati (variabili globali, nessun fetch necessario) -->
-<script src="./data/config.js"></script>
-<script src="./data/z649.js"></script>
-<script src="./data/z627.js"></script>
-<script src="./data/z644.js"></script>
-<script src="./data/z625.js"></script>
-<script src="./data/z647.js"></script>
-<script src="./data/z642.js"></script>
-<!-- Logica applicativa -->
-<script src="./js/app.js"></script>
-<!-- Avvio -->
-<script>
-  document.addEventListener('DOMContentLoaded', loadData);
-</script>
-
-<!-- Service Worker -->
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('./sw.js')
-        .then(function(r){ console.log('[SW] scope:', r.scope); })
-        .catch(function(e){ console.warn('[SW] errore registrazione:', e); });
-    });
-  }
-</script>
+<script type="module" src="./js/main.js"></script>
 </body>
 </html>

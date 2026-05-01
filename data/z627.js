@@ -1,85 +1,567 @@
 // ============================================================
-// Z627.JS — Orari linea Z627
-// Tutti i tempi sono in MINUTI dall'inizio della giornata
-// dep = partenza BT301 (Via Buonarroti ang. Via Busto Arsizio)
-// arr = arrivo LG090  (Legnano P.zza Popolo FS) — null = corsa breve
-// val = validità: FR5=feriale, SC5=scolastico, SAB=sabato
+// Z627.JS
+// Standardized schema v4.0.0
 // ============================================================
-var Z627 = {
+export const Z627 = {
   meta: {
-    linea: "Z627",
-    partenza:     "Busto Garolfo – Via Buonarroti ang. Via Busto Arsizio (BT301)",
-    destinazione: "Legnano – P.zza del Popolo FS (LG090)",
-    durata_minuti: "~20",
-    validita: {
-      FR5: "Lun–Ven feriali",
-      SC5: "Lun–Ven solo periodo scolastico",
-      SAB: "Sabato feriale",
-      domenica: "Nessun servizio"
-    },
-    eccezioni: "Non valido 3 settimane centrali agosto e festività natalizie",
-    note: "Arrivi LG090 con ~ sono stimati (+20 min)"
+  linea: "Z627",
+  partenza: "Busto Garolfo – Via Buonarroti ang. Via Busto Arsizio (BT301)",
+  destinazione: "Legnano – P.zza del Popolo FS (LG090)",
+  durata_minuti: "~20",
+  validita: {
+    FR5: "Lun–Ven feriali",
+    SC5: "Lun–Ven solo periodo scolastico",
+    SAB: "Sabato feriale",
+    sunday: "Nessun servizio"
   },
+  eccezioni: "Non valido 3 settimane centrali agosto e festività natalizie",
+  note: "Arrivi LG090 con ~ sono stimati (+20 min)"
+},
 
-  // ── FERIALE (FR5 + SC5) ──────────────────────────────────
-  feriale: [
-    { dep: 352,  arr: 371,  val: "FR5", note: "" },
-    { dep: 372,  arr: 391,  val: "SC5", note: "" },
-    { dep: 386,  arr: 405,  val: "FR5", note: "" },
-    { dep: 402,  arr: 421,  val: "SC5", note: "" },
-    { dep: 414,  arr: 435,  val: "FR5", note: "" },
-    { dep: 435,  arr: 458,  val: "FR5", note: "" },
-    { dep: 437,  arr: null, val: "SC5", note: "⚠️ Termina al Liceo" },
-    { dep: 439,  arr: null, val: "SC5", note: "⚠️ Termina al Liceo" },
-    { dep: 445,  arr: null, val: "SC5", note: "⚠️ Termina al Liceo" },
-    { dep: 476,  arr: 500,  val: "FR5", note: "" },
-    { dep: 483,  arr: null, val: "SC5", note: "⚠️ Non arriva a P.zza Popolo FS" },
-    { dep: 514,  arr: 536,  val: "FR5", note: "" },
-    { dep: 544,  arr: 566,  val: "SC5", note: "" },
-    { dep: 574,  arr: 596,  val: "SC5", note: "" },
-    { dep: 604,  arr: 624,  val: "FR5", note: "" },
-    { dep: 634,  arr: 654,  val: "FR5", note: "" },
-    { dep: 664,  arr: 684,  val: "FR5", note: "" },
-    { dep: 694,  arr: 714,  val: "FR5", note: "" },
-    { dep: 724,  arr: 744,  val: "FR5", note: "" },
-    { dep: 759,  arr: 779,  val: "SC5", note: "" },
-    { dep: 766,  arr: null, val: "SC5", note: "⚠️ Termina al Liceo" },
-    { dep: 779,  arr: 801,  val: "FR5", note: "" },
-    { dep: 813,  arr: 834,  val: "SC5", note: "" },
-    { dep: 814,  arr: 836,  val: "FR5", note: "" },
-    { dep: 842,  arr: null, val: "SC5", note: "⚠️ Termina al Liceo" },
-    { dep: 844,  arr: 866,  val: "FR5", note: "" },
-    { dep: 869,  arr: 891,  val: "FR5", note: "" },
-    { dep: 903,  arr: 923,  val: "SC5", note: "" },
-    { dep: 904,  arr: 926,  val: "FR5", note: "" },
-    { dep: 939,  arr: 960,  val: "FR5", note: "~" },
-    { dep: 964,  arr: 985,  val: "FR5", note: "~" },
-    { dep: 1024, arr: 1045, val: "FR5", note: "~" },
-    { dep: 1051, arr: 1072, val: "FR5", note: "~" },
-    { dep: 1085, arr: 1106, val: "FR5", note: "~" },
-    { dep: 1106, arr: 1127, val: "FR5", note: "~" },
-    { dep: 1144, arr: 1165, val: "FR5", note: "~" },
-    { dep: 1174, arr: 1195, val: "FR5", note: "~" }
-  ],
+  weekday: [
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 352,
+      legnano_fs: 371
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 372,
+      legnano_fs: 391
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 386,
+      legnano_fs: 405
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 402,
+      legnano_fs: 421
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 414,
+      legnano_fs: 435
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 435,
+      legnano_fs: 458
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 437,
+      legnano_fs: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: "⚠️ Termina al Liceo"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 439,
+      legnano_fs: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: "⚠️ Termina al Liceo"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 445,
+      legnano_fs: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: "⚠️ Termina al Liceo"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 476,
+      legnano_fs: 500
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 483,
+      legnano_fs: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: "⚠️ Non arriva a P.zza Popolo FS"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 514,
+      legnano_fs: 536
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 544,
+      legnano_fs: 566
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 574,
+      legnano_fs: 596
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 604,
+      legnano_fs: 624
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 634,
+      legnano_fs: 654
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 664,
+      legnano_fs: 684
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 694,
+      legnano_fs: 714
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 724,
+      legnano_fs: 744
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 759,
+      legnano_fs: 779
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 766,
+      legnano_fs: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: "⚠️ Termina al Liceo"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 779,
+      legnano_fs: 801
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 813,
+      legnano_fs: 834
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 814,
+      legnano_fs: 836
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 842,
+      legnano_fs: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: "⚠️ Termina al Liceo"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 844,
+      legnano_fs: 866
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 869,
+      legnano_fs: 891
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 903,
+      legnano_fs: 923
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 904,
+      legnano_fs: 926
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 939,
+      legnano_fs: 960
+    },
+    validity: "FR5",
+    flags: [],
+    note: "~"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 964,
+      legnano_fs: 985
+    },
+    validity: "FR5",
+    flags: [],
+    note: "~"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1024,
+      legnano_fs: 1045
+    },
+    validity: "FR5",
+    flags: [],
+    note: "~"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1051,
+      legnano_fs: 1072
+    },
+    validity: "FR5",
+    flags: [],
+    note: "~"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1085,
+      legnano_fs: 1106
+    },
+    validity: "FR5",
+    flags: [],
+    note: "~"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1106,
+      legnano_fs: 1127
+    },
+    validity: "FR5",
+    flags: [],
+    note: "~"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1144,
+      legnano_fs: 1165
+    },
+    validity: "FR5",
+    flags: [],
+    note: "~"
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1174,
+      legnano_fs: 1195
+    },
+    validity: "FR5",
+    flags: [],
+    note: "~"
+  }
+],
 
   // ── SABATO ───────────────────────────────────────────────
-  sabato: [
-    { dep: 387,  arr: 406,  val: "SAB", note: "" },
-    { dep: 419,  arr: 439,  val: "SAB", note: "" },
-    { dep: 477,  arr: 501,  val: "SAB", note: "" },
-    { dep: 512,  arr: 536,  val: "SAB", note: "" },
-    { dep: 542,  arr: 567,  val: "SAB", note: "" },
-    { dep: 572,  arr: 596,  val: "SAB", note: "" },
-    { dep: 602,  arr: 626,  val: "SAB", note: "" },
-    { dep: 662,  arr: 686,  val: "SAB", note: "" },
-    { dep: 722,  arr: 746,  val: "SAB", note: "" },
-    { dep: 777,  arr: 801,  val: "SAB", note: "" },
-    { dep: 842,  arr: 866,  val: "SAB", note: "" },
-    { dep: 902,  arr: 926,  val: "SAB", note: "" },
-    { dep: 964,  arr: 986,  val: "SAB", note: "" },
-    { dep: 1022, arr: 1046, val: "SAB", note: "" },
-    { dep: 1052, arr: 1076, val: "SAB", note: "" },
-    { dep: 1082, arr: 1106, val: "SAB", note: "" },
-    { dep: 1142, arr: 1166, val: "SAB", note: "" }
-  ]
+  saturday: [
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 387,
+      legnano_fs: 406
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 419,
+      legnano_fs: 439
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 477,
+      legnano_fs: 501
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 512,
+      legnano_fs: 536
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 542,
+      legnano_fs: 567
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 572,
+      legnano_fs: 596
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 602,
+      legnano_fs: 626
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 662,
+      legnano_fs: 686
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 722,
+      legnano_fs: 746
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 777,
+      legnano_fs: 801
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 842,
+      legnano_fs: 866
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 902,
+      legnano_fs: 926
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 964,
+      legnano_fs: 986
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1022,
+      legnano_fs: 1046
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1052,
+      legnano_fs: 1076
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1082,
+      legnano_fs: 1106
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: null,
+    stops: {
+      buonarroti: 1142,
+      legnano_fs: 1166
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  }
+]
 };

@@ -1,37 +1,45 @@
-# 🚌 Trasporti LIVE — Busto Garolfo → Milano
+# Trasporti LIVE - Busto Garolfo
 
-Dashboard giornaliera per **Via Giacomo Rossini 35, Busto Garolfo** → Milano.
+Dashboard statica per consultare le partenze bus da Busto Garolfo e le principali coincidenze verso Milano.
 
-## 🌐 Link live
+Live: [https://yogotogoxx50-gif.github.io/trasporti-busto/](https://yogotogoxx50-gif.github.io/trasporti-busto/)
 
-> **[https://yogotogoxx50-gif.github.io/trasporti-busto/](https://yogotogoxx50-gif.github.io/trasporti-busto/)**
+## Cosa include
 
-*(GitHub Pages attivo dopo ~1-2 minuti dal primo push)*
+- LIVE con prossime partenze, corse partite da poco e alternativa Canegrate FS.
+- Tabelle orari per Z649, Z627, Z644, Z625, Z647 e Z642.
+- Dati in schema unificato: ogni corsa ha `tripId`, `stops`, `validity`, `flags`, `note`.
+- Fermate complete nei file `data/*.js`, con visualizzazione controllata da `js/line-config.js`.
+- Impostazioni locali per tempi di percorrenza, import/export JSON e fermate visibili.
+- PWA con service worker e cache degli asset locali.
 
-## Cosa fa
+## Sviluppo locale
 
-- ⏱ Mostra il prossimo Z649 in tempo reale (aggiornamento ogni secondo)
-- 🗺 **Logica bus-centric**: dato il bus che parte, mostra tutte le destinazioni raggiungibili
-  - 🔵 Via Molino Dorino → M1 (Cadorna, Duomo, Repubblica, Centrale...)
-  - 🔄 Via Pregnana FS → S5/S6 Trenord (Garibaldi, Repubblica...)
-  - 🚗 Via Canegrate FS → Trenord Milano
-- 📅 Orari completi Z649 feriale/sabato/domenica
-- ⚙️ Impostazioni: tempo a piedi fino alla fermata, tempo auto fino a Canegrate
+I moduli ES non vanno aperti con `file://`. Servi la cartella con un server HTTP:
 
-## File
+```bash
+npx serve .
+```
 
-| File | Descrizione |
-|------|-------------|
-| `index.html` | Dashboard completa (self-contained, zero dipendenze esterne) |
+Oppure:
 
+```bash
+python -m http.server 8000
+```
 
-## Come aggiornare i dati
+Poi apri `http://localhost:8000`.
 
-Modifica direttamente la sezione `Z649_ORARI` dentro `index.html`.
-Gli orari sono in minuti dall'inizio della giornata (es. `1037` = 17:17).
+## Come aggiornare fermate e orari
 
-## Stack
+1. Aggiungi o aggiorna tutte le fermate nei file `data/z*.js`, dentro `stops`.
+2. In `js/line-config.js`, imposta:
+   - `visibleStops` per le colonne mostrate di default nelle tabelle.
+   - `liveStops` per le fermate usate da countdown, timeline e LIVE.
+   - `connections` per le coincidenze treno/metropolitana.
+3. Se cambi asset o percorsi, aggiorna `sw.js` e fai bump del `CACHE_NAME`.
 
-- HTML + CSS + JS vanilla, zero dipendenze
-- Google Fonts (Inter)
-- Hostato su GitHub Pages
+## Deploy GitHub Pages
+
+Non serve build step. GitHub Pages deve pubblicare direttamente il branch/cartella che contiene `index.html`.
+
+Se dopo un deploy vedi asset vecchi, cambia il nome cache in `sw.js` e ricarica la pagina.

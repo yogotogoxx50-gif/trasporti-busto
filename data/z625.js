@@ -1,95 +1,575 @@
 // ============================================================
-// Z625.JS — Orari linea Z625
-// Tutti i tempi sono in MINUTI dall'inizio della giornata
-// dep_bg     = partenza BT701 (Via Curiel / Via Busto Arsizio, Busto Garolfo)
-//              ⚠️  ~6 min a piedi da Via Rossini 35 (350m)
-// arr_ba     = arrivo BS090 (Busto Arsizio – Zona Centrale)
-// arr_ba_fs  = arrivo BS071 (Busto Arsizio – Stazione FS Piazza Garibaldi)
-//              null se la corsa non arriva alla FS
-// dep_ba_fs  = partenza da Stazione FS (ritorno, solo alcune corse)
-// val = FR5=feriale, SC5=scolastico, SAB=sabato
+// Z625.JS
+// Standardized schema v4.0.0
 // ============================================================
-var Z625 = {
+export const Z625 = {
   meta: {
-    linea: "Z625",
-    partenza:        "Busto Garolfo \u2013 Via Curiel / Via Busto Arsizio (BT701)",
-    destinazione:    "Busto Arsizio \u2013 Stazione FS / Piazza Garibaldi",
-    durata_minuti:   "~29 min (BT701 \u2192 BA centro)",
-    walk_da_rossini: "~6 min a piedi (350m)",
-    validita: {
-      FR5: "Lun\u2013Ven feriali",
-      SC5: "Lun\u2013Ven solo periodo scolastico",
-      SAB: "Sabato feriale",
-      domenica: "Nessun servizio"
-    },
-    eccezioni:       "Non valido nelle 3 settimane centrali agosto e festivit\u00e0 natalizie",
-    coincidenze_ba:  "S5 Trenord (Milano Cadorna \u2194 Varese Nord), RE Varese\u2013Milano P.ta Garibaldi"
-  },
+  linea: "Z625",
+  partenza_andata: "Busto Garolfo → Busto Arsizio FS",
+  partenza_ritorno: "Busto Arsizio FS → Busto Garolfo",
+  validita: {
+    FR5: "Lun–Ven feriali",
+    SC5: "Lun–Ven solo periodo scolastico",
+    SAB: "Sabato feriale",
+    sunday: "Nessun servizio"
+  }
+},
 
-  // ── FERIALE ANDATA BG \u2192 Busto Arsizio ────────────────────────
-  feriale_andata: [
-    { corsa: 108, dep_bg: 416,  arr_ba: 448,  arr_ba_fs: 465,  val: "SC5" },
-    { corsa: 106, dep_bg: 420,  arr_ba: 454,  arr_ba_fs: 470,  val: "SC5" },
-    { corsa: 104, dep_bg: 425,  arr_ba: 461,  arr_ba_fs: null, val: "FR5" },
-    { corsa: 190, dep_bg: 441,  arr_ba: 483,  arr_ba_fs: null, val: "SC5" },
-    { corsa: 110, dep_bg: 510,  arr_ba: 544,  arr_ba_fs: null, val: "FR5" },
-    { corsa: 224, dep_bg: 545,  arr_ba: 576,  arr_ba_fs: null, val: "FR5" },
-    { corsa: 124, dep_bg: 615,  arr_ba: 645,  arr_ba_fs: null, val: "FR5" },
-    { corsa: 184, dep_bg: 705,  arr_ba: 735,  arr_ba_fs: null, val: "FR5" },
-    { corsa: 282, dep_bg: null, arr_ba: 777,  arr_ba_fs: 790,  val: "SC5", note: "Parte da Dairago" },
-    { corsa: 132, dep_bg: 755,  arr_ba: 785,  arr_ba_fs: null, val: "FR5" },
-    { corsa: 218, dep_bg: null, arr_ba: 824,  arr_ba_fs: null, val: "SC5", note: "Parte da Dairago" },
-    { corsa: 118, dep_bg: 810,  arr_ba: 841,  arr_ba_fs: 852,  val: "SC5" },
-    { corsa: 120, dep_bg: 870,  arr_ba: 900,  arr_ba_fs: null, val: "SC5" },
-    { corsa: 180, dep_bg: 922,  arr_ba: 952,  arr_ba_fs: 965,  val: "FR5" },
-    { corsa: 666, dep_bg: 955,  arr_ba: 985,  arr_ba_fs: 997,  val: "FR5" },
-    { corsa: 126, dep_bg: 1005, arr_ba: null, arr_ba_fs: 1046, val: "FR5" }
-  ],
+  weekday_outbound: [
+  {
+    tripId: 108,
+    stops: {
+      curiel: 416,
+      busto_arsizio: 448,
+      busto_arsizio_fs: 465
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 106,
+    stops: {
+      curiel: 420,
+      busto_arsizio: 454,
+      busto_arsizio_fs: 470
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 104,
+    stops: {
+      curiel: 425,
+      busto_arsizio: 461,
+      busto_arsizio_fs: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 190,
+    stops: {
+      curiel: 441,
+      busto_arsizio: 483,
+      busto_arsizio_fs: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 110,
+    stops: {
+      curiel: 510,
+      busto_arsizio: 544,
+      busto_arsizio_fs: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 224,
+    stops: {
+      curiel: 545,
+      busto_arsizio: 576,
+      busto_arsizio_fs: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 124,
+    stops: {
+      curiel: 615,
+      busto_arsizio: 645,
+      busto_arsizio_fs: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 184,
+    stops: {
+      curiel: 705,
+      busto_arsizio: 735,
+      busto_arsizio_fs: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 282,
+    stops: {
+      curiel: null,
+      busto_arsizio: 777,
+      busto_arsizio_fs: 790
+    },
+    validity: "SC5",
+    flags: [],
+    note: "Parte da Dairago"
+  },
+  {
+    tripId: 132,
+    stops: {
+      curiel: 755,
+      busto_arsizio: 785,
+      busto_arsizio_fs: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 218,
+    stops: {
+      curiel: null,
+      busto_arsizio: 824,
+      busto_arsizio_fs: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: "Parte da Dairago"
+  },
+  {
+    tripId: 118,
+    stops: {
+      curiel: 810,
+      busto_arsizio: 841,
+      busto_arsizio_fs: 852
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 120,
+    stops: {
+      curiel: 870,
+      busto_arsizio: 900,
+      busto_arsizio_fs: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 180,
+    stops: {
+      curiel: 922,
+      busto_arsizio: 952,
+      busto_arsizio_fs: 965
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 666,
+    stops: {
+      curiel: 955,
+      busto_arsizio: 985,
+      busto_arsizio_fs: 997
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 126,
+    stops: {
+      curiel: 1005,
+      busto_arsizio: null,
+      busto_arsizio_fs: 1046
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  }
+],
 
   // ── FERIALE RITORNO Busto Arsizio \u2192 BG ─────────────────────
-  feriale_ritorno: [
-    { corsa: 111, dep_ba: 466,  dep_ba_fs: null, arr_bg: 498,  val: "FR5" },
-    { corsa: 171, dep_ba: null, dep_ba_fs: 470,  arr_bg: 519,  val: "SC5" },
-    { corsa: 153, dep_ba: 475,  dep_ba_fs: null, arr_bg: 520,  val: "SC5" },
-    { corsa: 101, dep_ba: 490,  dep_ba_fs: null, arr_bg: 524,  val: "SC5" },
-    { corsa: 151, dep_ba: 550,  dep_ba_fs: null, arr_bg: null, val: "FR5" },
-    { corsa: 223, dep_ba: 580,  dep_ba_fs: null, arr_bg: null, val: "FR5" },
-    { corsa: 159, dep_ba: 650,  dep_ba_fs: null, arr_bg: null, val: "FR5" },
-    { corsa: 199, dep_ba: 740,  dep_ba_fs: null, arr_bg: null, val: "FR5" },
-    { corsa: 113, dep_ba: 793,  dep_ba_fs: 795,  arr_bg: null, val: "FR5" },
-    { corsa: 115, dep_ba: 807,  dep_ba_fs: null, arr_bg: null, val: "SC5" },
-    { corsa: 165, dep_ba: 830,  dep_ba_fs: null, arr_bg: 843,  val: "SC5" },
-    { corsa: 163, dep_ba: 855,  dep_ba_fs: 855,  arr_bg: null, val: "SC5" },
-    { corsa: 121, dep_ba: null, dep_ba_fs: null, arr_bg: 899,  val: "SC5" },
-    { corsa: 169, dep_ba: 905,  dep_ba_fs: null, arr_bg: null, val: "SC5" },
-    { corsa: 147, dep_ba: null, dep_ba_fs: 970,  arr_bg: 1052, val: "FR5" },
-    { corsa: 191, dep_ba: 1017, dep_ba_fs: 1005, arr_bg: null, val: "FR5" },
-    { corsa: 149, dep_ba: 1062, dep_ba_fs: 1050, arr_bg: null, val: "FR5" }
-  ],
+  weekday_return: [
+  {
+    tripId: 111,
+    stops: {
+      dep_ba: 466,
+      dep_ba_fs: null,
+      arr_bg: 498
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 171,
+    stops: {
+      dep_ba: null,
+      dep_ba_fs: 470,
+      arr_bg: 519
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 153,
+    stops: {
+      dep_ba: 475,
+      dep_ba_fs: null,
+      arr_bg: 520
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 101,
+    stops: {
+      dep_ba: 490,
+      dep_ba_fs: null,
+      arr_bg: 524
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 151,
+    stops: {
+      dep_ba: 550,
+      dep_ba_fs: null,
+      arr_bg: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 223,
+    stops: {
+      dep_ba: 580,
+      dep_ba_fs: null,
+      arr_bg: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 159,
+    stops: {
+      dep_ba: 650,
+      dep_ba_fs: null,
+      arr_bg: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 199,
+    stops: {
+      dep_ba: 740,
+      dep_ba_fs: null,
+      arr_bg: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 113,
+    stops: {
+      dep_ba: 793,
+      dep_ba_fs: 795,
+      arr_bg: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 115,
+    stops: {
+      dep_ba: 807,
+      dep_ba_fs: null,
+      arr_bg: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 165,
+    stops: {
+      dep_ba: 830,
+      dep_ba_fs: null,
+      arr_bg: 843
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 163,
+    stops: {
+      dep_ba: 855,
+      dep_ba_fs: 855,
+      arr_bg: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 121,
+    stops: {
+      dep_ba: null,
+      dep_ba_fs: null,
+      arr_bg: 899
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 169,
+    stops: {
+      dep_ba: 905,
+      dep_ba_fs: null,
+      arr_bg: null
+    },
+    validity: "SC5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 147,
+    stops: {
+      dep_ba: null,
+      dep_ba_fs: 970,
+      arr_bg: 1052
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 191,
+    stops: {
+      dep_ba: 1017,
+      dep_ba_fs: 1005,
+      arr_bg: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 149,
+    stops: {
+      dep_ba: 1062,
+      dep_ba_fs: 1050,
+      arr_bg: null
+    },
+    validity: "FR5",
+    flags: [],
+    note: ""
+  }
+],
 
   // ── SABATO ANDATA BG \u2192 Busto Arsizio ─────────────────────
-  sabato_andata: [
-    { corsa: 704, dep_bg: 390,  arr_ba: 420,  val: "SAB" },
-    { corsa: 790, dep_bg: 450,  arr_ba: 480,  val: "SAB" },
-    { corsa: 710, dep_bg: 510,  arr_ba: 540,  val: "SAB" },
-    { corsa: 744, dep_bg: 570,  arr_ba: 600,  val: "SAB" },
-    { corsa: 784, dep_bg: 700,  arr_ba: 730,  val: "SAB" },
-    { corsa: 732, dep_bg: 755,  arr_ba: 785,  val: "SAB" },
-    { corsa: 718, dep_bg: 815,  arr_ba: 846,  val: "SAB" },
-    { corsa: 780, dep_bg: 910,  arr_ba: 940,  val: "SAB" },
-    { corsa: 766, dep_bg: 1005, arr_ba: 1035, val: "SAB" }
-  ],
+  saturday_outbound: [
+  {
+    tripId: 704,
+    stops: {
+      curiel: 390,
+      busto_arsizio: 420
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 790,
+    stops: {
+      curiel: 450,
+      busto_arsizio: 480
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 710,
+    stops: {
+      curiel: 510,
+      busto_arsizio: 540
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 744,
+    stops: {
+      curiel: 570,
+      busto_arsizio: 600
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 784,
+    stops: {
+      curiel: 700,
+      busto_arsizio: 730
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 732,
+    stops: {
+      curiel: 755,
+      busto_arsizio: 785
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 718,
+    stops: {
+      curiel: 815,
+      busto_arsizio: 846
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 780,
+    stops: {
+      curiel: 910,
+      busto_arsizio: 940
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 766,
+    stops: {
+      curiel: 1005,
+      busto_arsizio: 1035
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  }
+],
 
   // ── SABATO RITORNO Busto Arsizio \u2192 BG ─────────────────────
-  sabato_ritorno: [
-    { corsa: 711, dep_ba: 425,  arr_bg: null, val: "SAB" },
-    { corsa: 701, dep_ba: 485,  arr_bg: null, val: "SAB" },
-    { corsa: 751, dep_ba: 545,  arr_bg: null, val: "SAB" },
-    { corsa: 741, dep_ba: 605,  arr_bg: null, val: "SAB" },
-    { corsa: 799, dep_ba: 735,  arr_bg: null, val: "SAB" },
-    { corsa: 713, dep_ba: 790,  arr_bg: null, val: "SAB" },
-    { corsa: 763, dep_ba: 850,  arr_bg: null, val: "SAB" },
-    { corsa: 747, dep_ba: 945,  arr_bg: null, val: "SAB" },
-    { corsa: 771, dep_ba: 1040, arr_bg: null, val: "SAB" }
-  ]
+  saturday_return: [
+  {
+    tripId: 711,
+    stops: {
+      dep_ba: 425,
+      arr_bg: null
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 701,
+    stops: {
+      dep_ba: 485,
+      arr_bg: null
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 751,
+    stops: {
+      dep_ba: 545,
+      arr_bg: null
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 741,
+    stops: {
+      dep_ba: 605,
+      arr_bg: null
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 799,
+    stops: {
+      dep_ba: 735,
+      arr_bg: null
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 713,
+    stops: {
+      dep_ba: 790,
+      arr_bg: null
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 763,
+    stops: {
+      dep_ba: 850,
+      arr_bg: null
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 747,
+    stops: {
+      dep_ba: 945,
+      arr_bg: null
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  },
+  {
+    tripId: 771,
+    stops: {
+      dep_ba: 1040,
+      arr_bg: null
+    },
+    validity: "SAB",
+    flags: [],
+    note: ""
+  }
+]
 };
