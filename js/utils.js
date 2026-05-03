@@ -1,4 +1,5 @@
 import { CFG } from '../data/config.js';
+export { isScheduleSuspended, isSchoolActive, getLineBannerInfo, CADENCE_LABELS, LINE_SCHEDULE_META } from '../data/schedule-meta.js';
 
 export function minsToHHMM(m) {
   const wrapped = ((m % 1440) + 1440) % 1440;
