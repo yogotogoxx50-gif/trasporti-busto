@@ -1,454 +1,85 @@
-// ============================================================
-// Z644.JS
-// Standardized schema v4.0.0
-// ============================================================
+// AUTO-GENERATO da tools/convert_stops.py
+// NON modificare manualmente — rieseguire lo script dopo aggiornamenti CSV.
+// Fonte: STOPS/Z644/CSV/
+// Generato il: 2026-05-03
+// FERMATE DISPONIBILI (copia in line-config.js):
+// { key: 'dg142_dairago', label: 'DAIRAGO — V. Damiano Chiesa civ.11', hideable: true },
+// { key: 'dg097_dairago', label: 'DAIRAGO — Via Verdi n.24', hideable: true },
+// { key: 'ac625_arconate', label: 'ARCONATE — Via Concordia n.9', hideable: true },
+// { key: 'ac627_arconate', label: 'ARCONATE — Via Legnano n. 28', hideable: true },
+// { key: 'vc005_villa_c', label: 'Villa C. — Via Canova ang.V.Buonarroti', hideable: true },
+// { key: 'vc006_villa_c', label: 'Villa C. — Via Canova ang.V.Perugino', hideable: true },
+// { key: 'bt701_busto_g', label: 'Busto G. — Via Curiel', hideable: true },
+// { key: 'bt702_busto_g', label: 'Busto G. — Via Don Longoni ang.v.Cellini', hideable: true },
+// { key: 'bt205_busto_g', label: 'Busto G. — Via Busto A. fr Civ.48', hideable: true },
+// { key: 'bt947_busto_g', label: 'Busto G. — Via Buonarroti civ 3', hideable: true },
+// { key: 'bt775_busto_g', label: 'Busto G. — Via Giacomo Rossini civ.35', hideable: true },
+// { key: 'bt400_busto_g', label: 'Busto G. — Via Matteotti 6', hideable: true },
+// { key: 'bt211_busto_g', label: 'Busto G. — Via Parabiago n.32', hideable: true },
+// { key: 'pb701_parabiago', label: 'PARABIAGO — Viale Lombardia FRONTE EuroSpin', hideable: true },
+// { key: 'pb090_parabiago', label: 'PARABIAGO — autostazione PARK FS', hideable: true },
+// { key: 'pb100_parabiago', label: 'PARABIAGO — Via Spagliardi PLESSO MAGGIOLINI', hideable: true },
+// { key: 'pb101_parabiago', label: 'PARABIAGO — Via Spagliardi IST.MAGGIOLINI', hideable: true },
+// { key: 'pb702_parabiago', label: 'PARABIAGO — Viale Lombardia lato EuroSpin', hideable: true },
+// { key: 'vc050_villa_c', label: 'Villa C. — Via A.Da Giussano n.32', hideable: true },
+// { key: 'vc051_villa_c', label: 'Villa C. — Via A.Da Giussano n.50', hideable: true },
+// { key: 'bt215_busto_g', label: 'Busto G. — Via Parabiago n. 61', hideable: true },
+// { key: 'bt300_busto_g', label: 'Busto G. — Via Matteotti 5', hideable: true },
+// { key: 'bt776_busto_g', label: 'Busto G. — Via Vincenzo Bellini civ.44', hideable: true },
+// { key: 'bt956_busto_g', label: 'Busto G. — V.Montebianco fr Civ.17', hideable: true },
+// { key: 'bt951_busto_g', label: 'Busto G. — Via per Busto A. n. 90 (piscina)', hideable: true },
+// { key: 'bt999_busto_g', label: 'Busto G. — V.Busto A. n.131 (deposito)', hideable: true },
+// { key: 'dg099_dairago', label: 'DAIRAGO — Via Verdi n.13', hideable: true },
+// { key: 'dg141_dairago', label: 'DAIRAGO — Via Damiano Chiesa MUNICIPIO', hideable: true },
+// { key: 'ac628_arconate', label: 'ARCONATE — Via Legnano n. 11', hideable: true },
+// { key: 'ac035_arconate', label: 'ARCONATE — Via Concordia fr Civ.13', hideable: true },
+
 export const Z644 = {
-  meta: {
-  linea: "Z644",
-  partenza_andata: "Arconate / Dairago → Busto Garolfo – Via Rossini 35 → Parabiago FS",
-  partenza_ritorno: "Parabiago FS → Busto Garolfo – Via Rossini 35 → Arconate",
-  durata_andata: "~22 min (Via Rossini → Parabiago FS)",
-  durata_ritorno: "~14 min (Parabiago FS → Via Rossini)",
-  validita: {
-    FI5: "Lun–Ven feriali invernale",
-    SC5: "Lun–Ven solo periodo scolastico",
-    SIS: "Sabato feriale invernale",
-    sunday: "Nessun servizio"
-  },
-  eccezioni: "Non valido dal 20 luglio al 6 settembre e nelle festività natalizie",
-  note: "Le corse senza parabiago_fs (→ PB100 Via Butti) NON arrivano all'autostazione FS"
-},
-
-  weekday_outbound: [
-  {
-    tripId: 302,
-    stops: {
-      rossini: 399,
-      parabiago_fs: 411,
-      parabiago_vb: null
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 304,
-    stops: {
-      rossini: 419,
-      parabiago_fs: null,
-      parabiago_vb: 440
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 460,
-    stops: {
-      rossini: 445,
-      parabiago_fs: null,
-      parabiago_vb: 473
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 502,
-    stops: {
-      rossini: 445,
-      parabiago_fs: null,
-      parabiago_vb: 470
-    },
-    validity: "SC5",
-    flags: [],
-    note: "Da Dairago"
-  },
-  {
-    tripId: 306,
-    stops: {
-      rossini: 449,
-      parabiago_fs: null,
-      parabiago_vb: 473
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 310,
-    stops: {
-      rossini: 524,
-      parabiago_fs: 536,
-      parabiago_vb: null
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 390,
-    stops: {
-      rossini: 579,
-      parabiago_fs: 591,
-      parabiago_vb: null
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 316,
-    stops: {
-      rossini: 703,
-      parabiago_fs: null,
-      parabiago_vb: 724
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 320,
-    stops: {
-      rossini: 774,
-      parabiago_fs: null,
-      parabiago_vb: 793
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 318,
-    stops: {
-      rossini: 849,
-      parabiago_fs: null,
-      parabiago_vb: 868
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 334,
-    stops: {
-      rossini: 876,
-      parabiago_fs: null,
-      parabiago_vb: 894
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 406,
-    stops: {
-      rossini: 879,
-      parabiago_fs: null,
-      parabiago_vb: 898
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 322,
-    stops: {
-      rossini: 914,
-      parabiago_fs: 926,
-      parabiago_vb: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 324,
-    stops: {
-      rossini: 954,
-      parabiago_fs: 966,
-      parabiago_vb: null
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 326,
-    stops: {
-      rossini: 979,
-      parabiago_fs: 991,
-      parabiago_vb: null
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  }
-],
-
-  // ── FERIALE RITORNO Parabiago \u2192 Busto Garolfo ────────────────
-  weekday_return: [
-  {
-    tripId: 301,
-    stops: {
-      parabiago_prt: 415,
-      rossini: 429,
-      arconate: 436
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 303,
-    stops: {
-      parabiago_prt: 445,
-      rossini: 464,
-      arconate: 473
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 305,
-    stops: {
-      parabiago_prt: 480,
-      rossini: 499,
-      arconate: 508
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 309,
-    stops: {
-      parabiago_prt: 540,
-      rossini: 554,
-      arconate: 561
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 393,
-    stops: {
-      parabiago_prt: 595,
-      rossini: 609,
-      arconate: 616
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 317,
-    stops: {
-      parabiago_prt: 730,
-      rossini: 753,
-      arconate: 761
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 315,
-    stops: {
-      parabiago_prt: 800,
-      rossini: 823,
-      arconate: 831
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 517,
-    stops: {
-      parabiago_prt: 800,
-      rossini: 819,
-      arconate: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: "Termina a Dairago"
-  },
-  {
-    tripId: 329,
-    stops: {
-      parabiago_prt: 855,
-      rossini: 874,
-      arconate: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: "Termina a Dairago"
-  },
-  {
-    tripId: 319,
-    stops: {
-      parabiago_prt: 860,
-      rossini: 883,
-      arconate: 891
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 339,
-    stops: {
-      parabiago_prt: 905,
-      rossini: 924,
-      arconate: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: "Termina a Dairago"
-  },
-  {
-    tripId: 333,
-    stops: {
-      parabiago_prt: 910,
-      rossini: 933,
-      arconate: 941
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 321,
-    stops: {
-      parabiago_prt: 940,
-      rossini: 954,
-      arconate: 961
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 323,
-    stops: {
-      parabiago_prt: 975,
-      rossini: 989,
-      arconate: 996
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 325,
-    stops: {
-      parabiago_prt: 995,
-      rossini: 1009,
-      arconate: 1016
-    },
-    validity: "FI5",
-    flags: [],
-    note: ""
-  }
-],
-
-  // ── SABATO ANDATA (SIS) ─────────────────────────────────────
-  saturday_outbound: [
-  {
-    tripId: 804,
-    stops: {
-      rossini: 419,
-      parabiago_fs: null,
-      parabiago_vb: 440
-    },
-    validity: "SIS",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 806,
-    stops: {
-      rossini: 449,
-      parabiago_fs: null,
-      parabiago_vb: 473
-    },
-    validity: "SIS",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 810,
-    stops: {
-      rossini: 524,
-      parabiago_fs: 536,
-      parabiago_vb: null
-    },
-    validity: "SIS",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 824,
-    stops: {
-      rossini: 954,
-      parabiago_fs: 966,
-      parabiago_vb: null
-    },
-    validity: "SIS",
-    flags: [],
-    note: ""
-  }
-],
-
-  // ── SABATO RITORNO (SIS) ─────────────────────────────────────
-  saturday_return: [
-  {
-    tripId: 803,
-    stops: {
-      parabiago_prt: 445,
-      rossini: 464,
-      arconate: 473
-    },
-    validity: "SIS",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 805,
-    stops: {
-      parabiago_prt: 480,
-      rossini: 499,
-      arconate: 508
-    },
-    validity: "SIS",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 809,
-    stops: {
-      parabiago_prt: 540,
-      rossini: 554,
-      arconate: 561
-    },
-    validity: "SIS",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 823,
-    stops: {
-      parabiago_prt: 975,
-      rossini: 989,
-      arconate: 996
-    },
-    validity: "SIS",
-    flags: [],
-    note: ""
-  }
-]
+  "saturday_andata":   [
+    { tripId: "804", val: "SIS", flags: ["SIS"], stops: {"ac625_arconate": 410, "ac627_arconate": 412, "bt205_busto_g": 416, "bt775_busto_g": 419, "bt400_busto_g": 420, "bt211_busto_g": 421, "pb701_parabiago": 430, "pb100_parabiago": 440} },
+    { tripId: "806", val: "SIS", flags: ["SIS"], stops: {"ac625_arconate": 440, "ac627_arconate": 442, "bt205_busto_g": 446, "bt775_busto_g": 449, "bt400_busto_g": 450, "bt211_busto_g": 451, "pb701_parabiago": 462, "pb100_parabiago": 473} },
+    { tripId: "810", val: "SIS", flags: ["SIS"], stops: {"ac625_arconate": 515, "ac627_arconate": 517, "bt205_busto_g": 521, "bt775_busto_g": 524, "bt400_busto_g": 525, "bt211_busto_g": 526, "pb701_parabiago": 534, "pb090_parabiago": 536} },
+    { tripId: "824", val: "SIS", flags: ["SIS"], stops: {"ac625_arconate": 945, "ac627_arconate": 947, "bt205_busto_g": 951, "bt775_busto_g": 954, "bt400_busto_g": 955, "bt211_busto_g": 956, "pb701_parabiago": 964, "pb090_parabiago": 966} },
+  ],
+  "saturday_ritorno":   [
+    { tripId: "803", val: "SIS", flags: ["SIS"], stops: {"pb101_parabiago": 445, "pb702_parabiago": 450, "bt215_busto_g": 461, "bt300_busto_g": 462, "bt776_busto_g": 464, "bt956_busto_g": 468, "ac628_arconate": 473, "ac035_arconate": 475} },
+    { tripId: "805", val: "SIS", flags: ["SIS"], stops: {"pb101_parabiago": 480, "pb702_parabiago": 485, "bt215_busto_g": 496, "bt300_busto_g": 497, "bt776_busto_g": 499, "bt956_busto_g": 503, "ac628_arconate": 508, "ac035_arconate": 510} },
+    { tripId: "809", val: "SIS", flags: ["SIS"], stops: {"pb090_parabiago": 540, "pb702_parabiago": 543, "bt215_busto_g": 551, "bt300_busto_g": 552, "bt776_busto_g": 554, "bt956_busto_g": 556, "ac628_arconate": 561, "ac035_arconate": 563} },
+    { tripId: "823", val: "SIS", flags: ["SIS"], stops: {"pb090_parabiago": 975, "pb702_parabiago": 978, "bt215_busto_g": 986, "bt300_busto_g": 987, "bt776_busto_g": 989, "bt956_busto_g": 991, "ac628_arconate": 996, "ac035_arconate": 998} },
+  ],
+  "weekday_andata":   [
+    { tripId: "302", val: "FI5", flags: ["FI5"], stops: {"ac625_arconate": 390, "ac627_arconate": 392, "bt205_busto_g": 396, "bt775_busto_g": 399, "bt400_busto_g": 400, "bt211_busto_g": 401, "pb701_parabiago": 409, "pb090_parabiago": 411} },
+    { tripId: "304", val: "FI5", flags: ["FI5"], stops: {"ac625_arconate": 410, "ac627_arconate": 412, "bt205_busto_g": 416, "bt775_busto_g": 419, "bt400_busto_g": 420, "bt211_busto_g": 421, "pb701_parabiago": 430, "pb100_parabiago": 440} },
+    { tripId: "460", val: "SC5", flags: ["SC5"], stops: {"dg142_dairago": 428, "dg097_dairago": 430, "vc005_villa_c": 435, "vc006_villa_c": 437, "bt701_busto_g": 440, "bt702_busto_g": 441, "bt947_busto_g": 443, "bt775_busto_g": 445, "bt400_busto_g": 448, "bt211_busto_g": 449, "pb701_parabiago": 462, "pb100_parabiago": 473} },
+    { tripId: "502", val: "SC5", flags: ["SC5"], stops: {"bt701_busto_g": 440, "bt702_busto_g": 441, "bt205_busto_g": 443, "bt775_busto_g": 445, "bt400_busto_g": 447, "bt211_busto_g": 448, "pb701_parabiago": 460, "pb100_parabiago": 470} },
+    { tripId: "306", val: "FI5", flags: ["FI5"], stops: {"ac625_arconate": 440, "ac627_arconate": 442, "bt205_busto_g": 446, "bt775_busto_g": 449, "bt400_busto_g": 450, "bt211_busto_g": 451, "pb701_parabiago": 462, "pb100_parabiago": 473} },
+    { tripId: "310", val: "FI5", flags: ["FI5"], stops: {"ac625_arconate": 515, "ac627_arconate": 517, "bt205_busto_g": 521, "bt775_busto_g": 524, "bt400_busto_g": 525, "bt211_busto_g": 526, "pb701_parabiago": 534, "pb090_parabiago": 536} },
+    { tripId: "390", val: "FI5", flags: ["FI5"], stops: {"ac625_arconate": 570, "ac627_arconate": 572, "bt205_busto_g": 576, "bt775_busto_g": 579, "bt400_busto_g": 580, "bt211_busto_g": 581, "pb701_parabiago": 589, "pb090_parabiago": 591} },
+    { tripId: "316", val: "SC5", flags: ["SC5"], stops: {"bt205_busto_g": 700, "bt775_busto_g": 703, "bt400_busto_g": 704, "bt211_busto_g": 705, "pb701_parabiago": 715, "pb100_parabiago": 724} },
+    { tripId: "320", val: "SC5", flags: ["SC5"], stops: {"ac625_arconate": 765, "ac627_arconate": 767, "bt205_busto_g": 771, "bt775_busto_g": 774, "bt400_busto_g": 775, "bt211_busto_g": 776, "pb701_parabiago": 786, "pb100_parabiago": 793} },
+    { tripId: "318", val: "SC5", flags: ["SC5"], stops: {"ac625_arconate": 840, "ac627_arconate": 842, "bt205_busto_g": 846, "bt775_busto_g": 849, "bt400_busto_g": 850, "bt211_busto_g": 851, "pb701_parabiago": 861, "pb100_parabiago": 868} },
+    { tripId: "334", val: "SC5", flags: ["SC5"], stops: {"bt205_busto_g": 873, "bt775_busto_g": 876, "bt400_busto_g": 877, "bt211_busto_g": 878, "pb701_parabiago": 888, "pb100_parabiago": 894} },
+    { tripId: "406", val: "SC5", flags: ["SC5"], stops: {"ac625_arconate": 870, "ac627_arconate": 872, "bt205_busto_g": 876, "bt775_busto_g": 879, "bt400_busto_g": 880, "bt211_busto_g": 881, "pb701_parabiago": 891, "pb100_parabiago": 898} },
+    { tripId: "322", val: "SC5", flags: ["SC5"], stops: {"ac625_arconate": 905, "ac627_arconate": 907, "bt205_busto_g": 911, "bt775_busto_g": 914, "bt400_busto_g": 915, "bt211_busto_g": 916, "pb701_parabiago": 924, "pb090_parabiago": 926} },
+    { tripId: "324", val: "FI5", flags: ["FI5"], stops: {"ac625_arconate": 945, "ac627_arconate": 947, "bt205_busto_g": 951, "bt775_busto_g": 954, "bt400_busto_g": 955, "bt211_busto_g": 956, "pb701_parabiago": 964, "pb090_parabiago": 966} },
+    { tripId: "326", val: "FI5", flags: ["FI5"], stops: {"ac625_arconate": 970, "ac627_arconate": 972, "bt205_busto_g": 976, "bt775_busto_g": 979, "bt400_busto_g": 980, "bt211_busto_g": 981, "pb701_parabiago": 989, "pb090_parabiago": 991} },
+  ],
+  "weekday_ritorno":   [
+    { tripId: "301", val: "FI5", flags: ["FI5"], stops: {"pb090_parabiago": 415, "pb702_parabiago": 418, "bt215_busto_g": 426, "bt300_busto_g": 427, "bt776_busto_g": 429, "bt956_busto_g": 431, "ac628_arconate": 436, "ac035_arconate": 438} },
+    { tripId: "303", val: "FI5", flags: ["FI5"], stops: {"pb101_parabiago": 445, "pb702_parabiago": 450, "bt215_busto_g": 461, "bt300_busto_g": 462, "bt776_busto_g": 464, "bt956_busto_g": 468, "ac628_arconate": 473, "ac035_arconate": 475} },
+    { tripId: "305", val: "FI5", flags: ["FI5"], stops: {"pb101_parabiago": 480, "pb702_parabiago": 485, "bt215_busto_g": 496, "bt300_busto_g": 497, "bt776_busto_g": 499, "bt956_busto_g": 503, "ac628_arconate": 508, "ac035_arconate": 510} },
+    { tripId: "307", val: "SC5", flags: ["SC5"], stops: {"pb101_parabiago": 480, "pb702_parabiago": 485, "bt215_busto_g": 496, "bt300_busto_g": 497, "bt776_busto_g": 499, "bt956_busto_g": 503} },
+    { tripId: "309", val: "FI5", flags: ["FI5"], stops: {"pb090_parabiago": 540, "pb702_parabiago": 543, "bt215_busto_g": 551, "bt300_busto_g": 552, "bt776_busto_g": 554, "bt956_busto_g": 556, "ac628_arconate": 561, "ac035_arconate": 563} },
+    { tripId: "393", val: "FI5", flags: ["FI5"], stops: {"pb090_parabiago": 595, "pb702_parabiago": 598, "bt215_busto_g": 606, "bt300_busto_g": 607, "bt776_busto_g": 609, "bt956_busto_g": 611, "ac628_arconate": 616, "ac035_arconate": 618} },
+    { tripId: "315", val: "SC5", flags: ["SC5"], stops: {"pb101_parabiago": 730, "pb702_parabiago": 735, "vc050_villa_c": 745, "vc051_villa_c": 746, "bt701_busto_g": 750, "bt702_busto_g": 751, "bt947_busto_g": 753, "ac628_arconate": 761, "ac035_arconate": 763} },
+    { tripId: "317", val: "SC5", flags: ["SC5"], stops: {"pb101_parabiago": 800, "pb702_parabiago": 805, "vc050_villa_c": 815, "vc051_villa_c": 816, "bt701_busto_g": 820, "bt702_busto_g": 821, "bt947_busto_g": 823, "ac628_arconate": 831, "ac035_arconate": 833} },
+    { tripId: "517", val: "SC5", flags: ["SC5"], stops: {"pb101_parabiago": 800, "pb702_parabiago": 805, "bt215_busto_g": 816, "bt300_busto_g": 817, "bt776_busto_g": 819, "bt956_busto_g": 821, "bt951_busto_g": 822, "bt999_busto_g": 824, "dg099_dairago": 828, "dg141_dairago": 829} },
+    { tripId: "329", val: "SC5", flags: ["SC5"], stops: {"pb101_parabiago": 855, "pb702_parabiago": 860, "bt215_busto_g": 871, "bt300_busto_g": 872, "bt776_busto_g": 874, "bt956_busto_g": 876, "bt951_busto_g": 877, "bt999_busto_g": 879, "dg099_dairago": 883, "dg141_dairago": 884} },
+    { tripId: "319", val: "SC5", flags: ["SC5"], stops: {"pb101_parabiago": 860, "pb702_parabiago": 865, "vc050_villa_c": 875, "vc051_villa_c": 876, "bt701_busto_g": 880, "bt702_busto_g": 881, "bt947_busto_g": 883, "ac628_arconate": 891, "ac035_arconate": 893} },
+    { tripId: "339", val: "SC5", flags: ["SC5"], stops: {"pb101_parabiago": 905, "pb702_parabiago": 910, "bt215_busto_g": 921, "bt300_busto_g": 922, "bt776_busto_g": 924, "bt956_busto_g": 926, "bt951_busto_g": 927, "bt999_busto_g": 929, "dg099_dairago": 933, "dg141_dairago": 934} },
+    { tripId: "333", val: "SC5", flags: ["SC5"], stops: {"pb101_parabiago": 910, "pb702_parabiago": 915, "vc050_villa_c": 925, "vc051_villa_c": 926, "bt701_busto_g": 930, "bt702_busto_g": 931, "bt947_busto_g": 933, "ac628_arconate": 941, "ac035_arconate": 943} },
+    { tripId: "321", val: "SC5", flags: ["SC5"], stops: {"pb090_parabiago": 940, "pb702_parabiago": 943, "bt215_busto_g": 951, "bt300_busto_g": 952, "bt776_busto_g": 954, "bt956_busto_g": 956, "ac628_arconate": 961, "ac035_arconate": 963} },
+    { tripId: "323", val: "FI5", flags: ["FI5"], stops: {"pb090_parabiago": 975, "pb702_parabiago": 978, "bt215_busto_g": 986, "bt300_busto_g": 987, "bt776_busto_g": 989, "bt956_busto_g": 991, "ac628_arconate": 996, "ac035_arconate": 998} },
+    { tripId: "325", val: "FI5", flags: ["FI5"], stops: {"pb090_parabiago": 995, "pb702_parabiago": 998, "bt215_busto_g": 1006, "bt300_busto_g": 1007, "bt776_busto_g": 1009, "bt956_busto_g": 1011, "ac628_arconate": 1016, "ac035_arconate": 1018} },
+  ],
 };

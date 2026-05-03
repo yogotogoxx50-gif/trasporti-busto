@@ -1,575 +1,97 @@
-// ============================================================
-// Z625.JS
-// Standardized schema v4.0.0
-// ============================================================
+// AUTO-GENERATO da tools/convert_stops.py
+// NON modificare manualmente — rieseguire lo script dopo aggiornamenti CSV.
+// Fonte: STOPS/Z625/CSV/
+// Generato il: 2026-05-03
+// FERMATE DISPONIBILI (copia in line-config.js):
+// { key: 'vc005_villa_c', label: 'Villa C. — Via Canova ang.V.Buonarroti', hideable: true },
+// { key: 'vc006_villa_c', label: 'Villa C. — Via Canova ang.V.Perugino', hideable: true },
+// { key: 'bt701_busto_g', label: 'Busto G. — Via Curiel', hideable: true },
+// { key: 'bt702_busto_g', label: 'Busto G. — Via Don Longoni ang.v.Cellini', hideable: true },
+// { key: 'bt947_busto_g', label: 'Busto G. — Via Buonarroti civ 3', hideable: true },
+// { key: 'bt951_busto_g', label: 'Busto G. — Via per Busto A. n. 90 (piscina)', hideable: true },
+// { key: 'dg099_dairago', label: 'DAIRAGO — Via Verdi n.13', hideable: true },
+// { key: 'dg141_dairago', label: 'DAIRAGO — Via Damiano Chiesa MUNICIPIO', hideable: true },
+// { key: 'bs451_busto_arsizio', label: 'BUSTO ARSIZIO — Via Boccaccio n.101 fr V.Lodi', hideable: true },
+// { key: 'bs455_busto_arsizio', label: 'BUSTO ARSIZIO — V.le Boccaccio ang.V.Ferrini', hideable: true },
+// { key: 'bs452_busto_arsizio', label: 'BUSTO ARSIZIO — Via Ugo Foscolo fr Civ. 8', hideable: true },
+// { key: 'bs011_busto_arsizio', label: 'BUSTO ARSIZIO — P.zza Trento e Trieste', hideable: true },
+// { key: 'bs001_busto_arsizio', label: 'BUSTO ARSIZIO — Via XX Settembre a.V.Marconi', hideable: true },
+// { key: 'bs090_busto_arsizio', label: 'BUSTO ARSIZIO — Piazza Volontari della Liberta FS', hideable: true },
+// { key: 'bs057_busto_arsizio', label: 'BUSTO ARSIZIO — Via Castelfidardo n. lato giardinetti', hideable: true },
+// { key: 'bs212_busto_arsizio', label: 'BUSTO ARSIZIO — Corso Italia n.lato Ospedale', hideable: true },
+// { key: 'bs071_busto_arsizio', label: 'BUSTO ARSIZIO — ITC TOSI Cascina de Poveri', hideable: true },
+// { key: 'bs085_busto_arsizio', label: 'BUSTO ARSIZIO — Via Zappellini', hideable: true },
+// { key: 'bs003_busto_arsizio', label: 'BUSTO ARSIZIO — Via Crespi ang. P.Trento e T.', hideable: true },
+// { key: 'bs027_busto_arsizio', label: 'BUSTO ARSIZIO — V.le Cadorna ang.V.Piemonte', hideable: true },
+// { key: 'bs456_busto_arsizio', label: 'BUSTO ARSIZIO — V.le Boccaccio ang.v.ferrini', hideable: true },
+// { key: 'bs087_busto_arsizio', label: 'BUSTO ARSIZIO — Viale Boccaccio', hideable: true },
+// { key: 'dg142_dairago', label: 'DAIRAGO — V. Damiano Chiesa civ.11', hideable: true },
+// { key: 'dg097_dairago', label: 'DAIRAGO — Via Verdi n.24', hideable: true },
+// { key: 'bt949_busto_g', label: 'Busto G. — Via Per Busto A n. 91 (piscina)', hideable: true },
+// { key: 'bt301_busto_g', label: 'Busto G. — Via Buonarroti ang.v.Busto A.', hideable: true },
+// { key: 'bt703_busto_g', label: 'Busto G. — Via Buonarroti a.v.Carroccio', hideable: true },
+// { key: 'bt704_busto_g', label: 'Busto G. — Via Curiel a.v.De Amicis', hideable: true },
+// { key: 'vc050_villa_c', label: 'Villa C. — Via A.Da Giussano n.32', hideable: true },
+// { key: 'vc051_villa_c', label: 'Villa C. — Via A.Da Giussano n.50', hideable: true },
+
 export const Z625 = {
-  meta: {
-  linea: "Z625",
-  partenza_andata: "Busto Garolfo → Busto Arsizio FS",
-  partenza_ritorno: "Busto Arsizio FS → Busto Garolfo",
-  validita: {
-    FR5: "Lun–Ven feriali",
-    SC5: "Lun–Ven solo periodo scolastico",
-    SAB: "Sabato feriale",
-    sunday: "Nessun servizio"
-  }
-},
-
-  weekday_outbound: [
-  {
-    tripId: 108,
-    stops: {
-      curiel: 416,
-      busto_arsizio: 448,
-      busto_arsizio_fs: 465
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 106,
-    stops: {
-      curiel: 420,
-      busto_arsizio: 454,
-      busto_arsizio_fs: 470
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 104,
-    stops: {
-      curiel: 425,
-      busto_arsizio: 461,
-      busto_arsizio_fs: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 190,
-    stops: {
-      curiel: 441,
-      busto_arsizio: 483,
-      busto_arsizio_fs: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 110,
-    stops: {
-      curiel: 510,
-      busto_arsizio: 544,
-      busto_arsizio_fs: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 224,
-    stops: {
-      curiel: 545,
-      busto_arsizio: 576,
-      busto_arsizio_fs: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 124,
-    stops: {
-      curiel: 615,
-      busto_arsizio: 645,
-      busto_arsizio_fs: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 184,
-    stops: {
-      curiel: 705,
-      busto_arsizio: 735,
-      busto_arsizio_fs: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 282,
-    stops: {
-      curiel: null,
-      busto_arsizio: 777,
-      busto_arsizio_fs: 790
-    },
-    validity: "SC5",
-    flags: [],
-    note: "Parte da Dairago"
-  },
-  {
-    tripId: 132,
-    stops: {
-      curiel: 755,
-      busto_arsizio: 785,
-      busto_arsizio_fs: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 218,
-    stops: {
-      curiel: null,
-      busto_arsizio: 824,
-      busto_arsizio_fs: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: "Parte da Dairago"
-  },
-  {
-    tripId: 118,
-    stops: {
-      curiel: 810,
-      busto_arsizio: 841,
-      busto_arsizio_fs: 852
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 120,
-    stops: {
-      curiel: 870,
-      busto_arsizio: 900,
-      busto_arsizio_fs: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 180,
-    stops: {
-      curiel: 922,
-      busto_arsizio: 952,
-      busto_arsizio_fs: 965
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 666,
-    stops: {
-      curiel: 955,
-      busto_arsizio: 985,
-      busto_arsizio_fs: 997
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 126,
-    stops: {
-      curiel: 1005,
-      busto_arsizio: null,
-      busto_arsizio_fs: 1046
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  }
-],
-
-  // ── FERIALE RITORNO Busto Arsizio \u2192 BG ─────────────────────
-  weekday_return: [
-  {
-    tripId: 111,
-    stops: {
-      dep_ba: 466,
-      dep_ba_fs: null,
-      arr_bg: 498
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 171,
-    stops: {
-      dep_ba: null,
-      dep_ba_fs: 470,
-      arr_bg: 519
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 153,
-    stops: {
-      dep_ba: 475,
-      dep_ba_fs: null,
-      arr_bg: 520
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 101,
-    stops: {
-      dep_ba: 490,
-      dep_ba_fs: null,
-      arr_bg: 524
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 151,
-    stops: {
-      dep_ba: 550,
-      dep_ba_fs: null,
-      arr_bg: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 223,
-    stops: {
-      dep_ba: 580,
-      dep_ba_fs: null,
-      arr_bg: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 159,
-    stops: {
-      dep_ba: 650,
-      dep_ba_fs: null,
-      arr_bg: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 199,
-    stops: {
-      dep_ba: 740,
-      dep_ba_fs: null,
-      arr_bg: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 113,
-    stops: {
-      dep_ba: 793,
-      dep_ba_fs: 795,
-      arr_bg: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 115,
-    stops: {
-      dep_ba: 807,
-      dep_ba_fs: null,
-      arr_bg: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 165,
-    stops: {
-      dep_ba: 830,
-      dep_ba_fs: null,
-      arr_bg: 843
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 163,
-    stops: {
-      dep_ba: 855,
-      dep_ba_fs: 855,
-      arr_bg: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 121,
-    stops: {
-      dep_ba: null,
-      dep_ba_fs: null,
-      arr_bg: 899
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 169,
-    stops: {
-      dep_ba: 905,
-      dep_ba_fs: null,
-      arr_bg: null
-    },
-    validity: "SC5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 147,
-    stops: {
-      dep_ba: null,
-      dep_ba_fs: 970,
-      arr_bg: 1052
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 191,
-    stops: {
-      dep_ba: 1017,
-      dep_ba_fs: 1005,
-      arr_bg: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 149,
-    stops: {
-      dep_ba: 1062,
-      dep_ba_fs: 1050,
-      arr_bg: null
-    },
-    validity: "FR5",
-    flags: [],
-    note: ""
-  }
-],
-
-  // ── SABATO ANDATA BG \u2192 Busto Arsizio ─────────────────────
-  saturday_outbound: [
-  {
-    tripId: 704,
-    stops: {
-      curiel: 390,
-      busto_arsizio: 420
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 790,
-    stops: {
-      curiel: 450,
-      busto_arsizio: 480
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 710,
-    stops: {
-      curiel: 510,
-      busto_arsizio: 540
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 744,
-    stops: {
-      curiel: 570,
-      busto_arsizio: 600
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 784,
-    stops: {
-      curiel: 700,
-      busto_arsizio: 730
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 732,
-    stops: {
-      curiel: 755,
-      busto_arsizio: 785
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 718,
-    stops: {
-      curiel: 815,
-      busto_arsizio: 846
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 780,
-    stops: {
-      curiel: 910,
-      busto_arsizio: 940
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 766,
-    stops: {
-      curiel: 1005,
-      busto_arsizio: 1035
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  }
-],
-
-  // ── SABATO RITORNO Busto Arsizio \u2192 BG ─────────────────────
-  saturday_return: [
-  {
-    tripId: 711,
-    stops: {
-      dep_ba: 425,
-      arr_bg: null
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 701,
-    stops: {
-      dep_ba: 485,
-      arr_bg: null
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 751,
-    stops: {
-      dep_ba: 545,
-      arr_bg: null
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 741,
-    stops: {
-      dep_ba: 605,
-      arr_bg: null
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 799,
-    stops: {
-      dep_ba: 735,
-      arr_bg: null
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 713,
-    stops: {
-      dep_ba: 790,
-      arr_bg: null
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 763,
-    stops: {
-      dep_ba: 850,
-      arr_bg: null
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 747,
-    stops: {
-      dep_ba: 945,
-      arr_bg: null
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  },
-  {
-    tripId: 771,
-    stops: {
-      dep_ba: 1040,
-      arr_bg: null
-    },
-    validity: "SAB",
-    flags: [],
-    note: ""
-  }
-]
+  "saturday_andata":   [
+    { tripId: "704", val: "SAB", flags: ["SAB"], stops: {"bt701_busto_g": 390, "bt702_busto_g": 391, "bt947_busto_g": 393, "bt951_busto_g": 395, "dg099_dairago": 398, "dg141_dairago": 399, "bs451_busto_arsizio": 406, "bs455_busto_arsizio": 407, "bs452_busto_arsizio": 410, "bs011_busto_arsizio": 413, "bs001_busto_arsizio": 417, "bs090_busto_arsizio": 420} },
+    { tripId: "790", val: "SAB", flags: ["SAB"], stops: {"bt701_busto_g": 450, "bt702_busto_g": 451, "bt947_busto_g": 453, "bt951_busto_g": 455, "dg099_dairago": 458, "dg141_dairago": 459, "bs451_busto_arsizio": 465, "bs455_busto_arsizio": 467, "bs452_busto_arsizio": 470, "bs011_busto_arsizio": 473, "bs001_busto_arsizio": 477, "bs090_busto_arsizio": 480} },
+    { tripId: "710", val: "SAB", flags: ["SAB"], stops: {"bt701_busto_g": 510, "bt702_busto_g": 511, "bt947_busto_g": 513, "bt951_busto_g": 515, "dg099_dairago": 518, "dg141_dairago": 519, "bs451_busto_arsizio": 525, "bs455_busto_arsizio": 526, "bs452_busto_arsizio": 530, "bs011_busto_arsizio": 533, "bs001_busto_arsizio": 537, "bs090_busto_arsizio": 540} },
+    { tripId: "744", val: "SAB", flags: ["SAB"], stops: {"bt701_busto_g": 570, "bt702_busto_g": 571, "bt947_busto_g": 573, "bt951_busto_g": 575, "dg099_dairago": 578, "dg141_dairago": 579, "bs451_busto_arsizio": 585, "bs455_busto_arsizio": 586, "bs452_busto_arsizio": 590, "bs011_busto_arsizio": 593, "bs001_busto_arsizio": 597, "bs090_busto_arsizio": 600} },
+    { tripId: "784", val: "SAB", flags: ["SAB"], stops: {"bt701_busto_g": 700, "bt702_busto_g": 701, "bt947_busto_g": 703, "bt951_busto_g": 705, "dg099_dairago": 708, "dg141_dairago": 709, "bs451_busto_arsizio": 715, "bs455_busto_arsizio": 716, "bs452_busto_arsizio": 720, "bs011_busto_arsizio": 723, "bs001_busto_arsizio": 727, "bs090_busto_arsizio": 730} },
+    { tripId: "732", val: "SAB", flags: ["SAB"], stops: {"bt701_busto_g": 755, "bt702_busto_g": 756, "bt947_busto_g": 758, "bt951_busto_g": 760, "dg099_dairago": 763, "dg141_dairago": 764, "bs451_busto_arsizio": 770, "bs455_busto_arsizio": 771, "bs452_busto_arsizio": 775, "bs011_busto_arsizio": 778, "bs001_busto_arsizio": 782, "bs090_busto_arsizio": 785} },
+    { tripId: "718", val: "SAB", flags: ["SAB"], stops: {"bt701_busto_g": 815, "bt702_busto_g": 816, "bt947_busto_g": 818, "bt951_busto_g": 820, "dg099_dairago": 823, "dg141_dairago": 824, "bs451_busto_arsizio": 831, "bs455_busto_arsizio": 832, "bs452_busto_arsizio": 835, "bs011_busto_arsizio": 838, "bs001_busto_arsizio": 842, "bs090_busto_arsizio": 846} },
+    { tripId: "780", val: "SAB", flags: ["SAB"], stops: {"bt701_busto_g": 910, "bt702_busto_g": 911, "bt947_busto_g": 913, "bt951_busto_g": 915, "dg099_dairago": 918, "dg141_dairago": 919, "bs451_busto_arsizio": 925, "bs455_busto_arsizio": 926, "bs452_busto_arsizio": 930, "bs011_busto_arsizio": 933, "bs001_busto_arsizio": 937, "bs090_busto_arsizio": 940} },
+    { tripId: "766", val: "SAB", flags: ["SAB"], stops: {"bt701_busto_g": 1005, "bt702_busto_g": 1006, "bt947_busto_g": 1008, "bt951_busto_g": 1010, "dg099_dairago": 1013, "dg141_dairago": 1014, "bs451_busto_arsizio": 1020, "bs455_busto_arsizio": 1021, "bs452_busto_arsizio": 1025, "bs011_busto_arsizio": 1028, "bs001_busto_arsizio": 1032, "bs090_busto_arsizio": 1035} },
+  ],
+  "saturday_ritorno":   [
+    { tripId: "711", val: "SAB", flags: ["SAB"], stops: {"bs090_busto_arsizio": 425, "bs003_busto_arsizio": 431, "bs027_busto_arsizio": 436, "bs456_busto_arsizio": 440, "bs087_busto_arsizio": 444, "dg142_dairago": 450, "dg097_dairago": 451, "bt949_busto_g": 454, "bt301_busto_g": 456, "bt703_busto_g": 457, "bt704_busto_g": 459} },
+    { tripId: "701", val: "SAB", flags: ["SAB"], stops: {"bs090_busto_arsizio": 485, "bs003_busto_arsizio": 491, "bs027_busto_arsizio": 496, "bs456_busto_arsizio": 500, "bs087_busto_arsizio": 504, "dg142_dairago": 510, "dg097_dairago": 511, "bt949_busto_g": 514, "bt301_busto_g": 516, "bt703_busto_g": 517, "bt704_busto_g": 519} },
+    { tripId: "751", val: "SAB", flags: ["SAB"], stops: {"bs090_busto_arsizio": 545, "bs003_busto_arsizio": 551, "bs027_busto_arsizio": 555, "bs456_busto_arsizio": 558, "bs087_busto_arsizio": 561, "dg142_dairago": 567, "dg097_dairago": 568, "bt949_busto_g": 571, "bt301_busto_g": 573, "bt703_busto_g": 574, "bt704_busto_g": 576} },
+    { tripId: "741", val: "SAB", flags: ["SAB"], stops: {"bs090_busto_arsizio": 605, "bs003_busto_arsizio": 611, "bs027_busto_arsizio": 615, "bs456_busto_arsizio": 618, "bs087_busto_arsizio": 621, "dg142_dairago": 627, "dg097_dairago": 628, "bt949_busto_g": 631, "bt301_busto_g": 633, "bt703_busto_g": 634, "bt704_busto_g": 636} },
+    { tripId: "799", val: "SAB", flags: ["SAB"], stops: {"bs090_busto_arsizio": 735, "bs003_busto_arsizio": 739, "bs027_busto_arsizio": 745, "bs456_busto_arsizio": 748, "bs087_busto_arsizio": 751, "dg142_dairago": 757, "dg097_dairago": 758, "bt949_busto_g": 761, "bt301_busto_g": 763, "bt703_busto_g": 764, "bt704_busto_g": 766} },
+    { tripId: "713", val: "SAB", flags: ["SAB"], stops: {"bs090_busto_arsizio": 790, "bs003_busto_arsizio": 796, "bs027_busto_arsizio": 800, "bs456_busto_arsizio": 804, "bs087_busto_arsizio": 807, "dg142_dairago": 813, "dg097_dairago": 814, "bt949_busto_g": 817, "bt301_busto_g": 820, "bt703_busto_g": 821, "bt704_busto_g": 823} },
+    { tripId: "763", val: "SAB", flags: ["SAB"], stops: {"bs090_busto_arsizio": 850, "bs003_busto_arsizio": 856, "bs027_busto_arsizio": 861, "bs456_busto_arsizio": 865, "bs087_busto_arsizio": 869, "dg142_dairago": 875, "dg097_dairago": 876, "bt949_busto_g": 879, "bt301_busto_g": 882, "bt703_busto_g": 883, "bt704_busto_g": 885} },
+    { tripId: "747", val: "SAB", flags: ["SAB"], stops: {"bs090_busto_arsizio": 945, "bs003_busto_arsizio": 949, "bs027_busto_arsizio": 953, "bs456_busto_arsizio": 957, "bs087_busto_arsizio": 960, "dg142_dairago": 968, "dg097_dairago": 969, "bt949_busto_g": 972, "bt301_busto_g": 974, "bt703_busto_g": 975, "bt704_busto_g": 977} },
+    { tripId: "771", val: "SAB", flags: ["SAB"], stops: {"bs090_busto_arsizio": 1040, "bs003_busto_arsizio": 1044, "bs027_busto_arsizio": 1048, "bs456_busto_arsizio": 1052, "bs087_busto_arsizio": 1055, "dg142_dairago": 1063, "dg097_dairago": 1064, "bt949_busto_g": 1067, "bt301_busto_g": 1069, "bt703_busto_g": 1070, "bt704_busto_g": 1072} },
+  ],
+  "weekday_andata":   [
+    { tripId: "108", val: "SC5", flags: ["SC5"], stops: {"vc005_villa_c": 411, "vc006_villa_c": 413, "bt701_busto_g": 416, "bt702_busto_g": 417, "bt947_busto_g": 419, "bt951_busto_g": 421, "dg099_dairago": 424, "dg141_dairago": 426, "bs451_busto_arsizio": 431, "bs455_busto_arsizio": 434, "bs452_busto_arsizio": 437, "bs011_busto_arsizio": 440, "bs001_busto_arsizio": 444, "bs090_busto_arsizio": 448, "bs057_busto_arsizio": 453, "bs212_busto_arsizio": 457, "bs071_busto_arsizio": 465} },
+    { tripId: "106", val: "SC5", flags: ["SC5"], stops: {"vc005_villa_c": 415, "vc006_villa_c": 417, "bt701_busto_g": 420, "bt702_busto_g": 421, "bt947_busto_g": 423, "bt951_busto_g": 425, "dg099_dairago": 428, "dg141_dairago": 430, "bs451_busto_arsizio": 435, "bs455_busto_arsizio": 438, "bs452_busto_arsizio": 441, "bs011_busto_arsizio": 445, "bs001_busto_arsizio": 449, "bs090_busto_arsizio": 454, "bs057_busto_arsizio": 459, "bs212_busto_arsizio": 463, "bs071_busto_arsizio": 470} },
+    { tripId: "104", val: "FR5", flags: ["FR5"], stops: {"bt701_busto_g": 425, "bt702_busto_g": 427, "bt947_busto_g": 429, "bt951_busto_g": 431, "dg099_dairago": 434, "dg141_dairago": 436, "bs451_busto_arsizio": 445, "bs455_busto_arsizio": 447, "bs452_busto_arsizio": 451, "bs011_busto_arsizio": 454, "bs001_busto_arsizio": 458, "bs090_busto_arsizio": 461} },
+    { tripId: "190", val: "SC5", flags: ["SC5"], stops: {"bt701_busto_g": 441, "bt702_busto_g": 443, "bt947_busto_g": 445, "bt951_busto_g": 447, "dg099_dairago": 450, "dg141_dairago": 452, "bs451_busto_arsizio": 463, "bs455_busto_arsizio": 466, "bs452_busto_arsizio": 472, "bs011_busto_arsizio": 476, "bs001_busto_arsizio": 480, "bs090_busto_arsizio": 483} },
+    { tripId: "110", val: "FR5", flags: ["FR5"], stops: {"vc005_villa_c": 505, "vc006_villa_c": 508, "bt701_busto_g": 510, "bt702_busto_g": 511, "bt947_busto_g": 513, "bt951_busto_g": 515, "dg099_dairago": 518, "dg141_dairago": 520, "bs451_busto_arsizio": 526, "bs455_busto_arsizio": 528, "bs452_busto_arsizio": 532, "bs011_busto_arsizio": 536, "bs001_busto_arsizio": 539, "bs090_busto_arsizio": 544} },
+    { tripId: "224", val: "FR5", flags: ["FR5"], stops: {"bt701_busto_g": 545, "bt702_busto_g": 546, "bt947_busto_g": 548, "bt951_busto_g": 550, "dg099_dairago": 553, "dg141_dairago": 554, "bs451_busto_arsizio": 560, "bs455_busto_arsizio": 562, "bs452_busto_arsizio": 566, "bs011_busto_arsizio": 569, "bs001_busto_arsizio": 573, "bs090_busto_arsizio": 576} },
+    { tripId: "124", val: "FR5", flags: ["FR5"], stops: {"bt701_busto_g": 615, "bt702_busto_g": 616, "bt947_busto_g": 618, "bt951_busto_g": 620, "dg099_dairago": 623, "dg141_dairago": 624, "bs451_busto_arsizio": 630, "bs455_busto_arsizio": 631, "bs452_busto_arsizio": 635, "bs011_busto_arsizio": 638, "bs001_busto_arsizio": 642, "bs090_busto_arsizio": 645} },
+    { tripId: "184", val: "FR5", flags: ["FR5"], stops: {"bt701_busto_g": 705, "bt702_busto_g": 706, "bt947_busto_g": 708, "bt951_busto_g": 710, "dg099_dairago": 713, "dg141_dairago": 714, "bs451_busto_arsizio": 720, "bs455_busto_arsizio": 721, "bs452_busto_arsizio": 725, "bs011_busto_arsizio": 728, "bs001_busto_arsizio": 732, "bs090_busto_arsizio": 735} },
+    { tripId: "282", val: "SC5", flags: ["SC5"], stops: {"dg099_dairago": 755, "dg141_dairago": 756, "bs451_busto_arsizio": 762, "bs455_busto_arsizio": 764, "bs452_busto_arsizio": 767, "bs011_busto_arsizio": 770, "bs001_busto_arsizio": 773, "bs090_busto_arsizio": 777, "bs057_busto_arsizio": 781, "bs212_busto_arsizio": 784, "bs071_busto_arsizio": 790} },
+    { tripId: "132", val: "FR5", flags: ["FR5"], stops: {"bt701_busto_g": 755, "bt702_busto_g": 756, "bt947_busto_g": 758, "bt951_busto_g": 760, "dg099_dairago": 763, "dg141_dairago": 764, "bs451_busto_arsizio": 770, "bs455_busto_arsizio": 771, "bs452_busto_arsizio": 775, "bs011_busto_arsizio": 778, "bs001_busto_arsizio": 782, "bs090_busto_arsizio": 785} },
+    { tripId: "218", val: "SC5", flags: ["SC5"], stops: {"dg099_dairago": 800, "dg141_dairago": 801, "bs451_busto_arsizio": 808, "bs455_busto_arsizio": 810, "bs452_busto_arsizio": 814, "bs011_busto_arsizio": 816, "bs001_busto_arsizio": 820, "bs090_busto_arsizio": 824} },
+    { tripId: "118", val: "SC5", flags: ["SC5"], stops: {"vc005_villa_c": 805, "vc006_villa_c": 808, "bt701_busto_g": 810, "bt702_busto_g": 811, "bt947_busto_g": 813, "bt951_busto_g": 815, "dg099_dairago": 818, "dg141_dairago": 819, "bs451_busto_arsizio": 824, "bs455_busto_arsizio": 826, "bs452_busto_arsizio": 830, "bs011_busto_arsizio": 833, "bs001_busto_arsizio": 837, "bs090_busto_arsizio": 841, "bs057_busto_arsizio": 844, "bs212_busto_arsizio": 848, "bs071_busto_arsizio": 852} },
+    { tripId: "120", val: "SC5", flags: ["SC5"], stops: {"vc005_villa_c": 865, "vc006_villa_c": 868, "bt701_busto_g": 870, "bt702_busto_g": 871, "bt947_busto_g": 873, "bt951_busto_g": 875, "dg099_dairago": 878, "dg141_dairago": 879, "bs451_busto_arsizio": 886, "bs455_busto_arsizio": 887, "bs452_busto_arsizio": 890, "bs011_busto_arsizio": 893, "bs001_busto_arsizio": 897, "bs090_busto_arsizio": 900} },
+    { tripId: "180", val: "FR5", flags: ["FR5"], stops: {"bt701_busto_g": 922, "bt702_busto_g": 923, "bt947_busto_g": 925, "bt951_busto_g": 927, "dg099_dairago": 930, "dg141_dairago": 931, "bs451_busto_arsizio": 938, "bs455_busto_arsizio": 939, "bs452_busto_arsizio": 942, "bs011_busto_arsizio": 945, "bs001_busto_arsizio": 948, "bs090_busto_arsizio": 952, "bs057_busto_arsizio": 956, "bs212_busto_arsizio": 959, "bs071_busto_arsizio": 965} },
+    { tripId: "666", val: "FR5", flags: ["FR5"], stops: {"vc005_villa_c": 950, "vc006_villa_c": 953, "bt701_busto_g": 955, "bt702_busto_g": 956, "bt947_busto_g": 958, "bt951_busto_g": 960, "dg099_dairago": 963, "dg141_dairago": 965, "bs451_busto_arsizio": 970, "bs455_busto_arsizio": 972, "bs452_busto_arsizio": 975, "bs011_busto_arsizio": 977, "bs001_busto_arsizio": 981, "bs090_busto_arsizio": 985, "bs057_busto_arsizio": 988, "bs212_busto_arsizio": 992, "bs071_busto_arsizio": 997} },
+    { tripId: "126", val: "FR5", flags: ["FR5"], stops: {"bt701_busto_g": 1005, "bt702_busto_g": 1006, "bt947_busto_g": 1008, "bt951_busto_g": 1010, "dg099_dairago": 1013, "dg141_dairago": 1014, "bs451_busto_arsizio": 1021, "bs455_busto_arsizio": 1022, "bs452_busto_arsizio": 1027, "bs011_busto_arsizio": 1030, "bs057_busto_arsizio": 1037, "bs212_busto_arsizio": 1040, "bs071_busto_arsizio": 1046} },
+  ],
+  "weekday_ritorno":   [
+    { tripId: "111", val: "FR5", flags: ["FR5"], stops: {"bs090_busto_arsizio": 466, "bs003_busto_arsizio": 472, "bs027_busto_arsizio": 476, "bs456_busto_arsizio": 480, "bs087_busto_arsizio": 484, "dg142_dairago": 488, "dg097_dairago": 491, "vc050_villa_c": 498, "vc051_villa_c": 500} },
+    { tripId: "171", val: "SC5", flags: ["SC5"], stops: {"bs071_busto_arsizio": 470, "bs085_busto_arsizio": 478, "bs003_busto_arsizio": 484, "bs027_busto_arsizio": 489, "bs456_busto_arsizio": 493, "bs087_busto_arsizio": 497, "dg142_dairago": 505, "dg097_dairago": 507, "bt949_busto_g": 511, "bt301_busto_g": 513, "bt703_busto_g": 514, "bt704_busto_g": 516, "vc050_villa_c": 519, "vc051_villa_c": 521} },
+    { tripId: "153", val: "SC5", flags: ["SC5"], stops: {"bs071_busto_arsizio": 475, "bs085_busto_arsizio": 480, "bs090_busto_arsizio": 484, "bs003_busto_arsizio": 490, "bs027_busto_arsizio": 495, "bs456_busto_arsizio": 499, "bs087_busto_arsizio": 503, "dg142_dairago": 510, "dg097_dairago": 512, "vc050_villa_c": 520, "vc051_villa_c": 522} },
+    { tripId: "101", val: "SC5", flags: ["SC5"], stops: {"bs090_busto_arsizio": 490, "bs003_busto_arsizio": 494, "bs027_busto_arsizio": 499, "bs456_busto_arsizio": 503, "bs087_busto_arsizio": 507, "dg142_dairago": 515, "dg097_dairago": 517, "vc050_villa_c": 524, "vc051_villa_c": 526} },
+    { tripId: "151", val: "FR5", flags: ["FR5"], stops: {"bs090_busto_arsizio": 550, "bs003_busto_arsizio": 554, "bs027_busto_arsizio": 558, "bs456_busto_arsizio": 561, "bs087_busto_arsizio": 564, "dg142_dairago": 571, "dg097_dairago": 572, "bt949_busto_g": 576, "bt301_busto_g": 578, "bt703_busto_g": 579, "bt704_busto_g": 581} },
+    { tripId: "223", val: "FR5", flags: ["FR5"], stops: {"bs090_busto_arsizio": 580, "bs003_busto_arsizio": 584, "bs027_busto_arsizio": 588, "bs456_busto_arsizio": 591, "bs087_busto_arsizio": 594, "dg142_dairago": 601, "dg097_dairago": 602, "bt949_busto_g": 605, "bt301_busto_g": 607, "bt703_busto_g": 608, "bt704_busto_g": 610} },
+    { tripId: "159", val: "FR5", flags: ["FR5"], stops: {"bs090_busto_arsizio": 650, "bs003_busto_arsizio": 654, "bs027_busto_arsizio": 658, "bs456_busto_arsizio": 662, "bs087_busto_arsizio": 665, "dg142_dairago": 672, "dg097_dairago": 673, "bt949_busto_g": 676, "bt301_busto_g": 678, "bt703_busto_g": 679, "bt704_busto_g": 681} },
+    { tripId: "199", val: "FR5", flags: ["FR5"], stops: {"bs090_busto_arsizio": 740, "bs003_busto_arsizio": 744, "bs027_busto_arsizio": 748, "bs456_busto_arsizio": 752, "bs087_busto_arsizio": 755, "dg142_dairago": 761, "dg097_dairago": 762, "bt949_busto_g": 765, "bt301_busto_g": 767, "bt703_busto_g": 768, "bt704_busto_g": 770} },
+    { tripId: "113", val: "FR5", flags: ["FR5"], stops: {"bs090_busto_arsizio": 793, "bs003_busto_arsizio": 798, "bs027_busto_arsizio": 802, "bs456_busto_arsizio": 806, "bs087_busto_arsizio": 809, "dg142_dairago": 815, "dg097_dairago": 816, "bt949_busto_g": 819, "bt301_busto_g": 822, "bt703_busto_g": 823, "bt704_busto_g": 825} },
+    { tripId: "115", val: "SC5", flags: ["SC5"], stops: {"bs071_busto_arsizio": 795, "bs085_busto_arsizio": 801, "bs090_busto_arsizio": 807, "bs003_busto_arsizio": 812, "bs027_busto_arsizio": 816, "bs456_busto_arsizio": 820, "bs087_busto_arsizio": 823, "dg142_dairago": 829, "dg097_dairago": 830, "bt949_busto_g": 834, "bt301_busto_g": 836, "bt703_busto_g": 837, "bt704_busto_g": 839, "vc050_villa_c": 842, "vc051_villa_c": 843} },
+    { tripId: "165", val: "SC5", flags: ["SC5"], stops: {"bs090_busto_arsizio": 830, "bs003_busto_arsizio": 836, "bs027_busto_arsizio": 840, "bs456_busto_arsizio": 844, "bs087_busto_arsizio": 847, "dg142_dairago": 853, "dg097_dairago": 854, "bt949_busto_g": 857, "bt301_busto_g": 859, "bt703_busto_g": 860, "bt704_busto_g": 862} },
+    { tripId: "163", val: "SC5", flags: ["SC5"], stops: {"bs090_busto_arsizio": 855, "bs003_busto_arsizio": 860, "bs027_busto_arsizio": 864, "bs456_busto_arsizio": 868, "bs087_busto_arsizio": 871, "dg142_dairago": 877, "dg097_dairago": 878, "bt949_busto_g": 881, "bt301_busto_g": 884, "bt703_busto_g": 885, "bt704_busto_g": 887} },
+    { tripId: "121", val: "SC5", flags: ["SC5"], stops: {"bs071_busto_arsizio": 855, "bs085_busto_arsizio": 861, "bs003_busto_arsizio": 869, "bs027_busto_arsizio": 873, "bs456_busto_arsizio": 877, "bs087_busto_arsizio": 880, "dg142_dairago": 886, "dg097_dairago": 887, "bt949_busto_g": 891, "bt301_busto_g": 893, "bt703_busto_g": 894, "bt704_busto_g": 896, "vc050_villa_c": 899, "vc051_villa_c": 900} },
+    { tripId: "169", val: "SC5", flags: ["SC5"], stops: {"bs090_busto_arsizio": 905, "bs003_busto_arsizio": 911, "bs027_busto_arsizio": 915, "bs456_busto_arsizio": 919, "bs087_busto_arsizio": 922, "dg142_dairago": 928, "dg097_dairago": 929, "bt949_busto_g": 932, "bt301_busto_g": 934, "bt703_busto_g": 935, "bt704_busto_g": 937} },
+    { tripId: "147", val: "FR5", flags: ["FR5"], stops: {"bs071_busto_arsizio": 970, "bs085_busto_arsizio": 975, "bs003_busto_arsizio": 981, "bs027_busto_arsizio": 985, "bs456_busto_arsizio": 989, "bs087_busto_arsizio": 992, "dg142_dairago": 998, "dg097_dairago": 999, "bt949_busto_g": 1002, "bt301_busto_g": 1004, "bt703_busto_g": 1005, "bt704_busto_g": 1007} },
+    { tripId: "191", val: "FR5", flags: ["FR5"], stops: {"bs071_busto_arsizio": 1005, "bs085_busto_arsizio": 1011, "bs090_busto_arsizio": 1017, "bs003_busto_arsizio": 1022, "bs027_busto_arsizio": 1026, "bs456_busto_arsizio": 1030, "bs087_busto_arsizio": 1033, "dg142_dairago": 1039, "dg097_dairago": 1040, "bt949_busto_g": 1044, "bt301_busto_g": 1046, "bt703_busto_g": 1047, "bt704_busto_g": 1049, "vc050_villa_c": 1052, "vc051_villa_c": 1053} },
+    { tripId: "149", val: "FR5", flags: ["FR5"], stops: {"bs071_busto_arsizio": 1050, "bs085_busto_arsizio": 1056, "bs090_busto_arsizio": 1062, "bs003_busto_arsizio": 1067, "bs027_busto_arsizio": 1072, "bs456_busto_arsizio": 1076, "bs087_busto_arsizio": 1079, "dg142_dairago": 1085, "dg097_dairago": 1086, "bt949_busto_g": 1090, "bt301_busto_g": 1092, "bt703_busto_g": 1093, "bt704_busto_g": 1095} },
+  ],
 };

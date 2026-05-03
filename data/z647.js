@@ -1,33 +1,86 @@
-// ============================================================
-// Z647.JS
-// Standardized schema v4.0.0
-// ============================================================
+// AUTO-GENERATO da tools/convert_stops.py
+// NON modificare manualmente — rieseguire lo script dopo aggiornamenti CSV.
+// Fonte: STOPS/Z647/CSV/
+// Generato il: 2026-05-03
+// FERMATE DISPONIBILI (copia in line-config.js):
+// { key: 'cd166_cornaredo', label: 'CORNAREDO — Via Mazzini ang.v.Brera', hideable: true },
+// { key: 'cd155_cornaredo', label: 'CORNAREDO — Via San Carlo ang.V.Ponti', hideable: true },
+// { key: 'pg055_pregnana', label: 'Pregnana — Via ROMA n.17 ang.v.OLIVETTI', hideable: true },
+// { key: 'pg030_pregnana', label: 'Pregnana — V.Roma ang.v.Puccini', hideable: true },
+// { key: 'pg099_pregnana', label: 'Pregnana — Via Giovanni XXIII ang.v.Torino', hideable: true },
+// { key: 'pg101_pregnana', label: 'Pregnana — V.Marconi Fr.Civ.67 STAZIONE FS', hideable: true },
+// { key: 'mn015_mantegazza', label: 'Mantegazza — Via Madonnina BIVIO', hideable: true },
+// { key: 'rg011_rogorotto', label: 'Rogorotto — V.Santa Caterina n.4', hideable: true },
+// { key: 'al050_arluno', label: 'ARLUNO — Via Turati FR.58', hideable: true },
+// { key: 'al195_arluno', label: 'ARLUNO — P.zza A.De Gasperi MUNICIPIO', hideable: true },
+// { key: 'al196_arluno', label: 'ARLUNO — Via Marconi n.118', hideable: true },
+// { key: 'os011_ossona', label: 'OSSONA — Via Patrioti n.4', hideable: true },
+// { key: 'cz093_casorezzo', label: 'CASOREZZO — Via E.Mattei fr.Civ.1', hideable: true },
+// { key: 'cz094_casorezzo', label: 'CASOREZZO — Via Arluno ang.V.Delle Chiuse', hideable: true },
+// { key: 'cz080_casorezzo', label: 'CASOREZZO — Via Bertani n. fronte civ 19', hideable: true },
+// { key: 'in433_inveruno', label: 'INVERUNO — Fraz.Furato V.Del Carso A.V.XXIV Maggio', hideable: true },
+// { key: 'in351_inveruno', label: 'INVERUNO — Via Lombardia fr Civ.7 IPSIA', hideable: true },
+// { key: 'in235_inveruno', label: 'INVERUNO — V.le Lombardia (ang.v.Magenta)', hideable: true },
+// { key: 'in403_inveruno', label: 'INVERUNO — Via Marconi fr Civ.65', hideable: true },
+// { key: 'cg250_cuggiono', label: 'CUGGIONO — Via Garibaldi Fr Civ 32', hideable: true },
+// { key: 'cg143_cuggiono', label: 'CUGGIONO — Piazza Della Vittoria fr Civ. 12', hideable: true },
+// { key: 'cg178_cuggiono', label: 'CUGGIONO — Via Manzoni n. 1', hideable: true },
+// { key: 'cg998_cuggiono', label: 'CUGGIONO — V.IV Novembre dopo v.XI Sett.', hideable: true },
+// { key: 'bt215_busto_g', label: 'Busto G. — Via Parabiago n. 61', hideable: true },
+// { key: 'bt300_busto_g', label: 'Busto G. — Via Matteotti 5', hideable: true },
+// { key: 'bt776_busto_g', label: 'Busto G. — Via Vincenzo Bellini civ.44', hideable: true },
+// { key: 'bt999_busto_g', label: 'Busto G. — V.Busto A. n.131 (deposito)', hideable: true },
+// { key: 'bt949_busto_g', label: 'Busto G. — Via Per Busto A n. 91 (piscina)', hideable: true },
+// { key: 'bt956_busto_g', label: 'Busto G. — V.Montebianco fr Civ.17', hideable: true },
+// { key: 'ac628_arconate', label: 'ARCONATE — Via Legnano n. 11', hideable: true },
+// { key: 'ac035_arconate', label: 'ARCONATE — Via Concordia fr Civ.13', hideable: true },
+// { key: 'bc250_buscate', label: 'BUSCATE — Via Milano n.19 ang.V.P.Micca', hideable: true },
+// { key: 'ct011_castano_p', label: 'Castano P. — P.le Don Milani OMN.IST.TORNO', hideable: true },
+// { key: 'ct110_castano_p', label: 'Castano P. — Piazza Garibaldi', hideable: true },
+// { key: 'ct100_castano_p', label: 'Castano P. — AUSTOSTAZIONE bus - STAZIONE Ferroviaria', hideable: true },
+// { key: 'ct050_castano_p', label: 'Castano P. — Via Tadini n.16', hideable: true },
+// { key: 'ct001_castano_p', label: 'Castano P. — P.le Don Milani OMN. IST.TORNO', hideable: true },
+// { key: 'bc211_buscate', label: 'BUSCATE — Via Milano n.26', hideable: true },
+// { key: 'cg999_cuggiono', label: 'CUGGIONO — V.IV Novembre v.XI Sett. dir MI', hideable: true },
+// { key: 'cg149_cuggiono', label: 'CUGGIONO — Via San Rocco n. 89', hideable: true },
+// { key: 'cg190_cuggiono', label: 'CUGGIONO — Via Fermo n.34 OSPEDALE', hideable: true },
+// { key: 'in285_inveruno', label: 'INVERUNO — Via Marconi n. 57', hideable: true },
+// { key: 'in275_inveruno', label: 'INVERUNO — V.le Lombardia (ang.v.Liguria)', hideable: true },
+// { key: 'in350_inveruno', label: 'INVERUNO — Via Lombardia n.5 IPSIA', hideable: true },
+// { key: 'in375_inveruno', label: 'INVERUNO — FRAZ.Furato V.XXIV Maggio', hideable: true },
+// { key: 'ac625_arconate', label: 'ARCONATE — Via Concordia n.9', hideable: true },
+// { key: 'ac627_arconate', label: 'ARCONATE — Via Legnano n. 28', hideable: true },
+// { key: 'bt951_busto_g', label: 'Busto G. — Via per Busto A. n. 90 (piscina)', hideable: true },
+// { key: 'bt205_busto_g', label: 'Busto G. — Via Busto A. fr Civ.48', hideable: true },
+// { key: 'bt775_busto_g', label: 'Busto G. — Via Giacomo Rossini civ.35', hideable: true },
+// { key: 'bt400_busto_g', label: 'Busto G. — Via Matteotti 6', hideable: true },
+// { key: 'bt211_busto_g', label: 'Busto G. — Via Parabiago n.32', hideable: true },
+// { key: 'cz010_casorezzo', label: 'CASOREZZO — Via Busto Gar n. ang.V.S.Salvatore', hideable: true },
+// { key: 'cz088_casorezzo', label: 'CASOREZZO — Via Bertani ang.V.Parabiago', hideable: true },
+// { key: 'cz070_casorezzo', label: 'CASOREZZO — Via Ossona n. LATO AREA ZUCCHI', hideable: true },
+// { key: 'os001_ossona', label: 'OSSONA — Via Patriotti fr Civ. 118 A', hideable: true },
+// { key: 'al040_arluno', label: 'ARLUNO — Via Giovanni XXIII n.43', hideable: true },
+// { key: 'al501_arluno', label: 'ARLUNO — Piazza Pozzo Bonelli fr Chiesa', hideable: true },
+// { key: 'al185_arluno', label: 'ARLUNO — Piazza A.De Gasperi', hideable: true },
+// { key: 'al051_arluno', label: 'ARLUNO — Via Turati 58', hideable: true },
+// { key: 'rg001_rogorotto', label: 'Rogorotto — Via Santa Caterina n.5', hideable: true },
+// { key: 'mn021_mantegazza', label: 'Mantegazza — Via Madonnina BIVIO', hideable: true },
+
 export const Z647 = {
-  meta: {
-  linea: "Z647",
-  percorso_principale: "Cornaredo/Arluno → Pregnana/Rogorotto → Casorezzo → Busto Garolfo → Arconate → Buscate → Castano P.",
-  percorso_ritorno: "Castano P. → Buscate → Arconate → Busto Garolfo → Casorezzo → Arluno → Rogorotto/Pregnana/Cuggiono",
-  validita: {
-    SC5: "Lun–Ven solo periodo scolastico"
-  },
-  eccezioni: "Non valido nelle 3 settimane centrali di agosto e nei giorni 1 gennaio, 1 maggio e 25 dicembre"
-},
-
-  weekday_outbound: [
-    {tripId:902,stops:{CD166:410,CD155:411,PG055:414,PG030:417,PG099:419,PG101:420,MN015:424,RG011:426,AL050:null,AL195:null,AL196:null,"05011":null,CZ093:null,CZ094:null,CZ080:null,IN433:null,IN351:null,IN235:null,IN403:null,CG250:null,CG143:null,CG178:null,CG998:null,BT215:null,BT300:null,BT776:null,BT999_dep:null,BT949:null,BT956:456,AC628:462,AC035:465,BC250:474,CT011:484,CT110:null,CT100:null},validity:null,flags:["SC5"],note:""},
-    {tripId:904,stops:{CD166:null,CD155:null,PG055:null,PG030:null,PG099:null,PG101:null,MN015:null,RG011:null,AL050:425,AL195:427,AL196:429,"05011":434,CZ093:437,CZ094:440,CZ080:443,IN433:449,IN351:453,IN235:455,IN403:457,CG250:460,CG143:462,CG178:464,CG998:466,BT215:null,BT300:null,BT776:null,BT999_dep:null,BT949:null,BT956:null,AC628:null,AC035:null,BC250:null,CT011:474,CT110:null,CT100:null},validity:null,flags:["SC5"],note:""},
-    {tripId:908,stops:{CD166:null,CD155:null,PG055:null,PG030:null,PG099:null,PG101:null,MN015:null,RG011:null,AL050:428,AL195:429,AL196:433,"05011":438,CZ093:442,CZ094:444,CZ080:447,IN433:null,IN351:null,IN235:null,IN403:null,CG250:null,CG143:null,CG178:null,CG998:null,BT215:452,BT300:453,BT776:454,BT999_dep:775,BT949:777,BT956:null,AC628:781,AC035:783,BC250:792,CT011:799,CT110:null,CT100:null},validity:null,flags:["SC5"],note:""},
-    {tripId:906,stops:{CD166:null,CD155:null,PG055:null,PG030:null,PG099:null,PG101:null,MN015:null,RG011:null,AL050:null,AL195:null,AL196:null,"05011":null,CZ093:null,CZ094:null,CZ080:null,IN433:null,IN351:null,IN235:null,IN403:null,CG250:null,CG143:null,CG178:null,CG998:null,BT215:null,BT300:null,BT776:null,BT999_dep:446,BT949:448,BT956:450,AC628:454,AC035:456,BC250:463,CT011:471,CT110:475,CT100:480},validity:null,flags:["SC5"],note:""},
-    {tripId:910,stops:{CD166:null,CD155:null,PG055:null,PG030:null,PG099:null,PG101:null,MN015:null,RG011:null,AL050:null,AL195:null,AL196:null,"05011":null,CZ093:null,CZ094:null,CZ080:null,IN433:null,IN351:null,IN235:null,IN403:null,CG250:null,CG143:null,CG178:null,CG998:null,BT215:null,BT300:null,BT776:null,BT999_dep:825,BT949:827,BT956:null,AC628:831,AC035:832,BC250:838,CT011:846,CT110:null,CT100:null},validity:null,flags:["SC5"],note:""}
+  "weekday_andata":   [
+    { tripId: "906", val: "SC5", flags: ["SC5"], stops: {"bt999_busto_g": 446, "bt949_busto_g": 448, "bt956_busto_g": 450, "ac628_arconate": 454, "ac035_arconate": 456, "bc250_buscate": 463, "ct011_castano_p": 471, "ct110_castano_p": 475, "ct100_castano_p": 480} },
+    { tripId: "904", val: "SC5", flags: ["SC5"], stops: {"al050_arluno": 425, "al195_arluno": 427, "al196_arluno": 429, "os011_ossona": 434, "cz093_casorezzo": 437, "cz094_casorezzo": 440, "cz080_casorezzo": 443, "in433_inveruno": 449, "in351_inveruno": 453, "in235_inveruno": 455, "in403_inveruno": 457, "cg250_cuggiono": 460, "cg143_cuggiono": 462, "cg178_cuggiono": 464, "cg998_cuggiono": 466, "ct011_castano_p": 474} },
+    { tripId: "902", val: "SC5", flags: ["SC5"], stops: {"cd166_cornaredo": 410, "cd155_cornaredo": 411, "pg055_pregnana": 414, "pg030_pregnana": 417, "pg099_pregnana": 419, "pg101_pregnana": 420, "mn015_mantegazza": 424, "rg011_rogorotto": 426, "al050_arluno": 428, "al195_arluno": 429, "al196_arluno": 433, "os011_ossona": 438, "cz093_casorezzo": 442, "cz094_casorezzo": 444, "cz080_casorezzo": 447, "bt215_busto_g": 452, "bt300_busto_g": 453, "bt776_busto_g": 454, "bt956_busto_g": 456, "ac628_arconate": 462, "ac035_arconate": 465, "bc250_buscate": 474, "ct011_castano_p": 484} },
+    { tripId: "908", val: "SC5", flags: ["SC5"], stops: {"bt999_busto_g": 775, "bt949_busto_g": 777, "ac628_arconate": 781, "ac035_arconate": 783, "bc250_buscate": 792, "ct011_castano_p": 799} },
+    { tripId: "910", val: "SC5", flags: ["SC5"], stops: {"bt999_busto_g": 825, "bt949_busto_g": 827, "ac628_arconate": 831, "ac035_arconate": 832, "bc250_buscate": 838, "ct011_castano_p": 846} },
   ],
-
-  weekday_return: [
-    {tripId:933,stops:{CT100:483,CT050:485,CT001:488,BC211:494,CG999:null,CG149:null,CG143:null,CG190:null,IN285:null,IN275:null,IN350:null,IN375:null,AC625:501,AC627:503,BT951:506,BT999_arr:507,BT205:null,BT775:null,BT400:null,BT211:null,CZ010:null,IN433:null,CZ088:null,CZ070:null,"05001":null,AL040:null,AL501:null,AL185:null,AL051:null,RG001:null,MN021:null},validity:null,flags:["SC5"],note:""},
-    {tripId:905,stops:{CT100:null,CT050:null,CT001:805,BC211:811,CG999:null,CG149:null,CG143:null,CG190:null,IN285:null,IN275:null,IN350:null,IN375:null,AC625:819,AC627:820,BT951:null,BT999_arr:null,BT205:null,BT775:null,BT400:null,BT211:null,CZ010:null,IN433:null,CZ088:835,CZ070:838,"05001":840,AL040:845,AL501:847,AL185:849,AL051:852,RG001:854,MN021:855},validity:null,flags:["SC5"],note:""},
-    {tripId:907,stops:{CT100:null,CT050:null,CT001:805,BC211:811,CG999:817,CG149:819,CG143:820,CG190:821,IN285:823,IN275:826,IN350:829,IN375:831,AC625:null,AC627:null,BT951:null,BT999_arr:null,BT205:824,BT775:826,BT400:829,BT211:830,CZ010:833,IN433:null,CZ088:836,CZ070:838,"05001":841,AL040:844,AL501:845,AL185:847,AL051:849,RG001:852,MN021:854},validity:null,flags:["SC5"],note:""},
-    {tripId:949,stops:{CT100:null,CT050:null,CT001:860,BC211:866,CG999:null,CG149:null,CG143:null,CG190:null,IN285:null,IN275:null,IN350:null,IN375:null,AC625:873,AC627:875,BT951:null,BT999_arr:null,BT205:null,BT775:null,BT400:null,BT211:null,CZ010:null,IN433:null,CZ088:886,CZ070:889,"05001":null,AL040:null,AL501:null,AL185:null,AL051:null,RG001:null,MN021:null},validity:null,flags:["SC5"],note:""},
-    {tripId:909,stops:{CT100:null,CT050:null,CT001:865,BC211:870,CG999:876,CG149:878,CG143:879,CG190:880,IN285:882,IN275:885,IN350:888,IN375:890,AC625:null,AC627:null,BT951:null,BT999_arr:null,BT205:878,BT775:879,BT400:880,BT211:881,CZ010:884,IN433:null,CZ088:895,CZ070:897,"05001":900,AL040:904,AL501:905,AL185:907,AL051:909,RG001:null,MN021:null},validity:null,flags:["SC5"],note:""},
-    {tripId:951,stops:{CT100:null,CT050:null,CT001:925,BC211:931,CG999:null,CG149:null,CG143:null,CG190:null,IN285:null,IN275:null,IN350:null,IN375:null,AC625:938,AC627:940,BT951:null,BT999_arr:null,BT205:943,BT775:944,BT400:945,BT211:946,CZ010:949,IN433:null,CZ088:951,CZ070:954,"05001":957,AL040:961,AL501:962,AL185:964,AL051:966,RG001:null,MN021:null},validity:null,flags:["SC5"],note:""},
-    {tripId:953,stops:{CT100:null,CT050:null,CT001:980,BC211:986,CG999:null,CG149:null,CG143:null,CG190:null,IN285:null,IN275:null,IN350:null,IN375:null,AC625:993,AC627:995,BT951:null,BT999_arr:null,BT205:998,BT775:999,BT400:1000,BT211:1001,CZ010:1004,IN433:1010,CZ088:null,CZ070:null,"05001":null,AL040:null,AL501:null,AL185:null,AL051:null,RG001:null,MN021:null},validity:null,flags:["SC5"],note:""}
-  ]
+  "weekday_ritorno":   [
+    { tripId: "933", val: "SC5", flags: ["SC5"], stops: {"ct100_castano_p": 483, "ct050_castano_p": 485, "ct001_castano_p": 488, "bc211_buscate": 494, "ac625_arconate": 501, "ac627_arconate": 503, "bt951_busto_g": 506, "bt999_busto_g": 507} },
+    { tripId: "905", val: "SC5", flags: ["SC5"], stops: {"ct001_castano_p": 805, "bc211_buscate": 811, "ac625_arconate": 819, "ac627_arconate": 820, "bt205_busto_g": 824, "bt775_busto_g": 826, "bt400_busto_g": 829, "bt211_busto_g": 830, "cz010_casorezzo": 833, "cz088_casorezzo": 835, "cz070_casorezzo": 838, "os001_ossona": 840, "al040_arluno": 845, "al501_arluno": 847, "al185_arluno": 849, "al051_arluno": 852, "rg001_rogorotto": 854, "mn021_mantegazza": 855} },
+    { tripId: "907", val: "SC5", flags: ["SC5"], stops: {"ct001_castano_p": 805, "bc211_buscate": 811, "cg999_cuggiono": 817, "cg149_cuggiono": 819, "cg143_cuggiono": 820, "cg190_cuggiono": 821, "in285_inveruno": 823, "in275_inveruno": 826, "in350_inveruno": 829, "in375_inveruno": 831, "cz088_casorezzo": 836, "cz070_casorezzo": 838, "os001_ossona": 841, "al040_arluno": 844, "al501_arluno": 845, "al185_arluno": 847, "al051_arluno": 849, "rg001_rogorotto": 852, "mn021_mantegazza": 854} },
+    { tripId: "949", val: "SC5", flags: ["SC5"], stops: {"ct001_castano_p": 860, "bc211_buscate": 866, "ac625_arconate": 873, "ac627_arconate": 875, "bt205_busto_g": 878, "bt775_busto_g": 879, "bt400_busto_g": 880, "bt211_busto_g": 881, "cz010_casorezzo": 884, "cz088_casorezzo": 886, "cz070_casorezzo": 889} },
+    { tripId: "909", val: "SC5", flags: ["SC5"], stops: {"ct001_castano_p": 865, "bc211_buscate": 870, "cg999_cuggiono": 876, "cg149_cuggiono": 878, "cg143_cuggiono": 879, "cg190_cuggiono": 880, "in285_inveruno": 882, "in275_inveruno": 885, "in350_inveruno": 888, "in375_inveruno": 890, "cz088_casorezzo": 895, "cz070_casorezzo": 897, "os001_ossona": 900, "al040_arluno": 904, "al501_arluno": 905, "al185_arluno": 907, "al051_arluno": 909} },
+    { tripId: "951", val: "SC5", flags: ["SC5"], stops: {"ct001_castano_p": 925, "bc211_buscate": 931, "ac625_arconate": 938, "ac627_arconate": 940, "bt205_busto_g": 943, "bt775_busto_g": 944, "bt400_busto_g": 945, "bt211_busto_g": 946, "cz010_casorezzo": 949, "cz088_casorezzo": 951, "cz070_casorezzo": 954, "os001_ossona": 957, "al040_arluno": 961, "al501_arluno": 962, "al185_arluno": 964, "al051_arluno": 966} },
+    { tripId: "953", val: "SC5", flags: ["SC5"], stops: {"ct001_castano_p": 980, "bc211_buscate": 986, "ac625_arconate": 993, "ac627_arconate": 995, "bt205_busto_g": 998, "bt775_busto_g": 999, "bt400_busto_g": 1000, "bt211_busto_g": 1001, "cz010_casorezzo": 1004, "in433_inveruno": 1010} },
+  ],
 };
