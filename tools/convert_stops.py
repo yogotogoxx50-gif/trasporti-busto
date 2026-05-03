@@ -16,23 +16,27 @@ Output:
     il file  data/<linea_lower>.js
     (es. STOPS/Z627/CSV/*.csv  -->  data/z627.js)
 
-Convenzione nomi file CSV (OBBLIGATORIA):
-    <LINEA>_<DIREZIONE>_<CADENZA>.csv
+Convenzione nomi file CSV:
+    <LINEA>_[qualsiasi]_<DIREZIONE>_[CADENZA].csv
 
-    LINEA     = codice linea, es. Z627, Z625, Z644
-    DIREZIONE = ANDATA | RITORNO (case-insensitive)
-    CADENZA   = FR5 | SC5 | SAB | FI5 | SIS | FES | qualsiasi stringa
+    DIREZIONE = ANDATA | RITORNO | DOMENICA  (obbligatoria nel nome)
+    CADENZA   = opzionale nel nome; se assente o UNICA viene letta
+                corsa per corsa dalla riga CADENZA del CSV.
+
+    File UNICA = contengono corse con cadenze miste (FR5+SAB+SC5 ecc.)
+    nello stesso CSV. La parola UNICA nel nome viene ignorata: lo script
+    smista automaticamente ogni corsa nel corretto scheduleKey in base
+    alla sua colonna CADENZA.
 
     Esempi validi:
-        z627_Completa_Andata_FER.csv   -->  weekday_andata  (FER -> FR5)
-        z627_Completa_Ritorno_FER.csv  -->  weekday_ritorno
-        z627_Completa_Andata_S.csv     -->  saturday_andata
-        Z644_ANDATA_FI5.csv            -->  weekday_andata
-        Z644_ANDATA_SIS.csv            -->  saturday_andata
-        Z647_DOMENICA_FES.csv          -->  sunday_all
-
-    Il file puo' avere prefisso lungo tipo "z627_Completa_":
-    lo script cerca ANDATA/RITORNO/DOMENICA ovunque nel nome.
+        z627_Completa_Andata_FER.csv     -->  weekday_andata
+        z627_Completa_Ritorno_FER.csv    -->  weekday_ritorno
+        z627_Completa_Andata_S.csv       -->  saturday_andata
+        Z642_ANDATA_UNICA.csv            -->  mixed (smistato per corsa)
+        Z642_RITORNO_UNICA.csv           -->  mixed (smistato per corsa)
+        Z644_ANDATA_FI5.csv              -->  weekday_andata
+        Z644_ANDATA_SIS.csv              -->  saturday_andata
+        Z649_FES_ANDATA.csv              -->  sunday_andata
 
 Struttura CSV attesa:
     Riga 1: CORSA  , , , <id_corsa1>, <id_corsa2>, ...
@@ -47,23 +51,24 @@ import re
 import sys
 from pathlib import Path
 from collections import defaultdict
+from datetime import date
 
 # ---------------------------------------------------------------------------
-# Mappatura cadenza CSV -> chiave scheduleKey JS
+# Mappatura cadenza -> dayType
 # ---------------------------------------------------------------------------
 CADENZA_TO_DAY = {
     'FR5': 'weekday',
     'FER': 'weekday',
-    'FI5': 'weekday',   # FR5 Invernale (Z644)
+    'FI5': 'weekday',
     'F15': 'weekday',
-    'SC5': 'weekday',   # scolastico, stesso bucket del feriale
+    'SC5': 'weekday',   # scolastico, stesso bucket feriale
     'SAB': 'saturday',
     'SIS': 'saturday',  # SAB Invernale (Z644)
     'FES': 'sunday',
     'DOM': 'sunday',
 }
 
-# Direzione dal nome del file
+# Parole nel nome file che indicano la direzione
 DIR_KEYWORDS = {
     'andata':   'andata',
     'outbound': 'andata',
@@ -72,14 +77,27 @@ DIR_KEYWORDS = {
     'domenica': 'all',
     'sunday':   'all',
     'festivi':  'all',
+    'fes':      'all',
 }
+
+# Parole nel nome file che indicano la cadenza prevalente
+# (usato SOLO se il CSV non ha riga CADENZA per colonna)
+FILENAME_TO_DAY = {
+    'FR5': 'weekday', 'FER': 'weekday',
+    'FI5': 'weekday', 'F15': 'weekday',
+    'SC5': 'weekday',
+    'SAB': 'saturday', 'SIS': 'saturday',
+    'FES': 'sunday',   'DOM': 'sunday',
+    # 'UNICA' e' volutamente assente: non forza nessun day type
+}
+
 
 # ---------------------------------------------------------------------------
 # Utilita'
 # ---------------------------------------------------------------------------
 
 def hhmm_to_mins(s: str):
-    """Converte 'HH:MM' o 'H:MM' in minuti dalla mezzanotte. Ritorna None se vuoto/0."""
+    """Converte 'HH:MM' o 'H:MM' in minuti dalla mezzanotte. None se vuoto/0."""
     s = s.strip()
     if not s or s == '0':
         return None
@@ -90,8 +108,7 @@ def hhmm_to_mins(s: str):
 
 
 def normalize_stop_id(raw_code: str, comune: str) -> str:
-    """
-    Produce un identificatore snake_case stabile per ogni fermata.
+    """Produce un id snake_case stabile per ogni fermata.
     Es: 'BT301', 'Busto G.'  -->  'bt301_busto_g'
     """
     code  = re.sub(r'[^a-z0-9]', '_', raw_code.strip().lower()).strip('_')
@@ -101,19 +118,25 @@ def normalize_stop_id(raw_code: str, comune: str) -> str:
 
 
 def detect_direction(filename: str) -> str:
-    """Ricava la direzione dal nome del file."""
+    """Ricava la direzione dal nome del file (case-insensitive)."""
     lower = filename.lower()
     for kw, direction in DIR_KEYWORDS.items():
         if kw in lower:
             return direction
-    return 'andata'  # default
+    return 'andata'  # default sicuro
 
 
 def detect_day_from_filename(filename: str) -> str | None:
-    """Tenta di ricavare il dayType dalla cadenza nel nome del file."""
-    lower = filename.upper()
-    for cadenza, day in CADENZA_TO_DAY.items():
-        if cadenza in lower:
+    """Tenta di ricavare dayType dalla cadenza esplicita nel nome.
+    Ritorna None per file UNICA o se non trova corrispondenze.
+    """
+    upper = filename.upper()
+    # UNICA = nessun day forzato dal nome, ogni corsa sceglie da sola
+    if 'UNICA' in upper:
+        return None
+    for token, day in FILENAME_TO_DAY.items():
+        # match come parola intera (separata da _, . o inizio/fine)
+        if re.search(r'(?<![A-Z0-9])' + token + r'(?![A-Z0-9])', upper):
             return day
     return None
 
@@ -122,17 +145,26 @@ def cadenza_to_day(cadenza: str) -> str:
     return CADENZA_TO_DAY.get(cadenza.strip().upper(), 'weekday')
 
 
+def build_schedule_key(day: str, direction: str) -> str:
+    """Combina day + direction nella chiave JS dell'app."""
+    if direction == 'all':
+        return f'{day}_all'
+    return f'{day}_{direction}'
+
+
 # ---------------------------------------------------------------------------
 # Parsing CSV
 # ---------------------------------------------------------------------------
 
-def parse_csv(filepath: Path) -> list[dict]:
+def parse_csv(filepath: Path, fallback_day: str | None, direction: str) -> list[dict]:
     """
-    Legge un CSV Movibus trasposto e ritorna una lista di trip objects:
-    [
-      { 'tripId': '102', 'val': 'FR5', 'stops': { 'bt301_busto_g': 372, ... } },
-      ...
-    ]
+    Legge un CSV Movibus trasposto.
+    - Per file normali: la cadenza del nome file sovrascrive solo se la
+      colonna CADENZA e' vuota.
+    - Per file UNICA (fallback_day=None): ogni corsa usa ESCLUSIVAMENTE
+      la sua colonna CADENZA per determinare lo scheduleKey.
+
+    Ritorna lista di trip: { tripId, val, flags, scheduleKey, stops }
     """
     with open(filepath, encoding='utf-8-sig', newline='') as f:
         rows = list(csv.reader(f))
@@ -146,12 +178,11 @@ def parse_csv(filepath: Path) -> list[dict]:
     trip_ids = [c.strip() for c in rows[0][3:]]
     cadenze  = [c.strip() for c in rows[1][3:]]
 
-    # Righe 2+: codice_fermata, comune, indirizzo, orari...
-    stop_meta = []  # list of (stop_id, label)
-    stop_times = [] # list of list[str]
+    # Righe 2+: codice, comune, indirizzo, orari...
+    stop_meta  = []   # list of (stop_id, label)
+    stop_times = []   # list of list[str]
 
     for row in rows[2:]:
-        # Salta righe completamente vuote
         if not any(c.strip() for c in row):
             continue
         raw_code = row[0].strip() if len(row) > 0 else ''
@@ -166,35 +197,46 @@ def parse_csv(filepath: Path) -> list[dict]:
         stop_times.append(times)
 
     trips = []
-    n_trips = len(trip_ids)
-
-    for i in range(n_trips):
-        tid = trip_ids[i]
+    for i, tid in enumerate(trip_ids):
         if not tid:
             continue
-        cadenza = cadenze[i] if i < len(cadenze) else ''
+
+        col_cadenza = cadenze[i] if i < len(cadenze) else ''
+
+        # Determina day: la colonna CADENZA ha priorita' assoluta.
+        # fallback_day e' usato solo se la colonna e' vuota E il file
+        # non e' UNICA (fallback_day non e' None).
+        if col_cadenza:
+            day = cadenza_to_day(col_cadenza)
+        elif fallback_day is not None:
+            day = fallback_day
+        else:
+            # UNICA senza cadenza nella colonna: default weekday
+            day = 'weekday'
+
+        skey = build_schedule_key(day, direction)
+
         stops = {}
         for j, (stop_id, _) in enumerate(stop_meta):
             val_str = stop_times[j][i] if i < len(stop_times[j]) else ''
             mins = hhmm_to_mins(val_str)
             if mins is not None:
                 stops[stop_id] = mins
+
         if stops:
             trips.append({
-                'tripId': tid,
-                'val':    cadenza,
-                'flags':  [cadenza] if cadenza else [],
-                'stops':  stops,
+                'tripId':      tid,
+                'val':         col_cadenza,
+                'flags':       [col_cadenza] if col_cadenza else [],
+                'scheduleKey': skey,
+                'stops':       stops,
             })
 
     return trips
 
 
 def extract_stop_catalog(filepath: Path) -> list[dict]:
-    """
-    Ritorna il catalogo delle fermate presenti in un CSV:
-    [ { 'id': 'bt301_busto_g', 'code': 'BT301', 'comune': 'Busto G.', 'address': '...' } ]
-    """
+    """Catalogo fermate presenti in un CSV per generare i commenti in JS."""
     with open(filepath, encoding='utf-8-sig', newline='') as f:
         rows = list(csv.reader(f))
     catalog = []
@@ -216,33 +258,17 @@ def extract_stop_catalog(filepath: Path) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
-# Assemblaggio schedule key
-# ---------------------------------------------------------------------------
-
-def build_schedule_key(day: str, direction: str) -> str:
-    """
-    Combina day + direction nella chiave JS usata dall'app.
-    weekday + andata   --> 'weekday_andata'
-    saturday + ritorno --> 'saturday_ritorno'
-    sunday + all       --> 'sunday_all'
-    """
-    if direction == 'all':
-        return f'{day}_all'
-    return f'{day}_{direction}'
-
-
-# ---------------------------------------------------------------------------
 # Rendering JS
 # ---------------------------------------------------------------------------
 
 JS_HEADER = """// AUTO-GENERATO da tools/convert_stops.py
 // NON modificare manualmente — rieseguire lo script dopo aggiornamenti CSV.
 // Fonte: STOPS/{line_upper}/CSV/
-// Generato il: {date}
+// Generato il: {gen_date}
 """
 
+
 def trips_to_js(trips: list[dict]) -> str:
-    """Serializza una lista di trip in JS compatta."""
     lines = ['  [']
     for trip in trips:
         stops_js = json.dumps(trip['stops'], ensure_ascii=False)
@@ -257,24 +283,20 @@ def trips_to_js(trips: list[dict]) -> str:
     return '\n'.join(lines)
 
 
-def build_js_module(line_id: str, schedule: dict[str, list], stop_catalog: list[dict]) -> str:
-    """
-    Costruisce il contenuto del file data/<line>.js
-    """
-    from datetime import date
+def build_js_module(line_id: str, schedule: dict, stop_catalog: list[dict]) -> str:
     header = JS_HEADER.format(
         line_upper=line_id.upper(),
-        date=date.today().isoformat()
+        gen_date=date.today().isoformat()
     )
 
-    # Catalogo fermate come commento JS strutturato (utile per line-config)
-    catalog_lines = ['// FERMATE DISPONIBILI (per aggiornare line-config.js):']
+    catalog_lines = ['// FERMATE DISPONIBILI (copia in line-config.js):']
     seen = set()
     for s in stop_catalog:
         if s['id'] not in seen:
             seen.add(s['id'])
+            addr_short = s['address'][:45].replace("'", "") if s['address'] else ''
             catalog_lines.append(
-                f"// {{ key: '{s['id']}', label: '{s['comune']} - {s['address'][:40]}' }},"
+                f"// {{ key: '{s['id']}', label: '{s['comune']} — {addr_short}', hideable: true }},"
             )
 
     schedule_entries = []
@@ -305,11 +327,10 @@ def process_stops_folder(stops_root: Path, output_root: Path):
     output_root.mkdir(parents=True, exist_ok=True)
     processed_lines = []
 
-    # Scorri ogni sottocartella linea (Z627, Z625, ...)
     for line_dir in sorted(stops_root.iterdir()):
         if not line_dir.is_dir():
             continue
-        line_id = line_dir.name.lower()  # z627, z625, ...
+        line_id = line_dir.name.lower()
         csv_dir = line_dir / 'CSV'
         if not csv_dir.exists():
             print(f'  [SKIP] {line_dir.name}: cartella CSV/ non trovata.')
@@ -317,50 +338,50 @@ def process_stops_folder(stops_root: Path, output_root: Path):
 
         csv_files = sorted(csv_dir.glob('*.csv'))
         if not csv_files:
-            print(f'  [SKIP] {line_dir.name}: nessun file .csv in CSV/.')
+            print(f'  [SKIP] {line_dir.name}: nessun .csv in CSV/.')
             continue
 
         print(f'\nLinea {line_dir.name}:')
         schedule: dict[str, list] = defaultdict(list)
         all_stop_catalog: list[dict] = []
-        seen_stop_ids = set()
+        seen_stop_ids: set[str] = set()
 
         for csv_path in csv_files:
-            filename = csv_path.stem  # nome senza estensione
-            direction = detect_direction(filename)
+            fname = csv_path.stem
+            direction   = detect_direction(fname)
+            fallback_day = detect_day_from_filename(fname)
+            is_unica     = 'UNICA' in fname.upper()
 
-            # Prova a leggere day dal nome file come fallback
-            day_from_name = detect_day_from_filename(filename)
+            tag = 'UNICA (mixed)' if is_unica else (fallback_day or 'auto')
+            print(f'  {csv_path.name}  [{tag}, dir={direction}]')
 
-            trips = parse_csv(csv_path)
+            trips = parse_csv(csv_path, fallback_day, direction)
             if not trips:
                 continue
 
-            # Costruisci catalogo fermate
+            # Catalogo fermate
             for s in extract_stop_catalog(csv_path):
                 if s['id'] not in seen_stop_ids:
                     seen_stop_ids.add(s['id'])
                     all_stop_catalog.append(s)
 
-            # Raggruppa le corse per scheduleKey
-            # (le corse nello stesso CSV hanno spesso cadenze miste FR5+SC5)
-            key_trips: dict[str, list] = defaultdict(list)
+            # Raggruppa per scheduleKey (gia' calcolato dentro parse_csv)
+            key_counts: dict[str, int] = defaultdict(int)
             for trip in trips:
-                day = cadenza_to_day(trip['val']) if trip['val'] else (day_from_name or 'weekday')
-                skey = build_schedule_key(day, direction)
-                key_trips[skey].append(trip)
+                skey = trip.pop('scheduleKey')  # rimuovi dal trip prima di salvare
+                schedule[skey].append(trip)
+                key_counts[skey] += 1
 
-            for skey, t_list in key_trips.items():
-                schedule[skey].extend(t_list)
-                print(f'  {csv_path.name}  -->  {skey}  ({len(t_list)} corse)')
+            for skey, cnt in sorted(key_counts.items()):
+                print(f'    --> {skey}: {cnt} corse')
 
         if not schedule:
             print(f'  [SKIP] {line_dir.name}: nessuna corsa estratta.')
             continue
 
-        # Deduplicazione (per tripId, per sicurezza)
+        # Deduplicazione per tripId dentro ogni scheduleKey
         for key in schedule:
-            seen_ids = set()
+            seen_ids: set[str] = set()
             deduped = []
             for trip in schedule[key]:
                 tid = trip['tripId']
@@ -372,19 +393,19 @@ def process_stops_folder(stops_root: Path, output_root: Path):
         js_content = build_js_module(line_id, dict(schedule), all_stop_catalog)
         out_path = output_root / f'{line_id}.js'
         out_path.write_text(js_content, encoding='utf-8')
-        print(f'  --> scritto: {out_path}')
+        print(f'  ==> scritto: {out_path}')
         processed_lines.append(line_id)
 
     print(f'\n=============================')
     print(f'Completato: {len(processed_lines)} linee convertite.')
     print(f'File scritti in: {output_root.resolve()}')
     if processed_lines:
-        print(f'Linee: {', '.join(processed_lines)}')
+        print(f'Linee: {", ".join(processed_lines)}')
     print()
     print('PASSI SUCCESSIVI:')
     print('  1. Controlla i file data/<linea>.js generati.')
-    print('  2. Verifica i commenti // FERMATE DISPONIBILI in cima a ogni file.')
-    print('  3. Aggiorna line-config.js con le colonne reali di ogni linea.')
+    print('  2. Leggi i commenti // FERMATE DISPONIBILI in cima a ogni file.')
+    print('  3. Aggiorna line-config.js con le colonne reali (o chiedi aiuto qui).')
     print('  4. git add data/ && git commit -m "update: orari da CSV" && git push')
 
 
@@ -407,6 +428,6 @@ if __name__ == '__main__':
     stops_path  = Path(args.stops)
     output_path = Path(args.output)
 
-    print(f'STOPS input:  {stops_path.resolve()}')
-    print(f'JS output:    {output_path.resolve()}')
+    print(f'STOPS input : {stops_path.resolve()}')
+    print(f'JS output   : {output_path.resolve()}')
     process_stops_folder(stops_path, output_path)
