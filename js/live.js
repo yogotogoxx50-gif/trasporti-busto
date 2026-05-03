@@ -5,7 +5,8 @@ import {
   minsToHHMM,
   urgencyBadge,
   buildTransitTimeline,
-  normalizeTrip
+  normalizeTrip,
+  isSchoolActive
 } from './utils.js';
 import {
   calcNextS5S6,
@@ -14,6 +15,19 @@ import {
   calcNextS5BustoArsizio,
   calcNextREBustoArsizio
 } from './trains.js';
+
+// ---------------------------------------------------------------
+// Controlla se una corsa è di tipo SC5 (solo scolastico)
+// Cerca in validity, flags e campo cadenza grezzo
+// ---------------------------------------------------------------
+function isSC5Trip(trip, raw) {
+  return (
+    (trip.validity || '').toUpperCase().includes('SC5') ||
+    (trip.flags || []).some(f => f.toUpperCase() === 'SC5') ||
+    (raw?.cadenza || '').toUpperCase().includes('SC5') ||
+    (raw?.val    || '').toUpperCase().includes('SC5')
+  );
+}
 
 export function getNextDepartures(lineId, nowMins, dayType, count = 3) {
   const config = LINE_CONFIG[lineId];
@@ -24,12 +38,21 @@ export function getNextDepartures(lineId, nowMins, dayType, count = 3) {
   const upcoming = [];
   const departed = [];
 
+  // Stato scolastico calcolato una volta per tutte le corse
+  const today = DATA.getCurrentDate ? DATA.getCurrentDate() : new Date();
+  const schoolStatus = isSchoolActive(today);
+
   keysToSearch.forEach(key => {
     const schedule = allData[key] || [];
     const liveStops = getLiveStops(config, key);
 
     schedule.forEach(raw => {
       const trip = normalizeTrip(raw, lineId, key);
+
+      // --- FILTRO SC5 ---
+      // Se la corsa è scolastica e il periodo scolastico non è attivo, salta
+      if (isSC5Trip(trip, raw) && !schoolStatus.active) return;
+
       const dep = trip.stops[liveStops.departure] ?? trip.stops[liveStops.fallbackDeparture];
       if (dep == null) return;
 
@@ -37,9 +60,9 @@ export function getNextDepartures(lineId, nowMins, dayType, count = 3) {
       const endMins = arr || dep + 30;
 
       if (dep > nowMins && dep <= nowMins + 180) {
-        upcoming.push({ line: lineId, label: config.label, dep, data: trip, key });
+        upcoming.push({ line: lineId, label: config.label, dep, data: trip, key, raw });
       } else if (dep <= nowMins && endMins > nowMins - 15) {
-        departed.push({ line: lineId, label: config.label, dep, data: trip, key });
+        departed.push({ line: lineId, label: config.label, dep, data: trip, key, raw });
       }
     });
   });
