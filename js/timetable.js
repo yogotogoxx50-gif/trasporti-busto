@@ -183,8 +183,8 @@ export function renderTimetable(lineId, scheduleKey) {
   const rows = (allData[scheduleKey] || [])
     .slice()
     .sort((a, b) => {
-      const tripA = normalizeTrip(a, lineId, scheduleKey);
-      const tripB = normalizeTrip(b, lineId, scheduleKey);
+      const tripA = normalizeTrip(a);
+      const tripB = normalizeTrip(b);
       return (tripA.stops[refKey] ?? 0) - (tripB.stops[refKey] ?? 0);
     });
 
@@ -211,7 +211,7 @@ export function renderTimetable(lineId, scheduleKey) {
   }
 
   const nextIdx = rows.findIndex(raw => {
-    const trip = normalizeTrip(raw, lineId, scheduleKey);
+    const trip = normalizeTrip(raw);
     return (trip.stops[refKey] ?? 0) >= nowMins;
   });
 
@@ -219,7 +219,7 @@ export function renderTimetable(lineId, scheduleKey) {
   const liveArrival = config.liveStops?.[direction]?.arrival || config.liveStops?.all?.arrival || config.arrivalStop;
 
   tbody.innerHTML = rows.map((raw, i) => {
-    const trip = normalizeTrip(raw, lineId, scheduleKey);
+    const trip = normalizeTrip(raw);
     const isCurrent = i === nextIdx;
     const isShort = liveArrival && trip.stops[liveArrival] == null;
 

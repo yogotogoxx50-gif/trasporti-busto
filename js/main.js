@@ -194,7 +194,9 @@ export function switchTab(tab) {
       if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="empty-cell">&#128683; Nessun servizio in questo giorno.</td></tr>`;
     }
   } else if (tab === 'orari') {
-    renderTimetable('z649', dt);
+    const config = LINE_CONFIG.z649;
+    const scheduleKey = getDefaultScheduleKey(config, dt) || config.scheduleKeys[0];
+    renderTimetable('z649', scheduleKey);
   }
 }
 
@@ -207,45 +209,25 @@ export function switchTab(tab) {
 // Se la validazione fallisce, i dati vengono scartati.
 // ------------------------------------------------------------
 function isValidSavedData(parsed) {
-  // Z649: deve essere oggetto non array (formato v4)
-  if (!parsed.Z649 || typeof parsed.Z649 !== 'object' || Array.isArray(parsed.Z649)) return false;
+  // Tutte le linee devono essere oggetti (formato v4+)
+  for (const lineId of ['Z649', 'Z627', 'Z644', 'Z625', 'Z647', 'Z642']) {
+    const data = parsed[lineId];
+    if (data) {
+      if (typeof data !== 'object' || Array.isArray(data)) return false;
+      
+      // Controllo formati specifici post-refactoring
+      const keys = Object.keys(data);
+      const hasDirectional = keys.some(k => k.endsWith('_andata') || k.endsWith('_ritorno'));
+      const hasOldDirectional = keys.some(k => k.endsWith('_outbound') || k.endsWith('_return'));
+      const hasFlat = keys.some(k => k === 'weekday' || k === 'saturday' || k === 'sunday');
 
-  // Z627: deve avere le nuove chiavi direzionali (weekday_andata / saturday_andata)
-  if (parsed.Z627) {
-    const z627Keys = Object.keys(parsed.Z627);
-    const hasNewFormat = z627Keys.some(k => k.endsWith('_andata') || k.endsWith('_ritorno'));
-    const hasOldFormat = z627Keys.some(k => k === 'weekday' || k === 'saturday');
-    if (hasOldFormat && !hasNewFormat) {
-      console.warn('[Data] Z627 in formato obsoleto (pre-refactoring). Scarto dati salvati.');
-      return false;
+      // Se la linea è ora bidirezionale nel config, ma i dati sono flat o usano outbound/return, scarta.
+      if (hasFlat || hasOldDirectional) {
+        console.warn(`[Data] ${lineId} in formato obsoleto. Scarto dati salvati.`);
+        return false;
+      }
     }
   }
-
-  // Z647: deve avere chiavi weekday_andata/weekday_ritorno (non outbound/return)
-  if (parsed.Z647) {
-    const z647Keys = Object.keys(parsed.Z647);
-    const hasOldFormat = z647Keys.some(k => k.includes('_outbound') || k.includes('_return'));
-    if (hasOldFormat) {
-      console.warn('[Data] Z647 in formato obsoleto (chiavi outbound/return). Scarto dati salvati.');
-      return false;
-    }
-  }
-
-  // Z642: deve avere chiavi weekday_andata/saturday_andata (non outbound/return)
-  if (parsed.Z642) {
-    const z642Keys = Object.keys(parsed.Z642);
-    const hasOldFormat = z642Keys.some(k => k.includes('_outbound') || k.includes('_return'));
-    if (hasOldFormat) {
-      console.warn('[Data] Z642 in formato obsoleto (chiavi outbound/return). Scarto dati salvati.');
-      return false;
-    }
-  }
-
-  // Z644, Z625: devono essere oggetti non array
-  for (const key of ['Z644', 'Z625']) {
-    if (parsed[key] && (typeof parsed[key] !== 'object' || Array.isArray(parsed[key]))) return false;
-  }
-
   return true;
 }
 
@@ -284,7 +266,9 @@ export function loadData() {
   if (appTitleEl) appTitleEl.textContent = `Trasporti LIVE v${CFG.version} - ${CFG.fermata}`;
   if (dataVersionEl) dataVersionEl.textContent = `Dati aggiornati al: ${savedData ? 'IMPORT UTENTE' : CFG.lastUpdate}`;
 
-  renderTimetable('z649', getDayType(getCurrentDate()));
+  const dt = getDayType(getCurrentDate());
+  const z649Key = getDefaultScheduleKey(LINE_CONFIG.z649, dt) || LINE_CONFIG.z649.scheduleKeys[0];
+  renderTimetable('z649', z649Key);
   tick();
   if (!intervalId) intervalId = setInterval(tick, 1000);
   const loadingOverlay = document.getElementById('loadingOverlay');

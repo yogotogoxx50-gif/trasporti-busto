@@ -3,30 +3,52 @@ const ALWAYS_VISIBLE_TYPES = new Set(['tripId', 'validity', 'flags']);
 export const LINE_CONFIG = {
   z649: {
     label: 'Z649',
-    type: 'simple',
-    directions: ['all'],
+    type: 'stopCode',
+    directions: ['andata', 'ritorno'],
     tabId: 'orari',
-    departureStop: 'rossini',
-    arrivalStop: 'molino_dorino',
-    shortRunCheck: 'molino_dorino',
+    departureStop: 'bt775_busto_g',
+    arrivalStop: 'md111_milano',
+    shortRunCheck: 'md111_milano',
     departureLocation: 'Via Rossini',
     arrivalLocation: 'Molino Dorino M1',
     shortRunLabel: 'Arluno',
-    scheduleKeys: ['weekday', 'saturday', 'sunday'],
+    scheduleKeys: [
+      'weekday_andata', 'weekday_ritorno',
+      'saturday_andata', 'saturday_ritorno',
+      'sunday_andata', 'sunday_ritorno'
+    ],
     columns: {
-      all: [
-        { key: 'rossini', label: 'Via Rossini' },
-        { key: 'pregnana_fs', label: 'Pregnana FS' },
-        { key: 'molino_dorino', label: 'Molino Dorino', shortRunValue: 'Arluno' },
+      andata: [
+        { key: 'tripId', label: 'Corsa', type: 'tripId' },
+        { key: 'bt775_busto_g', label: 'Via Rossini 35', altKeys: ['bt775'] },
+        { key: 'pg102_pregnana', label: 'Pregnana FS', altKeys: ['pg102', 'pg111_pregnana', 'pg111'] },
+        { key: 'md111_milano', label: 'Molino Dorino M1', altKeys: ['md111'], shortRunValue: 'Arluno' },
+        { key: 'flags', label: 'Tipo', type: 'flags' }
+      ],
+      ritorno: [
+        { key: 'tripId', label: 'Corsa', type: 'tripId' },
+        { key: 'md001_milano', label: 'Molino Dorino M1', altKeys: ['md001'] },
+        { key: 'pg101_pregnana', label: 'Pregnana FS', altKeys: ['pg101'] },
+        { key: 'bt776_busto_g', label: 'Via Rossini 35', altKeys: ['bt776'] },
+        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999'] },
         { key: 'flags', label: 'Tipo', type: 'flags' }
       ]
     },
-    visibleStops: { all: ['rossini', 'pregnana_fs', 'molino_dorino'] },
-    liveStops: { all: { departure: 'rossini', arrival: 'molino_dorino' } },
-    referenceStops: { all: ['rossini'] },
+    visibleStops: {
+      andata: ['bt775_busto_g', 'pg102_pregnana', 'md111_milano'],
+      ritorno: ['md001_milano', 'pg101_pregnana', 'bt776_busto_g']
+    },
+    liveStops: {
+      andata: { departure: 'bt775_busto_g', arrival: 'md111_milano' },
+      ritorno: { departure: 'md001_milano', arrival: 'bt776_busto_g' }
+    },
+    referenceStops: {
+      andata: ['bt775_busto_g'],
+      ritorno: ['md001_milano']
+    },
     connections: [
-      { type: 'M1', stop: 'molino_dorino', label: 'M1', travelTime: 3 },
-      { type: 'S5_PREGNANA', stop: 'pregnana_fs', label: 'S5/S6', slotKey: 'S5S6', travelTime: 1 }
+      { type: 'M1', stop: 'md111_milano', label: 'M1', travelTime: 3 },
+      { type: 'S5_PREGNANA', stop: 'pg102_pregnana', label: 'S5/S6', slotKey: 'S5S6', travelTime: 1 }
     ],
     showInLive: true,
     noService: []
@@ -158,43 +180,43 @@ export const LINE_CONFIG = {
 
   z644: {
     label: 'Z644',
-    type: 'directional',
-    directions: ['outbound', 'return'],
+    type: 'stopCode',
+    directions: ['andata', 'ritorno'],
     tabId: 'z644',
-    departureStop: 'rossini',
-    arrivalStop: 'parabiago_fs',
-    shortRunCheck: 'parabiago_fs',
+    departureStop: 'bt775_busto_g',
+    arrivalStop: 'pb101_parabiago',
+    shortRunCheck: 'pb101_parabiago',
     departureLocation: 'Via Rossini 35',
     arrivalLocation: 'Parabiago FS',
     shortRunLabel: 'Via Butti',
-    scheduleKeys: ['weekday_outbound', 'weekday_return', 'saturday_outbound', 'saturday_return'],
+    scheduleKeys: ['weekday_andata', 'weekday_ritorno', 'saturday_andata', 'saturday_ritorno'],
     columns: {
-      outbound: [
-        { key: 'rossini', label: 'Via Rossini 35' },
-        { key: 'parabiago_fs', label: 'Parabiago FS', shortRunValue: 'Via Butti' },
+      andata: [
+        { key: 'bt775_busto_g', label: 'Via Rossini 35', altKeys: ['bt775', 'rossini'] },
+        { key: 'pb101_parabiago', label: 'Parabiago FS', altKeys: ['pb101', 'parabiago_fs'], shortRunValue: 'Via Butti' },
         { key: '_connection_S5_PARABI', label: 'Coincidenza', sublabel: 'S5 -> Milano' },
         { key: 'validity', label: 'Val.', type: 'validity' },
         { key: 'note', label: 'Note', alwaysVisible: true }
       ],
-      return: [
-        { key: 'parabiago_prt', label: 'Parabiago FS' },
-        { key: 'rossini', label: 'Via Rossini 35' },
-        { key: 'arconate', label: 'Arconate', shortRunValue: 'Dairago' },
+      ritorno: [
+        { key: 'pb990_parabiago', label: 'Parabiago FS', altKeys: ['pb990', 'parabiago_prt'] },
+        { key: 'bt776_busto_g', label: 'Via Rossini 35', altKeys: ['bt776', 'rossini'] },
+        { key: 'ac035_arconate', label: 'Arconate', altKeys: ['ac035', 'arconate'], shortRunValue: 'Dairago' },
         { key: 'validity', label: 'Val.', type: 'validity' },
         { key: 'note', label: 'Note', alwaysVisible: true }
       ]
     },
     visibleStops: {
-      outbound: ['rossini', 'parabiago_fs'],
-      return: ['parabiago_prt', 'rossini', 'arconate']
+      andata: ['bt775_busto_g', 'pb101_parabiago'],
+      ritorno: ['pb990_parabiago', 'bt776_busto_g', 'ac035_arconate']
     },
     liveStops: {
-      outbound: { departure: 'rossini', arrival: 'parabiago_fs' },
-      return: { departure: 'parabiago_prt', arrival: 'rossini' }
+      andata: { departure: 'bt775_busto_g', arrival: 'pb101_parabiago' },
+      ritorno: { departure: 'pb990_parabiago', arrival: 'bt776_busto_g' }
     },
-    referenceStops: { outbound: ['rossini'], return: ['parabiago_prt'] },
+    referenceStops: { andata: ['bt775_busto_g'], ritorno: ['pb990_parabiago'] },
     connections: [
-      { type: 'S5_PARABI', stop: 'parabiago_fs', label: 'S5', slotKey: 'S5_PARABI', destination: 'P.ta Garibaldi', travelToDest: 25 }
+      { type: 'S5_PARABI', stop: 'pb101_parabiago', label: 'S5', slotKey: 'S5_PARABI', destination: 'P.ta Garibaldi', travelToDest: 25 }
     ],
     showInLive: true,
     noService: ['sunday']
@@ -202,45 +224,45 @@ export const LINE_CONFIG = {
 
   z625: {
     label: 'Z625',
-    type: 'directional',
-    directions: ['outbound', 'return'],
+    type: 'stopCode',
+    directions: ['andata', 'ritorno'],
     tabId: 'z625',
-    departureStop: 'curiel',
-    arrivalStop: 'busto_arsizio_fs',
-    shortRunCheck: 'busto_arsizio_fs',
+    departureStop: 'bt701_busto_g',
+    arrivalStop: 'ba011_busto_a',
+    shortRunCheck: 'ba011_busto_a',
     departureLocation: 'Via Curiel',
     arrivalLocation: 'Busto Arsizio FS',
     shortRunLabel: 'BA centro / tratta breve',
-    scheduleKeys: ['weekday_outbound', 'weekday_return', 'saturday_outbound', 'saturday_return'],
+    scheduleKeys: ['weekday_andata', 'weekday_ritorno', 'saturday_andata', 'saturday_ritorno'],
     columns: {
-      outbound: [
-        { key: 'curiel', label: 'Partenza BT701', sublabel: 'Via Curiel' },
-        { key: 'busto_arsizio', label: 'BA Centro' },
-        { key: 'busto_arsizio_fs', label: 'BA FS' },
+      andata: [
+        { key: 'bt701_busto_g', label: 'Partenza BT701', altKeys: ['bt701', 'curiel'], sublabel: 'Via Curiel' },
+        { key: 'ba300_busto_a', label: 'BA Centro', altKeys: ['ba300', 'busto_arsizio'] },
+        { key: 'ba011_busto_a', label: 'BA FS', altKeys: ['ba011', 'busto_arsizio_fs'] },
         { key: '_connection_S5_BUSTO', label: 'S5/RE', sublabel: '-> Milano' },
         { key: 'validity', label: 'Val.', type: 'validity' },
         { key: 'note', label: 'Note', alwaysVisible: true }
       ],
-      return: [
-        { key: 'dep_ba', label: 'Partenza BA' },
-        { key: 'dep_ba_fs', label: 'Partenza BA FS' },
-        { key: 'arr_bg', label: 'Arrivo Busto G.', shortRunValue: 'No BG' },
+      ritorno: [
+        { key: 'ba310_busto_a', label: 'Partenza BA', altKeys: ['ba310', 'dep_ba'] },
+        { key: 'ba012_busto_a', label: 'Partenza BA FS', altKeys: ['ba012', 'dep_ba_fs'] },
+        { key: 'bt704_busto_g', label: 'Arrivo Busto G.', altKeys: ['bt704', 'arr_bg'], shortRunValue: 'No BG' },
         { key: 'validity', label: 'Val.', type: 'validity' },
         { key: 'note', label: 'Note', alwaysVisible: true }
       ]
     },
     visibleStops: {
-      outbound: ['curiel', 'busto_arsizio', 'busto_arsizio_fs'],
-      return: ['dep_ba', 'dep_ba_fs', 'arr_bg']
+      andata: ['bt701_busto_g', 'ba300_busto_a', 'ba011_busto_a'],
+      ritorno: ['ba310_busto_a', 'ba012_busto_a', 'bt704_busto_g']
     },
     liveStops: {
-      outbound: { departure: 'curiel', arrival: 'busto_arsizio_fs' },
-      return: { departure: 'dep_ba_fs', arrival: 'arr_bg', fallbackDeparture: 'dep_ba' }
+      andata: { departure: 'bt701_busto_g', arrival: 'ba011_busto_a' },
+      ritorno: { departure: 'ba012_busto_a', arrival: 'bt704_busto_g', fallbackDeparture: 'ba310_busto_a' }
     },
-    referenceStops: { outbound: ['curiel'], return: ['dep_ba_fs', 'dep_ba'] },
+    referenceStops: { andata: ['bt701_busto_g'], ritorno: ['ba012_busto_a', 'ba310_busto_a'] },
     connections: [
-      { type: 'S5_BUSTO', stop: 'busto_arsizio_fs', label: 'S5', slotKey: 'S5_BUSTO', destination: 'P.ta Garibaldi', travelToDest: 40 },
-      { type: 'RE_BUSTO', stop: 'busto_arsizio_fs', label: 'RE', slotKey: 'RE_BUSTO', destination: 'P.ta Garibaldi', travelToDest: 30 }
+      { type: 'S5_BUSTO', stop: 'ba011_busto_a', label: 'S5', slotKey: 'S5_BUSTO', destination: 'P.ta Garibaldi', travelToDest: 40 },
+      { type: 'RE_BUSTO', stop: 'ba011_busto_a', label: 'RE', slotKey: 'RE_BUSTO', destination: 'P.ta Garibaldi', travelToDest: 30 }
     ],
     showInLive: true,
     noService: ['sunday']

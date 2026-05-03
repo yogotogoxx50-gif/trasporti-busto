@@ -76,55 +76,30 @@ export function buildTransitTimeline(depTime, arrTime, startLoc, endLoc) {
   ].join('');
 }
 
-export function normalizeTrip(trip, lineId, scheduleKey) {
-  // Formato nuovo (stopCode / z627 / z642 / z647): trip.stops già popolato
-  if (trip.stops) return {
-    tripId: trip.tripId ?? null,
-    stops: trip.stops,
-    validity: trip.validity ?? trip.val ?? null,
-    flags: trip.flags || [],
-    note: trip.note || ''
-  };
+export function normalizeTrip(trip) {
+  // Tutte le linee (Z649, Z627, Z644, Z625, Z647, Z642) usano ora il formato con trip.stops
+  if (trip.stops) {
+    return {
+      tripId: trip.tripId ?? null,
+      stops: trip.stops,
+      validity: trip.validity ?? trip.val ?? null,
+      flags: trip.flags || [],
+      note: trip.note || ''
+    };
+  }
 
-  // Formato legacy (z649, z644, z625 con campi flat)
+  // Fallback per dati flat (legacy)
   const stops = {};
-  const tripId = trip.corsa || trip.tripId || null;
-  const validity = trip.val || trip.validity || null;
+  const tripId = trip.tripId || trip.corsa || null;
+  const validity = trip.validity || trip.val || null;
   const flags = trip.flags || [];
   const note = trip.note || '';
-  const isOutbound = scheduleKey.includes('andata') || scheduleKey.includes('outbound');
 
-  if (lineId === 'z649') {
-    stops.rossini = trip.rossini;
-    stops.pregnana_fs = trip.pregnana_fs;
-    stops.molino_dorino = trip.molino_dorino;
-  } else if (lineId === 'z644') {
-    if (isOutbound) {
-      stops.rossini = trip.rossini;
-      stops.parabiago_fs = trip.parabiago_fs;
-      stops.parabiago_vb = trip.parabiago_vb;
-    } else {
-      stops.parabiago_prt = trip.parabiago_prt;
-      stops.rossini = trip.rossini;
-      stops.arconate = trip.arconate;
+  Object.keys(trip).forEach(key => {
+    if (!['corsa', 'tripId', 'val', 'validity', 'flags', 'note', 'scheduleKey'].includes(key)) {
+      stops[key] = trip[key];
     }
-  } else if (lineId === 'z625') {
-    if (isOutbound) {
-      stops.curiel = trip.dep_bg;
-      stops.busto_arsizio = trip.arr_ba;
-      stops.busto_arsizio_fs = trip.arr_ba_fs;
-    } else {
-      stops.dep_ba = trip.dep_ba;
-      stops.dep_ba_fs = trip.dep_ba_fs;
-      stops.arr_bg = trip.arr_bg;
-    }
-  } else {
-    Object.keys(trip).forEach(key => {
-      if (!['corsa', 'tripId', 'val', 'validity', 'flags', 'note'].includes(key)) {
-        stops[key] = trip[key];
-      }
-    });
-  }
+  });
 
   return { tripId, stops, validity, flags, note };
 }

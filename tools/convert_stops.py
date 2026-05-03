@@ -74,10 +74,10 @@ DIR_KEYWORDS = {
     'outbound': 'andata',
     'ritorno':  'ritorno',
     'return':   'ritorno',
-    'domenica': 'all',
-    'sunday':   'all',
-    'festivi':  'all',
-    'fes':      'all',
+    'domenica': 'andata',  # Default directional
+    'sunday':   'andata',
+    'festivi':  'andata',
+    'fes':      'andata',
 }
 
 # Parole nel nome file che indicano la cadenza prevalente
@@ -114,7 +114,11 @@ def normalize_stop_id(raw_code: str, comune: str) -> str:
     code  = re.sub(r'[^a-z0-9]', '_', raw_code.strip().lower()).strip('_')
     place = re.sub(r'[^a-z0-9]', '_', comune.strip().lower()).strip('_')
     place = re.sub(r'_+', '_', place)
-    return f'{code}_{place}' if place else code
+    # Rimuove il comune se è già contenuto nel codice (es. BT_BUSTO_G) 
+    # o se è vuoto per evitare inconsistenze.
+    if not place:
+        return code
+    return f'{code}_{place}'
 
 
 def detect_direction(filename: str) -> str:
