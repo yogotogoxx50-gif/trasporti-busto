@@ -20,17 +20,44 @@ export const LINE_CONFIG = {
     columns: {
       andata: [
         { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'bt775_busto_g', label: 'Via Rossini 35', altKeys: ['bt775'] },
-        { key: 'pg102_pregnana', label: 'Pregnana FS', altKeys: ['pg102', 'pg111_pregnana', 'pg111'] },
-        { key: 'md111_milano', label: 'Molino Dorino M1', altKeys: ['md111'], shortRunValue: 'Arluno' },
+        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999', 'bt775_busto_g', 'bt775'] },
+        { key: 'bt949_busto_g', label: 'BG Deposito 131', altKeys: ['bt949'], hideable: true },
+        { key: 'bt205_busto_g', label: 'Busto A. fr 48', altKeys: ['bt205'], hideable: true },
+        { key: 'bt400_busto_g', label: 'Matteotti 6', altKeys: ['bt400'], hideable: true },
+        { key: 'bt211_busto_g', label: 'Parabiago 32', altKeys: ['bt211'], hideable: true },
+        { key: 'cz010_casorezzo', label: 'Casorezzo Busto G.', altKeys: ['cz010'], hideable: true },
+        { key: 'cz088_casorezzo', label: 'Casorezzo Bertani', altKeys: ['cz088'], hideable: true },
+        { key: 'cz070_casorezzo', label: 'Casorezzo Ossona', altKeys: ['cz070'], hideable: true },
+        { key: 'os001_ossona', label: 'Ossona Patriotti', altKeys: ['os001'], hideable: true },
+        { key: 'al801_arluno', label: 'Arluno Turati 58', altKeys: ['al801', 'al802', 'al050'], hideable: true },
+        { key: 'al185_arluno', label: 'Arluno P.za De Gasperi', altKeys: ['al185', 'al195'], hideable: true },
+        { key: 'al051_arluno', label: 'Arluno Turati fr 58', altKeys: ['al051'], hideable: true },
+        { key: 'rg001_rogorotto', label: 'Rogorotto S.Caterina 5', altKeys: ['rg001', 'rg011'], hideable: true },
+        { key: 'mn021_mantegazza', label: 'Mantegazza Madonnina', altKeys: ['mn021', 'mn015'], hideable: true },
+        { key: 'pg102_pregnana', label: 'Pregnana FS', altKeys: ['pg102', 'pg111', 'pg008', 'pg009', 'pg055', 'pregnana_fs'] },
+        { key: 'pg031_pregnana', label: 'Pregnana Roma/Puccini', altKeys: ['pg031', 'pg030'], hideable: true },
+        { key: 'pg005_pregnana', label: 'Pregnana Giovanni XXIII', altKeys: ['pg005', 'pg099'], hideable: true },
+        { key: 'cd150_cornaredo', label: 'Cornaredo S.Carlo', altKeys: ['cd150', 'cd155'], hideable: true },
+        { key: 'cd160_cornaredo', label: 'Cornaredo Mazzini', altKeys: ['cd160', 'cd166'], hideable: true },
+        { key: 'md111_milano', label: 'Molino Dorino M1', altKeys: ['md111', 'vh237', 'vh238', 'molino_dorino'], shortRunValue: 'Arluno' },
         { key: 'flags', label: 'Tipo', type: 'flags' }
       ],
       ritorno: [
         { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'md001_milano', label: 'Molino Dorino M1', altKeys: ['md001'] },
-        { key: 'pg101_pregnana', label: 'Pregnana FS', altKeys: ['pg101'] },
-        { key: 'bt776_busto_g', label: 'Via Rossini 35', altKeys: ['bt776'] },
-        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999'] },
+        { key: 'md001_milano', label: 'Molino Dorino M1', altKeys: ['md001', 'vh238', 'molino_dorino'] },
+        { key: 'cd166_cornaredo', label: 'Cornaredo Mazzini', altKeys: ['cd166', 'cd160'], hideable: true },
+        { key: 'cd155_cornaredo', label: 'Cornaredo S.Carlo', altKeys: ['cd155', 'cd150'], hideable: true },
+        { key: 'pg101_pregnana', label: 'Pregnana FS', altKeys: ['pg101', 'pg055', 'pg030', 'pg099', 'pregnana_fs'] },
+        { key: 'mn015_mantegazza', label: 'Mantegazza Madonnina', altKeys: ['mn015', 'mn021'], hideable: true },
+        { key: 'rg011_rogorotto', label: 'Rogorotto S.Caterina 4', altKeys: ['rg011', 'rg001'], hideable: true },
+        { key: 'al050_arluno', label: 'Arluno Turati 58', altKeys: ['al050', 'al802', 'al801'], hideable: true },
+        { key: 'al195_arluno', label: 'Arluno P.za De Gasperi', altKeys: ['al195', 'al185'], hideable: true },
+        { key: 'os011_ossona', label: 'Ossona Patriotti 4', altKeys: ['os011', 'os001'], hideable: true },
+        { key: 'cz093_casorezzo', label: 'Casorezzo Mattei', altKeys: ['cz093', 'cz010'], hideable: true },
+        { key: 'cz094_casorezzo', label: 'Casorezzo Arluno', altKeys: ['cz094'], hideable: true },
+        { key: 'cz080_casorezzo', label: 'Casorezzo Bertani', altKeys: ['cz080', 'cz088', 'cz070'], hideable: true },
+        { key: 'bt776_busto_g', label: 'Via Rossini 35', altKeys: ['bt776', 'bt215', 'bt300', 'rossini'] },
+        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999', 'bt956', 'bt951'] },
         { key: 'flags', label: 'Tipo', type: 'flags' }
       ]
     },
@@ -192,16 +219,30 @@ export const LINE_CONFIG = {
     scheduleKeys: ['weekday_andata', 'weekday_ritorno', 'saturday_andata', 'saturday_ritorno'],
     columns: {
       andata: [
+        { key: 'tripId', label: 'Corsa', type: 'tripId' },
+        { key: 'ac625_arconate', label: 'Arconate Concordia 9', altKeys: ['ac625'], hideable: true },
+        { key: 'ac627_arconate', label: 'Arconate Legnano 28', altKeys: ['ac627'], hideable: true },
+        { key: 'dg142_dairago', label: 'Dairago Chiesa 11', altKeys: ['dg142'], hideable: true },
+        { key: 'vc005_villa_c', label: 'Villa C. Canova', altKeys: ['vc005', 'vc006'], hideable: true },
+        { key: 'bt701_busto_g', label: 'Via Curiel', altKeys: ['bt701', 'bt702'], hideable: true },
+        { key: 'bt205_busto_g', label: 'Via Busto A. 48', altKeys: ['bt205', 'bt947'], hideable: true },
         { key: 'bt775_busto_g', label: 'Via Rossini 35', altKeys: ['bt775', 'rossini'] },
-        { key: 'pb101_parabiago', label: 'Parabiago FS', altKeys: ['pb101', 'parabiago_fs'], shortRunValue: 'Via Butti' },
+        { key: 'bt400_busto_g', label: 'Matteotti 6', altKeys: ['bt400'], hideable: true },
+        { key: 'bt211_busto_g', label: 'Parabiago 32', altKeys: ['bt211'], hideable: true },
+        { key: 'pb101_parabiago', label: 'Parabiago FS', altKeys: ['pb101', 'pb090', 'pb100', 'pb701', 'parabiago_fs'], shortRunValue: 'Via Butti' },
         { key: '_connection_S5_PARABI', label: 'Coincidenza', sublabel: 'S5 -> Milano' },
         { key: 'validity', label: 'Val.', type: 'validity' },
         { key: 'note', label: 'Note', alwaysVisible: true }
       ],
       ritorno: [
-        { key: 'pb990_parabiago', label: 'Parabiago FS', altKeys: ['pb990', 'parabiago_prt'] },
+        { key: 'tripId', label: 'Corsa', type: 'tripId' },
+        { key: 'pb990_parabiago', label: 'Parabiago FS', altKeys: ['pb990', 'pb090', 'pb101', 'pb702', 'parabiago_prt'] },
+        { key: 'bt215_busto_g', label: 'Via Parabiago 61', altKeys: ['bt215', 'bt300'], hideable: true },
         { key: 'bt776_busto_g', label: 'Via Rossini 35', altKeys: ['bt776', 'rossini'] },
-        { key: 'ac035_arconate', label: 'Arconate', altKeys: ['ac035', 'arconate'], shortRunValue: 'Dairago' },
+        { key: 'bt956_busto_g', label: 'Montebianco', altKeys: ['bt956', 'bt951'], hideable: true },
+        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999'], hideable: true },
+        { key: 'ac035_arconate', label: 'Arconate', altKeys: ['ac035', 'ac628', 'arconate'], shortRunValue: 'Dairago' },
+        { key: 'dg099_dairago', label: 'Dairago Verdi', altKeys: ['dg099', 'dg141'], hideable: true },
         { key: 'validity', label: 'Val.', type: 'validity' },
         { key: 'note', label: 'Note', alwaysVisible: true }
       ]
@@ -236,7 +277,10 @@ export const LINE_CONFIG = {
     scheduleKeys: ['weekday_andata', 'weekday_ritorno', 'saturday_andata', 'saturday_ritorno'],
     columns: {
       andata: [
-        { key: 'bt701_busto_g', label: 'Partenza BT701', altKeys: ['bt701', 'curiel'], sublabel: 'Via Curiel' },
+        { key: 'bt701_busto_g', label: 'Via Curiel BT701', altKeys: ['bt701', 'bt702', 'curiel'], sublabel: 'Via Curiel' },
+        { key: 'bt205_busto_g', label: 'Via Busto A. 48', altKeys: ['bt205'], hideable: true },
+        { key: 'cz010_casorezzo', label: 'Casorezzo', altKeys: ['cz010', 'cz088', 'cz070'], hideable: true },
+        { key: 'al801_arluno', label: 'Arluno', altKeys: ['al801', 'al185', 'al051'], hideable: true },
         { key: 'ba300_busto_a', label: 'BA Centro', altKeys: ['ba300', 'busto_arsizio'] },
         { key: 'ba011_busto_a', label: 'BA FS', altKeys: ['ba011', 'busto_arsizio_fs'] },
         { key: '_connection_S5_BUSTO', label: 'S5/RE', sublabel: '-> Milano' },
@@ -244,16 +288,17 @@ export const LINE_CONFIG = {
         { key: 'note', label: 'Note', alwaysVisible: true }
       ],
       ritorno: [
-        { key: 'ba310_busto_a', label: 'Partenza BA', altKeys: ['ba310', 'dep_ba'] },
-        { key: 'ba012_busto_a', label: 'Partenza BA FS', altKeys: ['ba012', 'dep_ba_fs'] },
-        { key: 'bt704_busto_g', label: 'Arrivo Busto G.', altKeys: ['bt704', 'arr_bg'], shortRunValue: 'No BG' },
+        { key: 'ba310_busto_a', label: 'Partenza BA', altKeys: ['ba310', 'ba012', 'ba300', 'dep_ba', 'dep_ba_fs'] },
+        { key: 'al050_arluno', label: 'Arluno', altKeys: ['al050', 'al195', 'al802'], hideable: true },
+        { key: 'cz093_casorezzo', label: 'Casorezzo', altKeys: ['cz093', 'cz094', 'cz080'], hideable: true },
+        { key: 'bt704_busto_g', label: 'Arrivo Busto G.', altKeys: ['bt704', 'bt703', 'bt301', 'arr_bg'], shortRunValue: 'No BG' },
         { key: 'validity', label: 'Val.', type: 'validity' },
         { key: 'note', label: 'Note', alwaysVisible: true }
       ]
     },
     visibleStops: {
       andata: ['bt701_busto_g', 'ba300_busto_a', 'ba011_busto_a'],
-      ritorno: ['ba310_busto_a', 'ba012_busto_a', 'bt704_busto_g']
+      ritorno: ['ba310_busto_a', 'bt704_busto_g']
     },
     liveStops: {
       andata: { departure: 'bt701_busto_g', arrival: 'ba011_busto_a' },
@@ -277,18 +322,21 @@ export const LINE_CONFIG = {
     columns: {
       andata: [
         { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'bt999_busto_g', label: 'BG Terminal', sublabel: 'bt999' },
-        { key: 'bt949_busto_g', label: 'BG Deposito 131', sublabel: 'bt949' },
-        { key: 'bt956_busto_g', label: 'BG Piscina/Montebianco', sublabel: 'bt956' },
-        { key: 'ac035_arconate', label: 'Arconate', sublabel: 'ac035' },
-        { key: 'ct011_castano_p', label: 'Castano P.', sublabel: 'ct011' },
+        { key: 'bt999_busto_g', label: 'BG Terminal', altKeys: ['bt999'] },
+        { key: 'bt949_busto_g', label: 'BG Deposito 131', altKeys: ['bt949'] },
+        { key: 'bt956_busto_g', label: 'BG Piscina', altKeys: ['bt956'] },
+        { key: 'ac035_arconate', label: 'Arconate Concordia', altKeys: ['ac035', 'ac628'] },
+        { key: 'bc250_buscate', label: 'Buscate', altKeys: ['bc250'], hideable: true },
+        { key: 'ct011_castano_p', label: 'Castano P.', altKeys: ['ct011', 'ct110', 'ct100'] },
         { key: 'flags', label: 'Val.', type: 'flags' }
       ],
       ritorno: [
         { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'ac627_arconate', label: 'Arconate', sublabel: 'ac627', altKeys: ['ac625_arconate'] },
-        { key: 'bt951_busto_g', label: 'BG Piscina 90', sublabel: 'bt951' },
-        { key: 'bt999_busto_g', label: 'BG Terminal', sublabel: 'bt999', altKeys: ['bt205_busto_g', 'bt775_busto_g'] },
+        { key: 'ct001_castano_p', label: 'Castano P.', altKeys: ['ct001', 'ct050', 'ct100'], hideable: true },
+        { key: 'ac627_arconate', label: 'Arconate Legnano', altKeys: ['ac627', 'ac625'] },
+        { key: 'bt951_busto_g', label: 'BG Piscina 90', altKeys: ['bt951', 'bt205_busto_g'] },
+        { key: 'bt775_busto_g', label: 'Via Rossini 35', altKeys: ['bt775'], hideable: true },
+        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999', 'bt205_busto_g'] },
         { key: 'flags', label: 'Val.', type: 'flags' }
       ]
     },

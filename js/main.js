@@ -181,18 +181,16 @@ export function switchTab(tab) {
     resetMinuteCache();
     tick();
   } else if (LINE_CONFIG[tab]) {
-    const scheduleKey = getDefaultScheduleKey(LINE_CONFIG[tab], dt);
-    if (scheduleKey) {
-      renderTimetable(tab, scheduleKey);
-    } else {
-      // Nessun servizio oggi per questa linea: mostra messaggio appropriato
-      const labelEl = document.getElementById(`${tab}DayLabel`);
-      if (labelEl) labelEl.textContent = `Orari ${LINE_CONFIG[tab].label} - Nessun servizio oggi`;
-      const tbody = document.getElementById(`${tab}Body`);
-      const thead = document.getElementById(`${tab}TableHead`);
-      if (thead) thead.innerHTML = '';
-      if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="empty-cell">&#128683; Nessun servizio in questo giorno.</td></tr>`;
+    const config = LINE_CONFIG[tab];
+    let scheduleKey = getDefaultScheduleKey(config, dt);
+    const isNoService = !scheduleKey;
+    
+    // Se non c'è servizio oggi, fallback al primo orario disponibile (es. feriale)
+    if (isNoService) {
+      scheduleKey = config.scheduleKeys[0];
     }
+    
+    renderTimetable(tab, scheduleKey);
   } else if (tab === 'orari') {
     const config = LINE_CONFIG.z649;
     const scheduleKey = getDefaultScheduleKey(config, dt) || config.scheduleKeys[0];

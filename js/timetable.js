@@ -39,9 +39,11 @@ function renderValidityBanner(lineId, date) {
   const container = document.querySelector(`#content-${cid} .container`);
   if (!container) return;
 
-  // Rimuovi banner precedente se esiste
-  const existing = container.querySelector('.schedule-banner');
-  if (existing) existing.remove();
+  // Rimuovi banner e note precedenti se esistono
+  const existingBanner = container.querySelector('.schedule-banner');
+  if (existingBanner) existingBanner.remove();
+  const existingNotes = container.querySelector('.schedule-notes');
+  if (existingNotes) existingNotes.remove();
 
   const banner = getLineBannerInfo(lineId, date);
   const meta   = LINE_SCHEDULE_META?.[lineId];
