@@ -187,13 +187,43 @@ export function switchTab(tab) {
   }
 }
 
+// ------------------------------------------------------------
+// Validazione formato dati salvati in localStorage
+// Controlla che i dati importati siano compatibili con il
+// formato attuale di ogni linea (v4+ con struttura ad oggetti).
+// Z627: nuovo formato stopCode con chiavi andata/ritorno.
+// Se la validazione fallisce, i dati vengono scartati.
+// ------------------------------------------------------------
+function isValidSavedData(parsed) {
+  // Z649: deve essere oggetto non array (formato v4)
+  if (!parsed.Z649 || typeof parsed.Z649 !== 'object' || Array.isArray(parsed.Z649)) return false;
+
+  // Z627: deve avere le nuove chiavi direzionali (weekday_andata / saturday_andata)
+  // Un export vecchio avrebbe 'weekday' o 'saturday' flat — incompatibile
+  if (parsed.Z627) {
+    const z627Keys = Object.keys(parsed.Z627);
+    const hasNewFormat = z627Keys.some(k => k.endsWith('_andata') || k.endsWith('_ritorno'));
+    const hasOldFormat = z627Keys.some(k => k === 'weekday' || k === 'saturday');
+    if (hasOldFormat && !hasNewFormat) {
+      console.warn('[Data] Z627 in formato obsoleto (pre-refactoring). Scarto dati salvati.');
+      return false;
+    }
+  }
+
+  // Z644, Z625, Z642, Z647: devono essere oggetti non array
+  for (const key of ['Z644', 'Z625', 'Z642', 'Z647']) {
+    if (parsed[key] && (typeof parsed[key] !== 'object' || Array.isArray(parsed[key]))) return false;
+  }
+
+  return true;
+}
+
 export function loadData() {
   const savedData = localStorage.getItem('userTimetables');
   if (savedData) {
     try {
       const parsed = JSON.parse(savedData);
-      // Validazione minima: se Z649 non ha la struttura ad oggetti v4, scartiamo tutto
-      if (parsed.Z649 && typeof parsed.Z649 === 'object' && !Array.isArray(parsed.Z649)) {
+      if (isValidSavedData(parsed)) {
         if (parsed.Z649) Z649 = parsed.Z649;
         if (parsed.Z627) Z627 = parsed.Z627;
         if (parsed.Z644) Z644 = parsed.Z644;
@@ -202,7 +232,7 @@ export function loadData() {
         if (parsed.Z642) Z642 = parsed.Z642;
         console.log('[Data] Orari v4 caricati correttamente.');
       } else {
-        console.warn('[Data] Rilevati dati vecchio formato o corrotti. Uso i file di sistema.');
+        console.warn('[Data] Dati salvati non compatibili con il formato attuale. Uso i file di sistema.');
         localStorage.removeItem('userTimetables');
       }
     } catch (e) {
