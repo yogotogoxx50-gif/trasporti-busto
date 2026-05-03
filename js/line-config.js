@@ -249,36 +249,39 @@ export const LINE_CONFIG = {
   z647: {
     label: 'Z647',
     type: 'stopCode',
-    directions: ['outbound', 'return'],
+    directions: ['andata', 'ritorno'],
     tabId: 'z647',
-    scheduleKeys: ['weekday_outbound', 'weekday_return'],
+    scheduleKeys: ['weekday_andata', 'weekday_ritorno'],
     columns: {
-      outbound: [
+      andata: [
         { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'BT999_dep', label: 'BG partenza', sublabel: 'Terminal' },
-        { key: 'BT949', label: 'Deposito 131' },
-        { key: 'BT956', label: 'Piscina 91' },
-        { key: 'AC035', label: 'Arconate' },
-        { key: 'CT011', label: 'Castano P.' },
+        { key: 'bt999_busto_g', label: 'BG Terminal', sublabel: 'bt999' },
+        { key: 'bt949_busto_g', label: 'BG Deposito 131', sublabel: 'bt949' },
+        { key: 'bt956_busto_g', label: 'BG Piscina/Montebianco', sublabel: 'bt956' },
+        { key: 'ac035_arconate', label: 'Arconate', sublabel: 'ac035' },
+        { key: 'ct011_castano_p', label: 'Castano P.', sublabel: 'ct011' },
         { key: 'flags', label: 'Val.', type: 'flags' }
       ],
-      return: [
+      ritorno: [
         { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'AC627', label: 'Arconate', altKeys: ['AC625'] },
-        { key: 'BT951', label: 'Piscina 90' },
-        { key: 'BT999_arr', label: 'BG arrivo', altKeys: ['BT205', 'BT775'] },
+        { key: 'ac627_arconate', label: 'Arconate', sublabel: 'ac627', altKeys: ['ac625_arconate'] },
+        { key: 'bt951_busto_g', label: 'BG Piscina 90', sublabel: 'bt951' },
+        { key: 'bt999_busto_g', label: 'BG Terminal', sublabel: 'bt999', altKeys: ['bt205_busto_g', 'bt775_busto_g'] },
         { key: 'flags', label: 'Val.', type: 'flags' }
       ]
     },
     visibleStops: {
-      outbound: ['BT999_dep', 'BT949', 'BT956', 'AC035', 'CT011'],
-      return: ['AC627', 'BT951', 'BT999_arr']
+      andata: ['bt999_busto_g', 'bt949_busto_g', 'bt956_busto_g', 'ac035_arconate', 'ct011_castano_p'],
+      ritorno: ['ac627_arconate', 'bt951_busto_g', 'bt999_busto_g']
     },
     liveStops: {
-      outbound: { departure: 'BT956', arrival: 'CT011' },
-      return: { departure: 'BT951', arrival: 'BT999_arr' }
+      andata: { departure: 'bt956_busto_g', arrival: 'ct011_castano_p' },
+      ritorno: { departure: 'bt951_busto_g', arrival: 'bt999_busto_g' }
     },
-    referenceStops: { outbound: ['BT999_dep', 'BT956'], return: ['BT951', 'BT999_arr', 'BT205'] },
+    referenceStops: {
+      andata: ['bt999_busto_g', 'bt956_busto_g'],
+      ritorno: ['bt951_busto_g', 'bt999_busto_g', 'bt205_busto_g']
+    },
     connections: [],
     showInLive: false,
     noService: ['sunday', 'saturday']
@@ -287,35 +290,38 @@ export const LINE_CONFIG = {
   z642: {
     label: 'Z642',
     type: 'stopCode',
-    directions: ['outbound', 'return'],
+    directions: ['andata', 'ritorno'],
     tabId: 'z642',
-    scheduleKeys: ['weekday_outbound', 'weekday_return', 'saturday_outbound', 'saturday_return'],
+    scheduleKeys: ['weekday_andata', 'weekday_ritorno', 'saturday_andata', 'saturday_ritorno'],
     columns: {
-      outbound: [
+      andata: [
         { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'BT776', label: 'Via Buonarroti', sublabel: 'BT776' },
-        { key: 'BT956', label: 'Montebianco Fr.17', sublabel: 'BT956' },
-        { key: 'LG090', label: 'Legnano FS', sublabel: 'LG090/LG112', altKeys: ['LG112'], trainBadge: 'S5' },
-        { key: 'LG003', label: 'Legnano Centro', altKeys: ['LG001'] },
+        { key: 'bt776_busto_g', label: 'Via Buonarroti', sublabel: 'bt776' },
+        { key: 'bt956_busto_g', label: 'Montebianco Fr.17', sublabel: 'bt956' },
+        { key: 'lg090_legnano', label: 'Legnano FS', sublabel: 'lg090/lg112', altKeys: ['lg112_legnano'], trainBadge: 'S5' },
+        { key: 'lg003_legnano', label: 'Legnano Centro', sublabel: 'lg003', altKeys: ['lg001_legnano'] },
         { key: 'flags', label: 'Val.', type: 'flags' }
       ],
-      return: [
+      ritorno: [
         { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'LG112', label: 'Legnano FS', sublabel: 'LG090/LG112', altKeys: ['LG090'], trainBadge: 'S5' },
-        { key: 'BT701', label: 'Via Buonarroti', sublabel: 'BT701' },
-        { key: 'BT775', label: 'Area Via Rossini', sublabel: 'BT775' },
+        { key: 'lg112_legnano', label: 'Legnano FS', sublabel: 'lg090/lg112', altKeys: ['lg090_legnano'], trainBadge: 'S5' },
+        { key: 'bt701_busto_g', label: 'Via Buonarroti', sublabel: 'bt701' },
+        { key: 'bt775_busto_g', label: 'Area Via Rossini', sublabel: 'bt775' },
         { key: 'flags', label: 'Val.', type: 'flags' }
       ]
     },
     visibleStops: {
-      outbound: ['BT776', 'BT956', 'LG090', 'LG003'],
-      return: ['LG112', 'BT701', 'BT775']
+      andata: ['bt776_busto_g', 'bt956_busto_g', 'lg090_legnano', 'lg003_legnano'],
+      ritorno: ['lg112_legnano', 'bt701_busto_g', 'bt775_busto_g']
     },
     liveStops: {
-      outbound: { departure: 'BT956', arrival: 'LG090' },
-      return: { departure: 'LG112', arrival: 'BT701' }
+      andata: { departure: 'bt956_busto_g', arrival: 'lg090_legnano' },
+      ritorno: { departure: 'lg112_legnano', arrival: 'bt701_busto_g' }
     },
-    referenceStops: { outbound: ['BT776', 'BT956'], return: ['BT701', 'BT775'] },
+    referenceStops: {
+      andata: ['bt776_busto_g', 'bt956_busto_g'],
+      ritorno: ['bt701_busto_g', 'bt775_busto_g']
+    },
     connections: [],
     showInLive: false,
     noService: ['sunday']
