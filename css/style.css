@@ -86,6 +86,7 @@ button{cursor:pointer;font-family:inherit;}
 .badge-later{background:rgba(96,165,250,0.12);color:var(--later);}
 .badge-rapido{background:rgba(34,211,238,0.12);color:var(--cyan);}
 .badge-short{background:rgba(71,85,105,0.3);color:var(--muted);}
+.badge-sc5{background:rgba(245,158,11,0.15);color:var(--warn);}
 
 /* ── Progress bar ────────────────────────────────────────────────── */
 .progress-wrap{background:var(--border);border-radius:9999px;height:6px;overflow:hidden;}
@@ -127,7 +128,93 @@ button{cursor:pointer;font-family:inherit;}
 .orari-table td{padding:0.5rem 0.75rem;border-bottom:1px solid rgba(39,48,74,0.5);font-variant-numeric:tabular-nums;}
 .orari-table tr.current-row td{background:rgba(34,211,238,0.06);color:var(--cyan);font-weight:600;}
 .orari-table tr.short-row td{background:rgba(71,85,105,0.1);color:var(--faint);}
+.orari-table tr.sc5-inactive td{opacity:0.4;}
+.orari-table tr.sc5-inactive:hover td{opacity:0.65;}
 .orari-table tr:hover td{background:rgba(34,211,238,0.03);}
+.time-inactive{color:var(--faint);text-decoration:line-through;font-size:0.82rem;cursor:help;}
+
+/* ── Banner validità orario ────────────────────────────────────── */
+.schedule-banner{
+  display:flex;
+  align-items:flex-start;
+  gap:0.75rem;
+  padding:0.85rem 1rem;
+  border-radius:var(--r);
+  margin-bottom:0.75rem;
+  font-size:0.85rem;
+  line-height:1.5;
+}
+.banner-suspended{
+  background:rgba(239,68,68,0.1);
+  border:1px solid rgba(239,68,68,0.35);
+  color:var(--bad);
+}
+.banner-warning{
+  background:rgba(245,158,11,0.08);
+  border:1px solid rgba(245,158,11,0.3);
+  color:var(--warn);
+}
+.banner-icon{font-size:1.1rem;flex-shrink:0;margin-top:0.1rem;}
+.banner-body{flex:1;}
+.banner-line{margin-bottom:0.2rem;}
+.banner-line:last-child{margin-bottom:0;}
+
+/* ── Pannello note linea (collassabile) ─────────────────────────── */
+.schedule-notes{
+  background:rgba(71,85,105,0.1);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  margin-bottom:0.75rem;
+  font-size:0.82rem;
+}
+.schedule-notes-title{
+  padding:0.65rem 1rem;
+  cursor:pointer;
+  color:var(--muted);
+  font-weight:600;
+  letter-spacing:0.03em;
+  list-style:none;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  user-select:none;
+}
+.schedule-notes-title::-webkit-details-marker{display:none;}
+.schedule-notes[open] .schedule-notes-title{color:var(--text);border-bottom:1px solid var(--border);}
+.schedule-notes-body{
+  padding:0.75rem 1rem;
+  color:var(--muted);
+  line-height:1.7;
+}
+.schedule-notes-body ul{
+  padding-left:1.1rem;
+  margin-bottom:0.5rem;
+}
+.schedule-notes-body li{margin-bottom:0.15rem;}
+.cadence-legend{
+  margin-top:0.5rem;
+  padding-top:0.5rem;
+  border-top:1px solid var(--border);
+  list-style:none;
+  padding-left:0;
+}
+.cadence-legend li{
+  display:flex;
+  gap:0.5rem;
+  font-size:0.78rem;
+  padding:0.15rem 0;
+}
+.cadence-legend li strong{
+  min-width:40px;
+  color:var(--text);
+}
+.notes-contact{
+  margin-top:0.6rem;
+  font-size:0.75rem;
+  padding-top:0.5rem;
+  border-top:1px solid var(--border);
+  color:var(--faint);
+}
 
 /* ── Impostazioni ────────────────────────────────────────────────── */
 .settings-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem;}
