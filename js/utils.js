@@ -77,6 +77,7 @@ export function buildTransitTimeline(depTime, arrTime, startLoc, endLoc) {
 }
 
 export function normalizeTrip(trip, lineId, scheduleKey) {
+  // Formato nuovo (stopCode / z627 / z642 / z647): trip.stops già popolato
   if (trip.stops) return {
     tripId: trip.tripId ?? null,
     stops: trip.stops,
@@ -85,6 +86,7 @@ export function normalizeTrip(trip, lineId, scheduleKey) {
     note: trip.note || ''
   };
 
+  // Formato legacy (z649, z644, z625 con campi flat)
   const stops = {};
   const tripId = trip.corsa || trip.tripId || null;
   const validity = trip.val || trip.validity || null;
@@ -96,9 +98,6 @@ export function normalizeTrip(trip, lineId, scheduleKey) {
     stops.rossini = trip.rossini;
     stops.pregnana_fs = trip.pregnana_fs;
     stops.molino_dorino = trip.molino_dorino;
-  } else if (lineId === 'z627') {
-    stops.buonarroti = trip.dep;
-    stops.legnano_fs = trip.arr;
   } else if (lineId === 'z644') {
     if (isOutbound) {
       stops.rossini = trip.rossini;
