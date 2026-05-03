@@ -181,7 +181,18 @@ export function switchTab(tab) {
     resetMinuteCache();
     tick();
   } else if (LINE_CONFIG[tab]) {
-    renderTimetable(tab, getDefaultScheduleKey(LINE_CONFIG[tab], dt));
+    const scheduleKey = getDefaultScheduleKey(LINE_CONFIG[tab], dt);
+    if (scheduleKey) {
+      renderTimetable(tab, scheduleKey);
+    } else {
+      // Nessun servizio oggi per questa linea: mostra messaggio appropriato
+      const labelEl = document.getElementById(`${tab}DayLabel`);
+      if (labelEl) labelEl.textContent = `Orari ${LINE_CONFIG[tab].label} - Nessun servizio oggi`;
+      const tbody = document.getElementById(`${tab}Body`);
+      const thead = document.getElementById(`${tab}TableHead`);
+      if (thead) thead.innerHTML = '';
+      if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="empty-cell">&#128683; Nessun servizio in questo giorno.</td></tr>`;
+    }
   } else if (tab === 'orari') {
     renderTimetable('z649', dt);
   }
@@ -192,6 +203,7 @@ export function switchTab(tab) {
 // Controlla che i dati importati siano compatibili con il
 // formato attuale di ogni linea (v4+ con struttura ad oggetti).
 // Z627: nuovo formato stopCode con chiavi andata/ritorno.
+// Z647/Z642: formato stopCode con chiavi minuscole andata/ritorno.
 // Se la validazione fallisce, i dati vengono scartati.
 // ------------------------------------------------------------
 function isValidSavedData(parsed) {
@@ -199,7 +211,6 @@ function isValidSavedData(parsed) {
   if (!parsed.Z649 || typeof parsed.Z649 !== 'object' || Array.isArray(parsed.Z649)) return false;
 
   // Z627: deve avere le nuove chiavi direzionali (weekday_andata / saturday_andata)
-  // Un export vecchio avrebbe 'weekday' o 'saturday' flat — incompatibile
   if (parsed.Z627) {
     const z627Keys = Object.keys(parsed.Z627);
     const hasNewFormat = z627Keys.some(k => k.endsWith('_andata') || k.endsWith('_ritorno'));
@@ -210,8 +221,28 @@ function isValidSavedData(parsed) {
     }
   }
 
-  // Z644, Z625, Z642, Z647: devono essere oggetti non array
-  for (const key of ['Z644', 'Z625', 'Z642', 'Z647']) {
+  // Z647: deve avere chiavi weekday_andata/weekday_ritorno (non outbound/return)
+  if (parsed.Z647) {
+    const z647Keys = Object.keys(parsed.Z647);
+    const hasOldFormat = z647Keys.some(k => k.includes('_outbound') || k.includes('_return'));
+    if (hasOldFormat) {
+      console.warn('[Data] Z647 in formato obsoleto (chiavi outbound/return). Scarto dati salvati.');
+      return false;
+    }
+  }
+
+  // Z642: deve avere chiavi weekday_andata/saturday_andata (non outbound/return)
+  if (parsed.Z642) {
+    const z642Keys = Object.keys(parsed.Z642);
+    const hasOldFormat = z642Keys.some(k => k.includes('_outbound') || k.includes('_return'));
+    if (hasOldFormat) {
+      console.warn('[Data] Z642 in formato obsoleto (chiavi outbound/return). Scarto dati salvati.');
+      return false;
+    }
+  }
+
+  // Z644, Z625: devono essere oggetti non array
+  for (const key of ['Z644', 'Z625']) {
     if (parsed[key] && (typeof parsed[key] !== 'object' || Array.isArray(parsed[key]))) return false;
   }
 
@@ -280,7 +311,10 @@ if (typeof window !== 'undefined') {
     const active = document.querySelector('.tab-content.active')?.id?.replace('content-', '');
     const dt = getDayType(getCurrentDate());
     if (active === 'orari') renderTimetable('z649', dt);
-    else if (LINE_CONFIG[active]) renderTimetable(active, getDefaultScheduleKey(LINE_CONFIG[active], dt));
+    else if (LINE_CONFIG[active]) {
+      const scheduleKey = getDefaultScheduleKey(LINE_CONFIG[active], dt);
+      if (scheduleKey) renderTimetable(active, scheduleKey);
+    }
   };
   window.setTimeTravelValue = setTimeTravelValue;
   window.clearTimeTravelValue = clearTimeTravelValue;

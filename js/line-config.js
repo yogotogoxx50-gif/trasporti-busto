@@ -381,9 +381,16 @@ export function getScheduleLabel(scheduleKey) {
   return labels[scheduleKey] || scheduleKey;
 }
 
+/**
+ * Restituisce la scheduleKey di default per la linea dato il dayType.
+ * - Se il dayType è in noService, ritorna null (nessun servizio).
+ * - Per dayType 'sunday' cerca prima una chiave esatta 'sunday', poi fallback al primo key.
+ * - Altrimenti cerca la prima chiave che inizia con dayType_ o uguale a dayType.
+ */
 export function getDefaultScheduleKey(config, dayType) {
   if (!config?.scheduleKeys?.length) return null;
-  if (config.noService?.includes(dayType)) return dayType;
+  // Nessun servizio: ritorna null invece di una scheduleKey errata
+  if (config.noService?.includes(dayType)) return null;
   if (dayType === 'sunday') return config.scheduleKeys.find(k => k === 'sunday') || config.scheduleKeys[0];
   const match = config.scheduleKeys.find(k => k === dayType || k.startsWith(`${dayType}_`));
   return match || config.scheduleKeys[0];
