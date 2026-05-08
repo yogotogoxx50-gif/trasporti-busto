@@ -1,400 +1,1019 @@
 const ALWAYS_VISIBLE_TYPES = new Set(['tripId', 'validity', 'flags']);
 
 export const LINE_CONFIG = {
-  z649: {
-    label: 'Z649',
-    type: 'stopCode',
-    directions: ['andata', 'ritorno'],
-    tabId: 'orari',
-    departureStop: 'bt775_busto_g',
-    arrivalStop: 'md111_milano',
-    shortRunCheck: 'md111_milano',
-    departureLocation: 'Via Rossini',
-    arrivalLocation: 'Molino Dorino M1',
-    shortRunLabel: 'Arluno',
-    scheduleKeys: [
-      'weekday_andata', 'weekday_ritorno',
-      'saturday_andata', 'saturday_ritorno',
-      'sunday_andata', 'sunday_ritorno'
+  "z649": {
+    label: "Z649",
+    type: "stopCode",
+    "directions": [
+      "andata",
+      "ritorno"
     ],
-    columns: {
-      andata: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999', 'bt775_busto_g', 'bt775'] },
-        { key: 'bt949_busto_g', label: 'BG Deposito 131', altKeys: ['bt949'], hideable: true },
-        { key: 'bt205_busto_g', label: 'Busto A. fr 48', altKeys: ['bt205'], hideable: true },
-        { key: 'bt400_busto_g', label: 'Matteotti 6', altKeys: ['bt400'], hideable: true },
-        { key: 'bt211_busto_g', label: 'Parabiago 32', altKeys: ['bt211'], hideable: true },
-        { key: 'cz010_casorezzo', label: 'Casorezzo Busto G.', altKeys: ['cz010'], hideable: true },
-        { key: 'cz088_casorezzo', label: 'Casorezzo Bertani', altKeys: ['cz088'], hideable: true },
-        { key: 'cz070_casorezzo', label: 'Casorezzo Ossona', altKeys: ['cz070'], hideable: true },
-        { key: 'os001_ossona', label: 'Ossona Patriotti', altKeys: ['os001'], hideable: true },
-        { key: 'al801_arluno', label: 'Arluno Turati 58', altKeys: ['al801', 'al802', 'al050'], hideable: true },
-        { key: 'al185_arluno', label: 'Arluno P.za De Gasperi', altKeys: ['al185', 'al195'], hideable: true },
-        { key: 'al051_arluno', label: 'Arluno Turati fr 58', altKeys: ['al051'], hideable: true },
-        { key: 'rg001_rogorotto', label: 'Rogorotto S.Caterina 5', altKeys: ['rg001', 'rg011'], hideable: true },
-        { key: 'mn021_mantegazza', label: 'Mantegazza Madonnina', altKeys: ['mn021', 'mn015'], hideable: true },
-        { key: 'pg102_pregnana', label: 'Pregnana FS', altKeys: ['pg102', 'pg111', 'pg008', 'pg009', 'pg055', 'pregnana_fs'] },
-        { key: 'pg031_pregnana', label: 'Pregnana Roma/Puccini', altKeys: ['pg031', 'pg030'], hideable: true },
-        { key: 'pg005_pregnana', label: 'Pregnana Giovanni XXIII', altKeys: ['pg005', 'pg099'], hideable: true },
-        { key: 'cd150_cornaredo', label: 'Cornaredo S.Carlo', altKeys: ['cd150', 'cd155'], hideable: true },
-        { key: 'cd160_cornaredo', label: 'Cornaredo Mazzini', altKeys: ['cd160', 'cd166'], hideable: true },
-        { key: 'md111_milano', label: 'Molino Dorino M1', altKeys: ['md111', 'vh237', 'vh238', 'molino_dorino'], shortRunValue: 'Arluno' },
-        { key: 'flags', label: 'Tipo', type: 'flags' }
-      ],
-      ritorno: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'md001_milano', label: 'Molino Dorino M1', altKeys: ['md001', 'vh238', 'molino_dorino'] },
-        { key: 'cd166_cornaredo', label: 'Cornaredo Mazzini', altKeys: ['cd166', 'cd160'], hideable: true },
-        { key: 'cd155_cornaredo', label: 'Cornaredo S.Carlo', altKeys: ['cd155', 'cd150'], hideable: true },
-        { key: 'pg101_pregnana', label: 'Pregnana FS', altKeys: ['pg101', 'pg055', 'pg030', 'pg099', 'pregnana_fs'] },
-        { key: 'mn015_mantegazza', label: 'Mantegazza Madonnina', altKeys: ['mn015', 'mn021'], hideable: true },
-        { key: 'rg011_rogorotto', label: 'Rogorotto S.Caterina 4', altKeys: ['rg011', 'rg001'], hideable: true },
-        { key: 'al050_arluno', label: 'Arluno Turati 58', altKeys: ['al050', 'al802', 'al801'], hideable: true },
-        { key: 'al195_arluno', label: 'Arluno P.za De Gasperi', altKeys: ['al195', 'al185'], hideable: true },
-        { key: 'os011_ossona', label: 'Ossona Patriotti 4', altKeys: ['os011', 'os001'], hideable: true },
-        { key: 'cz093_casorezzo', label: 'Casorezzo Mattei', altKeys: ['cz093', 'cz010'], hideable: true },
-        { key: 'cz094_casorezzo', label: 'Casorezzo Arluno', altKeys: ['cz094'], hideable: true },
-        { key: 'cz080_casorezzo', label: 'Casorezzo Bertani', altKeys: ['cz080', 'cz088', 'cz070'], hideable: true },
-        { key: 'bt776_busto_g', label: 'Via Rossini 35', altKeys: ['bt776', 'bt215', 'bt300', 'rossini'] },
-        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999', 'bt956', 'bt951'] },
-        { key: 'flags', label: 'Tipo', type: 'flags' }
-      ]
-    },
-    visibleStops: {
-      andata: ['bt775_busto_g', 'pg102_pregnana', 'md111_milano'],
-      ritorno: ['md001_milano', 'pg101_pregnana', 'bt776_busto_g']
-    },
-    liveStops: {
-      andata: { departure: 'bt775_busto_g', arrival: 'md111_milano' },
-      ritorno: { departure: 'md001_milano', arrival: 'bt776_busto_g' }
-    },
-    referenceStops: {
-      andata: ['bt775_busto_g'],
-      ritorno: ['md001_milano']
-    },
-    connections: [
-      { type: 'M1', stop: 'md111_milano', label: 'M1', travelTime: 3 },
-      { type: 'S5_PREGNANA', stop: 'pg102_pregnana', label: 'S5/S6', slotKey: 'S5S6', travelTime: 1 }
+    "tabId": "orari",
+    "departureLocation": "Via Rossini",
+    "arrivalLocation": "Molino Dorino M1",
+    "shortRunLabel": "Arluno",
+    "departureStop": "bt775",
+    "arrivalStop": "md111",
+    "shortRunCheck": "md111",
+    "scheduleKeys": [
+      "weekday_andata",
+      "weekday_ritorno",
+      "saturday_andata",
+      "saturday_ritorno",
+      "sunday_andata",
+      "sunday_ritorno"
     ],
-    showInLive: true,
-    noService: []
-  },
-
-  z627: {
-    label: 'Z627',
-    type: 'stopCode',
-    directions: ['andata', 'ritorno'],
-    tabId: 'z627',
-    departureStop: 'bt301_busto_g',
-    arrivalStop: 'lg090_legnano',
-    shortRunCheck: 'lg090_legnano',
-    departureLocation: 'Via Buonarroti',
-    arrivalLocation: 'Legnano FS',
-    shortRunLabel: 'Liceo / tratta breve',
-    scheduleKeys: ['weekday_andata', 'weekday_ritorno', 'saturday_andata', 'saturday_ritorno'],
-    columns: {
-      andata: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'bt999_busto_g', label: 'BG Terminal', sublabel: 'bt999', hideable: true },
-        { key: 'bt949_busto_g', label: 'BG Deposito 131', sublabel: 'bt949', hideable: true },
-        { key: 'bt301_busto_g', label: 'Via Buonarroti', sublabel: 'bt301' },
-        { key: 'bt703_busto_g', label: 'Via Buonarroti/Carroccio', sublabel: 'bt703', hideable: true },
-        { key: 'bt704_busto_g', label: 'Via Curiel/De Amicis', sublabel: 'bt704', hideable: true },
-        { key: 'vc801_villa_c', label: 'Villa C. P.Micca 17', sublabel: 'vc801', hideable: true },
-        { key: 'vc050_villa_c', label: 'Villa C. Da Giussano 32', sublabel: 'vc050', hideable: true },
-        { key: 'vc051_villa_c', label: 'Villa C. Da Giussano 50', sublabel: 'vc051', hideable: true },
-        { key: 'sg801_s_giorgio', label: 'S.Giorgio Boccaccio/Magenta', sublabel: 'sg801', hideable: true },
-        { key: 'sg050_s_giorgio', label: 'S.Giorgio Via Restelli 5', sublabel: 'sg050', hideable: true },
-        { key: 'lg112_legnano', label: 'Legnano Liceo', sublabel: 'lg112', hideable: true },
-        { key: 'lg611_legnano', label: 'Legnano XX Sett./S.Bernardino', sublabel: 'lg611', hideable: true },
-        { key: 'lg508_legnano', label: 'Legnano Via Milano/S.Caterina', sublabel: 'lg508', hideable: true },
-        { key: 'lg805_legnano', label: 'Legnano XX Sett. 7 (Poste)', sublabel: 'lg805', hideable: true },
-        { key: 'lg090_legnano', label: 'Legnano FS', sublabel: 'lg090' },
-        { key: 'lg003_legnano', label: 'Legnano Largo Tosi', sublabel: 'lg003', hideable: true },
-        { key: 'lg002_legnano', label: 'Legnano C.so Sempione Madonnina', sublabel: 'lg002', hideable: true },
-        { key: 'lg001_legnano', label: 'Legnano C.so Sempione Osp.Vecchio', sublabel: 'lg001', hideable: true },
-        { key: 'cg999_cuggiono', label: 'Cuggiono V.IV Nov./XI Sett.', sublabel: 'cg999', hideable: true },
-        { key: 'cg149_cuggiono', label: 'Cuggiono Via San Rocco 89', sublabel: 'cg149', hideable: true },
-        { key: 'cg143_cuggiono', label: 'Cuggiono P.za Vittoria', sublabel: 'cg143', hideable: true },
-        { key: 'cg190_cuggiono', label: 'Cuggiono Via Fermo Ospedale', sublabel: 'cg190', hideable: true },
-        { key: 'in285_inveruno', label: 'Inveruno Via Marconi 57', sublabel: 'in285', hideable: true },
-        { key: 'in802_inveruno', label: 'Inveruno Via Einaudi 6', sublabel: 'in802', hideable: true },
-        { key: 'in275_inveruno', label: 'Inveruno V.le Lombardia/Liguria', sublabel: 'in275', hideable: true },
-        { key: 'in350_inveruno', label: 'Inveruno Via Lombardia IPSIA', sublabel: 'in350', hideable: true },
-        { key: 'in127_inveruno', label: 'Inveruno V.Varese/Don Paganini', sublabel: 'in127', hideable: true },
-        { key: 'ac127_arconate', label: 'Arconate B.Vergine/Pioppi', sublabel: 'ac127', hideable: true },
-        { key: 'ac625_arconate', label: 'Arconate Via Concordia 9', sublabel: 'ac625', hideable: true },
-        { key: 'ac802_arconate', label: 'Arconate Via Varese 44', sublabel: 'ac802', hideable: true },
-        { key: 'oc113_olcella', label: 'Olcella Via Montebello 16', sublabel: 'oc113', hideable: true },
-        { key: 'dg801_dairago', label: 'Dairago Circonvallazione/Zara', sublabel: 'dg801', hideable: true },
-        { key: 'dg142_dairago', label: 'Dairago D.Chiesa 11', sublabel: 'dg142', hideable: true },
-        { key: 'dg097_dairago', label: 'Dairago Via Verdi 24', sublabel: 'dg097', hideable: true },
-        { key: 'ct100_castano_p', label: 'Castano P. Autostazione', sublabel: 'ct100', hideable: true },
-        { key: 'ct050_castano_p', label: 'Castano P. Via Tadini 16', sublabel: 'ct050', hideable: true },
-        { key: 'ct027_castano_p', label: 'Castano P. Per Buscate S.Nitti', sublabel: 'ct027', hideable: true },
-        { key: 'ct001_castano_p', label: 'Castano P. P.le Don Milani', sublabel: 'ct001', hideable: true },
-        { key: 'bc802_buscate', label: 'Buscate S.P.34 Fr.Civ.28', sublabel: 'bc802', hideable: true },
-        { key: 'bc211_buscate', label: 'Buscate Via Milano 26', sublabel: 'bc211', hideable: true },
-        { key: '_connection_S5_LEGNANO', label: 'Coincidenza', sublabel: 'S5 -> Milano' },
-        { key: 'flags', label: 'Val.', type: 'flags' }
+    "columns": {
+      "andata": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "bt775",
+          label: "Via Rossini 35",
+          altKeys: [
+            "via_giacomo_rossini_civ_35",
+            "busto_g",
+            "v_busto_a_n_131_deposito"
+          ]
+        },
+        {
+          key: "arluno",
+          label: "Arluno",
+          altKeys: [
+            "via_adua_ang_giovanni_xxiii",
+            "via_turati_58"
+          ],
+          hideable: true
+        },
+        {
+          key: "ossona",
+          label: "Ossona",
+          altKeys: [
+            "via_patriotti_fr_civ_118_a"
+          ],
+          hideable: true
+        },
+        {
+          key: "casorezzo",
+          label: "Casorezzo",
+          altKeys: [
+            "via_busto_gar_n_ang_v_s_salvatore"
+          ],
+          hideable: true
+        },
+        {
+          key: "mantegazza",
+          label: "Mantegazza",
+          altKeys: [
+            "via_madonnina_bivio"
+          ],
+          hideable: true
+        },
+        {
+          key: "rogorotto",
+          label: "Rogorotto",
+          altKeys: [
+            "via_santa_caterina_n_5"
+          ],
+          hideable: true
+        },
+        {
+          key: "pg102",
+          label: "Pregnana FS",
+          altKeys: [
+            "v_marconi_fr_civ_146_stazione_fs",
+            "pregnana",
+            "v_marconi_a_v_gorizia_rondo"
+          ]
+        },
+        {
+          key: "cornaredo",
+          label: "Cornaredo",
+          altKeys: [
+            "via_san_carlo_ang_v_a_ponti"
+          ],
+          hideable: true
+        },
+        {
+          key: "md111",
+          label: "Molino Dorino M1",
+          altKeys: [
+            "mm_molino_dorino_arrivo",
+            "vighignolo",
+            "via_mereghetti_n_22"
+          ],
+          shortRunValue: "Arluno"
+        },
+        {
+          key: "flags",
+          label: "Tipo",
+          type: "flags"
+        }
       ],
-      ritorno: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'lg171_legnano', label: 'Legnano C.so Sempione Osp.', sublabel: 'lg171', hideable: true },
-        { key: 'lg172_legnano', label: 'Legnano C.so Sempione Madonnina', sublabel: 'lg172', hideable: true },
-        { key: 'lg173_legnano', label: 'Legnano Largo Tosi (portici)', sublabel: 'lg173', hideable: true },
-        { key: 'lg990_legnano', label: 'Legnano P.za Monumento FS', sublabel: 'lg990', hideable: true },
-        { key: 'lg091_legnano', label: 'Legnano FS / C.Colombo', sublabel: 'lg091' },
-        { key: 'lg807_legnano', label: 'Legnano XX Sett. P.V.Veneto', sublabel: 'lg807', hideable: true },
-        { key: 'lg061_legnano', label: 'Legnano XX Sett./S.Bernardino', sublabel: 'lg061', hideable: true },
-        { key: 'lg025_legnano', label: 'Legnano XX Sett. (S.Giorgio SL)', sublabel: 'lg025', hideable: true },
-        { key: 'sg001_s_giorgio', label: 'S.Giorgio La Pergola', sublabel: 'sg001', hideable: true },
-        { key: 'sg807_s_giorgio', label: 'S.Giorgio Via Roma/Da Vinci', sublabel: 'sg807', hideable: true },
-        { key: 'sg182_s_giorgio', label: 'S.Giorgio Via Roma/Acquedotto', sublabel: 'sg182', hideable: true },
-        { key: 'vc005_villa_c', label: 'Villa C. Via Canova/Buonarroti', sublabel: 'vc005', hideable: true },
-        { key: 'vc006_villa_c', label: 'Villa C. Via Canova/Perugino', sublabel: 'vc006', hideable: true },
-        { key: 'vc807_villa_c', label: 'Villa C. P.Micca 38', sublabel: 'vc807', hideable: true },
-        { key: 'bt701_busto_g', label: 'Via Curiel', sublabel: 'bt701', hideable: true },
-        { key: 'bt702_busto_g', label: 'Via Don Longoni/Cellini', sublabel: 'bt702', hideable: true },
-        { key: 'bt947_busto_g', label: 'Via Buonarroti 3', sublabel: 'bt947', hideable: true },
-        { key: 'bt951_busto_g', label: 'BG Piscina 90', sublabel: 'bt951', hideable: true },
-        { key: 'bt999_busto_g', label: 'BG Terminal', sublabel: 'bt999' },
-        { key: 'dg099_dairago', label: 'Dairago Via Verdi 13', sublabel: 'dg099', hideable: true },
-        { key: 'dg141_dairago', label: 'Dairago D.Chiesa Municipio', sublabel: 'dg141', hideable: true },
-        { key: 'dg807_dairago', label: 'Dairago Circonvallazione 48', sublabel: 'dg807', hideable: true },
-        { key: 'oc114_olcella', label: 'Olcella Via Montebello 11', sublabel: 'oc114', hideable: true },
-        { key: 'ac809_arconate', label: 'Arconate Via Varese/Moina', sublabel: 'ac809', hideable: true },
-        { key: 'ac035_arconate', label: 'Arconate Via Concordia Fr.13', sublabel: 'ac035', hideable: true },
-        { key: 'ac811_arconate', label: 'Arconate Via Volta/XXIV Maggio', sublabel: 'ac811', hideable: true },
-        { key: 'ac128_arconate', label: 'Arconate B.Vergine/Tigli', sublabel: 'ac128', hideable: true },
-        { key: 'in128_inveruno', label: 'Inveruno V.Varese/Don Paganini', sublabel: 'in128', hideable: true },
-        { key: 'in351_inveruno', label: 'Inveruno Via Lombardia IPSIA', sublabel: 'in351', hideable: true },
-        { key: 'in235_inveruno', label: 'Inveruno V.le Lombardia/Magenta', sublabel: 'in235', hideable: true },
-        { key: 'in801_inveruno', label: 'Inveruno Via Einaudi Fr.2', sublabel: 'in801', hideable: true },
-        { key: 'in403_inveruno', label: 'Inveruno Via Marconi Fr.65', sublabel: 'in403', hideable: true },
-        { key: 'cg250_cuggiono', label: 'Cuggiono Via Garibaldi 32', sublabel: 'cg250', hideable: true },
-        { key: 'cg143_cuggiono', label: 'Cuggiono P.za Vittoria', sublabel: 'cg143', hideable: true },
-        { key: 'cg178_cuggiono', label: 'Cuggiono Via Manzoni 1', sublabel: 'cg178', hideable: true },
-        { key: 'cg998_cuggiono', label: 'Cuggiono V.IV Nov. dopo XI Sett.', sublabel: 'cg998', hideable: true },
-        { key: 'bc250_buscate', label: 'Buscate Via Milano/P.Micca', sublabel: 'bc250', hideable: true },
-        { key: 'bc801_buscate', label: 'Buscate S.P.34 Civ.28', sublabel: 'bc801', hideable: true },
-        { key: 'ct021_castano_p', label: 'Castano P. Per Buscate/Nitti', sublabel: 'ct021', hideable: true },
-        { key: 'ct110_castano_p', label: 'Castano P. P.za Garibaldi', sublabel: 'ct110', hideable: true },
-        { key: 'ct100_castano_p', label: 'Castano P. Autostazione', sublabel: 'ct100', hideable: true },
-        { key: 'ct011_castano_p', label: 'Castano P. P.le Don Milani', sublabel: 'ct011', hideable: true },
-        { key: 'flags', label: 'Val.', type: 'flags' }
+      "ritorno": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "md001",
+          label: "Molino Dorino M1",
+          altKeys: [
+            "mm_molino_dorino",
+            "vighignolo"
+          ]
+        },
+        {
+          key: "pg101",
+          label: "Pregnana FS",
+          altKeys: [
+            "v_marconi_fr_civ_67_stazione_fs",
+            "pregnana"
+          ]
+        },
+        {
+          key: "rogorotto",
+          label: "Rogorotto",
+          altKeys: [
+            "v_santa_caterina_n_4"
+          ],
+          hideable: true
+        },
+        {
+          key: "mantegazza",
+          label: "Mantegazza",
+          altKeys: [
+            "via_madonnina_bivio"
+          ],
+          hideable: true
+        },
+        {
+          key: "arluno",
+          label: "Arluno",
+          altKeys: [
+            "via_turati_fr_58",
+            "p_zza_a_de_gasperi_municipio"
+          ],
+          hideable: true
+        },
+        {
+          key: "ossona",
+          label: "Ossona",
+          altKeys: [
+            "via_patrioti_n_4"
+          ],
+          hideable: true
+        },
+        {
+          key: "casorezzo",
+          label: "Casorezzo",
+          altKeys: [
+            "via_e_mattei_fr_civ_1"
+          ],
+          hideable: true
+        },
+        {
+          key: "bt951",
+          label: "Via Rossini area",
+          altKeys: [
+            "via_vincenzo_bellini_civ_44",
+            "busto_g",
+            "v_busto_a_n_131_deposito"
+          ]
+        },
+        {
+          key: "flags",
+          label: "Tipo",
+          type: "flags"
+        }
       ]
     },
-    visibleStops: {
-      andata: ['bt301_busto_g', 'lg090_legnano'],
-      ritorno: ['lg091_legnano', 'bt999_busto_g']
+    "visibleStops": {
+      "andata": [
+        "bt775",
+        "pg102",
+        "md111"
+      ],
+      "ritorno": [
+        "md001",
+        "pg101",
+        "bt951"
+      ]
     },
-    liveStops: {
-      andata: { departure: 'bt301_busto_g', arrival: 'lg090_legnano' },
-      ritorno: { departure: 'lg091_legnano', arrival: 'bt999_busto_g' }
+    "liveStops": {
+      "andata": {
+        "departure": "bt775",
+        "arrival": "md111"
+      },
+      "ritorno": {
+        "departure": "md001",
+        "arrival": "bt951"
+      }
     },
-    referenceStops: {
-      andata: ['bt301_busto_g'],
-      ritorno: ['lg091_legnano']
+    "referenceStops": {
+      "andata": [
+        "bt775"
+      ],
+      "ritorno": [
+        "md001"
+      ]
     },
-    connections: [
-      { type: 'S5_LEGNANO', stop: 'lg090_legnano', label: 'S5', slotKey: 'S5_LEGNANO', destination: 'Cadorna', travelToDest: 30 }
+    "connections": [
+      {
+        type: "M1",
+        "stop": "md111",
+        label: "M1",
+        "travelTime": 3
+      },
+      {
+        type: "S5_PREGNANA",
+        "stop": "pg102",
+        label: "S5/S6",
+        "slotKey": "S5S6",
+        "travelTime": 1
+      }
     ],
-    showInLive: true,
-    noService: ['sunday']
+    "showInLive": true,
+    "noService": []
   },
-
-  z644: {
-    label: 'Z644',
-    type: 'stopCode',
-    directions: ['andata', 'ritorno'],
-    tabId: 'z644',
-    departureStop: 'bt775_busto_g',
-    arrivalStop: 'pb101_parabiago',
-    shortRunCheck: 'pb101_parabiago',
-    departureLocation: 'Via Rossini 35',
-    arrivalLocation: 'Parabiago FS',
-    shortRunLabel: 'Via Butti',
-    scheduleKeys: ['weekday_andata', 'weekday_ritorno', 'saturday_andata', 'saturday_ritorno'],
-    columns: {
-      andata: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'ac625_arconate', label: 'Arconate Concordia 9', altKeys: ['ac625'], hideable: true },
-        { key: 'ac627_arconate', label: 'Arconate Legnano 28', altKeys: ['ac627'], hideable: true },
-        { key: 'dg142_dairago', label: 'Dairago Chiesa 11', altKeys: ['dg142'], hideable: true },
-        { key: 'vc005_villa_c', label: 'Villa C. Canova', altKeys: ['vc005', 'vc006'], hideable: true },
-        { key: 'bt701_busto_g', label: 'Via Curiel', altKeys: ['bt701', 'bt702'], hideable: true },
-        { key: 'bt205_busto_g', label: 'Via Busto A. 48', altKeys: ['bt205', 'bt947'], hideable: true },
-        { key: 'bt775_busto_g', label: 'Via Rossini 35', altKeys: ['bt775', 'rossini'] },
-        { key: 'bt400_busto_g', label: 'Matteotti 6', altKeys: ['bt400'], hideable: true },
-        { key: 'bt211_busto_g', label: 'Parabiago 32', altKeys: ['bt211'], hideable: true },
-        { key: 'pb101_parabiago', label: 'Parabiago FS', altKeys: ['pb101', 'pb090', 'pb100', 'pb701', 'parabiago_fs'], shortRunValue: 'Via Butti' },
-        { key: '_connection_S5_PARABI', label: 'Coincidenza', sublabel: 'S5 -> Milano' },
-        { key: 'validity', label: 'Val.', type: 'validity' },
-        { key: 'note', label: 'Note', alwaysVisible: true }
-      ],
-      ritorno: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'pb990_parabiago', label: 'Parabiago FS', altKeys: ['pb990', 'pb090', 'pb101', 'pb702', 'parabiago_prt'] },
-        { key: 'bt215_busto_g', label: 'Via Parabiago 61', altKeys: ['bt215', 'bt300'], hideable: true },
-        { key: 'bt776_busto_g', label: 'Via Rossini 35', altKeys: ['bt776', 'rossini'] },
-        { key: 'bt956_busto_g', label: 'Montebianco', altKeys: ['bt956', 'bt951'], hideable: true },
-        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999'], hideable: true },
-        { key: 'ac035_arconate', label: 'Arconate', altKeys: ['ac035', 'ac628', 'arconate'], shortRunValue: 'Dairago' },
-        { key: 'dg099_dairago', label: 'Dairago Verdi', altKeys: ['dg099', 'dg141'], hideable: true },
-        { key: 'validity', label: 'Val.', type: 'validity' },
-        { key: 'note', label: 'Note', alwaysVisible: true }
-      ]
-    },
-    visibleStops: {
-      andata: ['bt775_busto_g', 'pb101_parabiago'],
-      ritorno: ['pb990_parabiago', 'bt776_busto_g', 'ac035_arconate']
-    },
-    liveStops: {
-      andata: { departure: 'bt775_busto_g', arrival: 'pb101_parabiago' },
-      ritorno: { departure: 'pb990_parabiago', arrival: 'bt776_busto_g' }
-    },
-    referenceStops: { andata: ['bt775_busto_g'], ritorno: ['pb990_parabiago'] },
-    connections: [
-      { type: 'S5_PARABI', stop: 'pb101_parabiago', label: 'S5', slotKey: 'S5_PARABI', destination: 'P.ta Garibaldi', travelToDest: 25 }
+  "z627": {
+    label: "Z627",
+    type: "stopCode",
+    "directions": [
+      "andata",
+      "ritorno"
     ],
-    showInLive: true,
-    noService: ['sunday']
-  },
-
-  z625: {
-    label: 'Z625',
-    type: 'stopCode',
-    directions: ['andata', 'ritorno'],
-    tabId: 'z625',
-    departureStop: 'bt701_busto_g',
-    arrivalStop: 'ba011_busto_a',
-    shortRunCheck: 'ba011_busto_a',
-    departureLocation: 'Via Curiel',
-    arrivalLocation: 'Busto Arsizio FS',
-    shortRunLabel: 'BA centro / tratta breve',
-    scheduleKeys: ['weekday_andata', 'weekday_ritorno', 'saturday_andata', 'saturday_ritorno'],
-    columns: {
-      andata: [
-        { key: 'bt701_busto_g', label: 'Via Curiel BT701', altKeys: ['bt701', 'bt702', 'curiel'], sublabel: 'Via Curiel' },
-        { key: 'bt205_busto_g', label: 'Via Busto A. 48', altKeys: ['bt205'], hideable: true },
-        { key: 'cz010_casorezzo', label: 'Casorezzo', altKeys: ['cz010', 'cz088', 'cz070'], hideable: true },
-        { key: 'al801_arluno', label: 'Arluno', altKeys: ['al801', 'al185', 'al051'], hideable: true },
-        { key: 'ba300_busto_a', label: 'BA Centro', altKeys: ['ba300', 'busto_arsizio'] },
-        { key: 'ba011_busto_a', label: 'BA FS', altKeys: ['ba011', 'busto_arsizio_fs'] },
-        { key: '_connection_S5_BUSTO', label: 'S5/RE', sublabel: '-> Milano' },
-        { key: 'validity', label: 'Val.', type: 'validity' },
-        { key: 'note', label: 'Note', alwaysVisible: true }
-      ],
-      ritorno: [
-        { key: 'ba310_busto_a', label: 'Partenza BA', altKeys: ['ba310', 'ba012', 'ba300', 'dep_ba', 'dep_ba_fs'] },
-        { key: 'al050_arluno', label: 'Arluno', altKeys: ['al050', 'al195', 'al802'], hideable: true },
-        { key: 'cz093_casorezzo', label: 'Casorezzo', altKeys: ['cz093', 'cz094', 'cz080'], hideable: true },
-        { key: 'bt704_busto_g', label: 'Arrivo Busto G.', altKeys: ['bt704', 'bt703', 'bt301', 'arr_bg'], shortRunValue: 'No BG' },
-        { key: 'validity', label: 'Val.', type: 'validity' },
-        { key: 'note', label: 'Note', alwaysVisible: true }
-      ]
-    },
-    visibleStops: {
-      andata: ['bt701_busto_g', 'ba300_busto_a', 'ba011_busto_a'],
-      ritorno: ['ba310_busto_a', 'bt704_busto_g']
-    },
-    liveStops: {
-      andata: { departure: 'bt701_busto_g', arrival: 'ba011_busto_a' },
-      ritorno: { departure: 'ba012_busto_a', arrival: 'bt704_busto_g', fallbackDeparture: 'ba310_busto_a' }
-    },
-    referenceStops: { andata: ['bt701_busto_g'], ritorno: ['ba012_busto_a', 'ba310_busto_a'] },
-    connections: [
-      { type: 'S5_BUSTO', stop: 'ba011_busto_a', label: 'S5', slotKey: 'S5_BUSTO', destination: 'P.ta Garibaldi', travelToDest: 40 },
-      { type: 'RE_BUSTO', stop: 'ba011_busto_a', label: 'RE', slotKey: 'RE_BUSTO', destination: 'P.ta Garibaldi', travelToDest: 30 }
+    "tabId": "z627",
+    "departureLocation": "Via Buonarroti",
+    "arrivalLocation": "Legnano FS",
+    "shortRunLabel": "Liceo / tratta breve",
+    "departureStop": "via_buonarroti_civ_3",
+    "arrivalStop": "piazza_del_popolo_fs",
+    "shortRunCheck": "piazza_del_popolo_fs",
+    "scheduleKeys": [
+      "weekday_andata",
+      "weekday_ritorno",
+      "saturday_andata",
+      "saturday_ritorno"
     ],
-    showInLive: true,
-    noService: ['sunday']
-  },
-
-  z647: {
-    label: 'Z647',
-    type: 'stopCode',
-    directions: ['andata', 'ritorno'],
-    tabId: 'z647',
-    scheduleKeys: ['weekday_andata', 'weekday_ritorno'],
-    columns: {
-      andata: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'bt999_busto_g', label: 'BG Terminal', altKeys: ['bt999'] },
-        { key: 'bt949_busto_g', label: 'BG Deposito 131', altKeys: ['bt949'] },
-        { key: 'bt956_busto_g', label: 'BG Piscina', altKeys: ['bt956'] },
-        { key: 'ac035_arconate', label: 'Arconate Concordia', altKeys: ['ac035', 'ac628'] },
-        { key: 'bc250_buscate', label: 'Buscate', altKeys: ['bc250'], hideable: true },
-        { key: 'ct011_castano_p', label: 'Castano P.', altKeys: ['ct011', 'ct110', 'ct100'] },
-        { key: 'flags', label: 'Val.', type: 'flags' }
+    "columns": {
+      "andata": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "via_buonarroti_civ_3",
+          label: "Via Buonarroti BG",
+          altKeys: [
+            "via_buonarroti_a_v_carroccio",
+            "via_buonarroti_ang_v_busto_a"
+          ]
+        },
+        {
+          key: "via_curiel_a_v_de_amicis",
+          label: "Via Curiel BG",
+          altKeys: [
+            "via_curiel"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_per_busto_a_n_90_piscina",
+          label: "BG Piscina",
+          altKeys: [
+            "via_per_busto_a_n_91_piscina"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_xx_settembre_ang_s_bernardino",
+          label: "Legnano S.Bernardino",
+          altKeys: [
+            "v_xx_settembre_a_v_s_bernardino"
+          ],
+          hideable: true
+        },
+        {
+          key: "piazza_del_popolo_fs",
+          label: "Legnano FS",
+          altKeys: [
+            "austostazione_bus_stazione_ferroviaria",
+            "piazza_del_popolo_fs_ang_via_c_colombo"
+          ],
+          shortRunValue: "Liceo / tratta breve"
+        },
+        {
+          key: "flags",
+          label: "Val.",
+          type: "flags"
+        }
       ],
-      ritorno: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'ct001_castano_p', label: 'Castano P.', altKeys: ['ct001', 'ct050', 'ct100'], hideable: true },
-        { key: 'ac627_arconate', label: 'Arconate Legnano', altKeys: ['ac627', 'ac625'] },
-        { key: 'bt951_busto_g', label: 'BG Piscina 90', altKeys: ['bt951', 'bt205_busto_g'] },
-        { key: 'bt775_busto_g', label: 'Via Rossini 35', altKeys: ['bt775'], hideable: true },
-        { key: 'bt999_busto_g', label: 'Terminal BG', altKeys: ['bt999', 'bt205_busto_g'] },
-        { key: 'flags', label: 'Val.', type: 'flags' }
+      "ritorno": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "piazza_del_popolo_fs_ang_via_c_colombo",
+          label: "Legnano FS",
+          altKeys: [
+            "piazza_del_popolo_fs",
+            "austostazione_bus_stazione_ferroviaria"
+          ]
+        },
+        {
+          key: "v_xx_settembre_san_giorgio_s_l",
+          label: "Legnano S.Giorgio",
+          altKeys: [
+            "v_xx_settembre_p_vittorio_veneto"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_buonarroti_civ_3",
+          label: "Via Buonarroti BG",
+          altKeys: [
+            "via_buonarroti_a_v_carroccio"
+          ]
+        },
+        {
+          key: "via_curiel",
+          label: "Via Curiel BG",
+          altKeys: [
+            "via_curiel_a_v_de_amicis"
+          ],
+          hideable: true
+        },
+        {
+          key: "flags",
+          label: "Val.",
+          type: "flags"
+        }
       ]
     },
-    visibleStops: {
-      andata: ['bt999_busto_g', 'bt949_busto_g', 'bt956_busto_g', 'ac035_arconate', 'ct011_castano_p'],
-      ritorno: ['ac627_arconate', 'bt951_busto_g', 'bt999_busto_g']
-    },
-    liveStops: {
-      andata: { departure: 'bt956_busto_g', arrival: 'ct011_castano_p' },
-      ritorno: { departure: 'bt951_busto_g', arrival: 'bt999_busto_g' }
-    },
-    referenceStops: {
-      andata: ['bt999_busto_g', 'bt956_busto_g'],
-      ritorno: ['bt951_busto_g', 'bt999_busto_g', 'bt205_busto_g']
-    },
-    connections: [],
-    showInLive: false,
-    noService: ['sunday', 'saturday']
-  },
-
-  z642: {
-    label: 'Z642',
-    type: 'stopCode',
-    directions: ['andata', 'ritorno'],
-    tabId: 'z642',
-    scheduleKeys: ['weekday_andata', 'weekday_ritorno', 'saturday_andata', 'saturday_ritorno'],
-    columns: {
-      andata: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'bt776_busto_g', label: 'Via Buonarroti', sublabel: 'bt776' },
-        { key: 'bt956_busto_g', label: 'Montebianco Fr.17', sublabel: 'bt956' },
-        { key: 'lg090_legnano', label: 'Legnano FS', sublabel: 'lg090/lg112', altKeys: ['lg112_legnano'], trainBadge: 'S5' },
-        { key: 'lg003_legnano', label: 'Legnano Centro', sublabel: 'lg003', altKeys: ['lg001_legnano'] },
-        { key: 'flags', label: 'Val.', type: 'flags' }
+    "visibleStops": {
+      "andata": [
+        "via_buonarroti_civ_3",
+        "piazza_del_popolo_fs"
       ],
-      ritorno: [
-        { key: 'tripId', label: 'Corsa', type: 'tripId' },
-        { key: 'lg112_legnano', label: 'Legnano FS', sublabel: 'lg090/lg112', altKeys: ['lg090_legnano'], trainBadge: 'S5' },
-        { key: 'bt701_busto_g', label: 'Via Buonarroti', sublabel: 'bt701' },
-        { key: 'bt775_busto_g', label: 'Area Via Rossini', sublabel: 'bt775' },
-        { key: 'flags', label: 'Val.', type: 'flags' }
+      "ritorno": [
+        "piazza_del_popolo_fs_ang_via_c_colombo",
+        "via_buonarroti_civ_3"
       ]
     },
-    visibleStops: {
-      andata: ['bt776_busto_g', 'bt956_busto_g', 'lg090_legnano', 'lg003_legnano'],
-      ritorno: ['lg112_legnano', 'bt701_busto_g', 'bt775_busto_g']
+    "liveStops": {
+      "andata": {
+        "departure": "via_buonarroti_civ_3",
+        "arrival": "piazza_del_popolo_fs"
+      },
+      "ritorno": {
+        "departure": "piazza_del_popolo_fs_ang_via_c_colombo",
+        "arrival": "via_buonarroti_civ_3"
+      }
     },
-    liveStops: {
-      andata: { departure: 'bt956_busto_g', arrival: 'lg090_legnano' },
-      ritorno: { departure: 'lg112_legnano', arrival: 'bt701_busto_g' }
+    "referenceStops": {
+      "andata": [
+        "via_buonarroti_civ_3"
+      ],
+      "ritorno": [
+        "piazza_del_popolo_fs_ang_via_c_colombo"
+      ]
     },
-    referenceStops: {
-      andata: ['bt776_busto_g', 'bt956_busto_g'],
-      ritorno: ['bt701_busto_g', 'bt775_busto_g']
+    "connections": [
+      {
+        type: "S5_LEGNANO",
+        "stop": "piazza_del_popolo_fs",
+        label: "S5",
+        "slotKey": "S5_LEGNANO",
+        "destination": "Cadorna",
+        "travelToDest": 30
+      }
+    ],
+    "showInLive": true,
+    "noService": [
+      "sunday"
+    ]
+  },
+  "z644": {
+    label: "Z644",
+    type: "stopCode",
+    "directions": [
+      "andata",
+      "ritorno"
+    ],
+    "tabId": "z644",
+    "departureLocation": "Via Rossini 35",
+    "arrivalLocation": "Parabiago FS",
+    "shortRunLabel": "Via Butti",
+    "departureStop": "via_giacomo_rossini_civ_35",
+    "arrivalStop": "autostazione_park_fs",
+    "shortRunCheck": "autostazione_park_fs",
+    "scheduleKeys": [
+      "weekday_andata",
+      "weekday_ritorno",
+      "saturday_andata",
+      "saturday_ritorno"
+    ],
+    "columns": {
+      "andata": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "via_concordia_n_9",
+          label: "Arconate",
+          altKeys: [
+            "via_legnano_n_28"
+          ],
+          hideable: true
+        },
+        {
+          key: "v_damiano_chiesa_civ_11",
+          label: "Dairago",
+          altKeys: [
+            "via_damiano_chiesa_municipio"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_canova_ang_v_buonarroti",
+          label: "Villa C.",
+          altKeys: [
+            "via_canova_ang_v_perugino"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_buonarroti_civ_3",
+          label: "Via Buonarroti BG",
+          altKeys: [
+            "via_curiel_a_v_de_amicis",
+            "via_curiel"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_busto_a_fr_civ_48",
+          label: "Via Busto A.",
+          altKeys: [],
+          hideable: true
+        },
+        {
+          key: "via_giacomo_rossini_civ_35",
+          label: "Via Rossini 35",
+          altKeys: [
+            "via_matteotti_6",
+            "via_parabiago_n_32"
+          ]
+        },
+        {
+          key: "autostazione_park_fs",
+          label: "Parabiago FS",
+          altKeys: [
+            "viale_lombardia_fronte_eurospin",
+            "via_spagliardi_plesso_maggiolini"
+          ],
+          shortRunValue: "Via Butti"
+        },
+        {
+          key: "validity",
+          label: "Val.",
+          type: "validity"
+        },
+        {
+          key: "note",
+          label: "Note",
+          alwaysVisible: true
+        }
+      ],
+      "ritorno": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "autostazione_park_fs",
+          label: "Parabiago FS",
+          altKeys: [
+            "viale_lombardia_lato_eurospin",
+            "via_spagliardi_ist_maggiolini"
+          ]
+        },
+        {
+          key: "via_vincenzo_bellini_civ_44",
+          label: "Via Rossini area",
+          altKeys: [
+            "v_montebianco_fr_civ_17",
+            "via_parabiago_n_61"
+          ]
+        },
+        {
+          key: "v_busto_a_n_131_deposito",
+          label: "Terminal BG",
+          altKeys: [
+            "via_per_busto_a_n_90_piscina"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_concordia_fr_civ_13",
+          label: "Arconate",
+          altKeys: [
+            "via_legnano_n_11"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_verdi_n_13",
+          label: "Dairago",
+          altKeys: [
+            "v_damiano_chiesa_civ_11"
+          ],
+          hideable: true
+        },
+        {
+          key: "validity",
+          label: "Val.",
+          type: "validity"
+        },
+        {
+          key: "note",
+          label: "Note",
+          alwaysVisible: true
+        }
+      ]
     },
-    connections: [],
-    showInLive: false,
-    noService: ['sunday']
+    "visibleStops": {
+      "andata": [
+        "via_giacomo_rossini_civ_35",
+        "autostazione_park_fs"
+      ],
+      "ritorno": [
+        "autostazione_park_fs",
+        "via_vincenzo_bellini_civ_44"
+      ]
+    },
+    "liveStops": {
+      "andata": {
+        "departure": "via_giacomo_rossini_civ_35",
+        "arrival": "autostazione_park_fs"
+      },
+      "ritorno": {
+        "departure": "autostazione_park_fs",
+        "arrival": "via_vincenzo_bellini_civ_44"
+      }
+    },
+    "referenceStops": {
+      "andata": [
+        "via_giacomo_rossini_civ_35"
+      ],
+      "ritorno": [
+        "autostazione_park_fs"
+      ]
+    },
+    "connections": [
+      {
+        type: "S5_PARABI",
+        "stop": "autostazione_park_fs",
+        label: "S5",
+        "slotKey": "S5_PARABI",
+        "destination": "P.ta Garibaldi",
+        "travelToDest": 25
+      }
+    ],
+    "showInLive": true,
+    "noService": [
+      "sunday"
+    ]
+  },
+  "z625": {
+    label: "Z625",
+    type: "stopCode",
+    "directions": [
+      "andata",
+      "ritorno"
+    ],
+    "tabId": "z625",
+    "departureLocation": "Via Curiel",
+    "arrivalLocation": "Busto Arsizio FS",
+    "shortRunLabel": "BA centro / tratta breve",
+    "departureStop": "via_curiel",
+    "arrivalStop": "piazza_volontari_della_liberta_fs",
+    "shortRunCheck": "piazza_volontari_della_liberta_fs",
+    "scheduleKeys": [
+      "weekday_andata",
+      "weekday_ritorno",
+      "saturday_andata",
+      "saturday_ritorno"
+    ],
+    "columns": {
+      "andata": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "via_curiel",
+          label: "Via Curiel BG",
+          altKeys: [
+            "via_buonarroti_civ_3",
+            "via_buonarroti_a_v_carroccio"
+          ]
+        },
+        {
+          key: "via_per_busto_a_n_90_piscina",
+          label: "BG Piscina",
+          altKeys: [
+            "via_per_busto_a_n_91_piscina"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_verdi_n_13",
+          label: "Dairago",
+          altKeys: [
+            "v_damiano_chiesa_civ_11",
+            "via_damiano_chiesa_municipio"
+          ],
+          hideable: true
+        },
+        {
+          key: "piazza_volontari_della_liberta_fs",
+          label: "Busto A. FS",
+          altKeys: [
+            "viale_boccaccio",
+            "v_le_boccaccio_ang_v_ferrini"
+          ]
+        },
+        {
+          key: "validity",
+          label: "Val.",
+          type: "validity"
+        },
+        {
+          key: "note",
+          label: "Note",
+          alwaysVisible: true
+        }
+      ],
+      "ritorno": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "piazza_volontari_della_liberta_fs",
+          label: "Busto A. FS",
+          altKeys: [
+            "v_le_cadorna_ang_v_piemonte",
+            "v_le_boccaccio_ang_v_ferrini"
+          ]
+        },
+        {
+          key: "v_damiano_chiesa_civ_11",
+          label: "Dairago",
+          altKeys: [
+            "via_verdi_n_24"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_curiel_a_v_de_amicis",
+          label: "Arrivo BG",
+          altKeys: [
+            "via_buonarroti_ang_v_busto_a",
+            "via_buonarroti_a_v_carroccio"
+          ],
+          shortRunValue: "No BG"
+        },
+        {
+          key: "validity",
+          label: "Val.",
+          type: "validity"
+        },
+        {
+          key: "note",
+          label: "Note",
+          alwaysVisible: true
+        }
+      ]
+    },
+    "visibleStops": {
+      "andata": [
+        "via_curiel",
+        "piazza_volontari_della_liberta_fs"
+      ],
+      "ritorno": [
+        "piazza_volontari_della_liberta_fs",
+        "via_curiel_a_v_de_amicis"
+      ]
+    },
+    "liveStops": {
+      "andata": {
+        "departure": "via_curiel",
+        "arrival": "piazza_volontari_della_liberta_fs"
+      },
+      "ritorno": {
+        "departure": "piazza_volontari_della_liberta_fs",
+        "arrival": "via_curiel_a_v_de_amicis",
+        "fallbackDeparture": "v_le_cadorna_ang_v_piemonte"
+      }
+    },
+    "referenceStops": {
+      "andata": [
+        "via_curiel"
+      ],
+      "ritorno": [
+        "piazza_volontari_della_liberta_fs",
+        "v_le_cadorna_ang_v_piemonte"
+      ]
+    },
+    "connections": [
+      {
+        type: "S5_BUSTO",
+        "stop": "piazza_volontari_della_liberta_fs",
+        label: "S5",
+        "slotKey": "S5_BUSTO",
+        "destination": "P.ta Garibaldi",
+        "travelToDest": 40
+      }
+    ],
+    "showInLive": true,
+    "noService": [
+      "sunday"
+    ]
+  },
+  "z647": {
+    label: "Z647",
+    type: "stopCode",
+    "directions": [
+      "andata",
+      "ritorno"
+    ],
+    "tabId": "z647",
+    "departureLocation": "Via Buonarroti BG",
+    "arrivalLocation": "Castano P.",
+    "shortRunLabel": "tratta breve",
+    "departureStop": "v_busto_a_n_131_deposito",
+    "arrivalStop": "austostazione_bus_stazione_ferroviaria",
+    "shortRunCheck": "austostazione_bus_stazione_ferroviaria",
+    "scheduleKeys": [
+      "saturday_andata",
+      "saturday_ritorno"
+    ],
+    "columns": {
+      "andata": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "v_busto_a_n_131_deposito",
+          label: "BG Terminal",
+          altKeys: [
+            "via_per_busto_a_n_91_piscina"
+          ]
+        },
+        {
+          key: "v_montebianco_fr_civ_17",
+          label: "BG Montebianco",
+          altKeys: [],
+          hideable: true
+        },
+        {
+          key: "via_concordia_fr_civ_13",
+          label: "Arconate",
+          altKeys: [],
+          hideable: true
+        },
+        {
+          key: "austostazione_bus_stazione_ferroviaria",
+          label: "Castano P.",
+          altKeys: [
+            "p_le_don_milani_omn_ist_torno"
+          ]
+        },
+        {
+          key: "flags",
+          label: "Val.",
+          type: "flags"
+        }
+      ],
+      "ritorno": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "austostazione_bus_stazione_ferroviaria",
+          label: "Castano P.",
+          altKeys: [
+            "p_le_don_milani_omn_ist_torno"
+          ]
+        },
+        {
+          key: "via_concordia_n_9",
+          label: "Arconate",
+          altKeys: [],
+          hideable: true
+        },
+        {
+          key: "via_giacomo_rossini_civ_35",
+          label: "Via Rossini BG",
+          altKeys: [
+            "v_busto_a_n_131_deposito"
+          ]
+        },
+        {
+          key: "flags",
+          label: "Val.",
+          type: "flags"
+        }
+      ]
+    },
+    "visibleStops": {
+      "andata": [
+        "v_busto_a_n_131_deposito",
+        "austostazione_bus_stazione_ferroviaria"
+      ],
+      "ritorno": [
+        "austostazione_bus_stazione_ferroviaria",
+        "via_giacomo_rossini_civ_35"
+      ]
+    },
+    "liveStops": {
+      "andata": {
+        "departure": "v_busto_a_n_131_deposito",
+        "arrival": "austostazione_bus_stazione_ferroviaria"
+      },
+      "ritorno": {
+        "departure": "austostazione_bus_stazione_ferroviaria",
+        "arrival": "via_giacomo_rossini_civ_35"
+      }
+    },
+    "referenceStops": {
+      "andata": [
+        "v_busto_a_n_131_deposito"
+      ],
+      "ritorno": [
+        "via_giacomo_rossini_civ_35"
+      ]
+    },
+    "connections": [],
+    "showInLive": false,
+    "noService": [
+      "sunday",
+      "weekday"
+    ]
+  },
+  "z642": {
+    label: "Z642",
+    type: "stopCode",
+    "directions": [
+      "andata",
+      "ritorno"
+    ],
+    "tabId": "z642",
+    "departureLocation": "Via Buonarroti BG",
+    "arrivalLocation": "Legnano FS",
+    "shortRunLabel": "tratta breve",
+    "departureStop": "v_montebianco_fr_civ_17",
+    "arrivalStop": "piazza_del_popolo_fs",
+    "shortRunCheck": "piazza_del_popolo_fs",
+    "scheduleKeys": [
+      "weekday_andata",
+      "weekday_ritorno"
+    ],
+    "columns": {
+      "andata": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "via_buonarroti_a_v_carroccio",
+          label: "Via Buonarroti BG",
+          altKeys: [
+            "via_curiel_a_v_de_amicis"
+          ]
+        },
+        {
+          key: "v_montebianco_fr_civ_17",
+          label: "BG Montebianco",
+          altKeys: []
+        },
+        {
+          key: "via_xx_settembre_ang_s_bernardino",
+          label: "Legnano S.Bernardino",
+          altKeys: [
+            "v_xx_settembre_a_v_s_bernardino"
+          ],
+          hideable: true
+        },
+        {
+          key: "piazza_del_popolo_fs",
+          label: "Legnano FS",
+          altKeys: [
+            "austostazione_bus_stazione_ferroviaria"
+          ],
+          shortRunValue: "tratta breve"
+        },
+        {
+          key: "flags",
+          label: "Val.",
+          type: "flags"
+        }
+      ],
+      "ritorno": [
+        {
+          key: "tripId",
+          label: "Corsa",
+          type: "tripId"
+        },
+        {
+          key: "piazza_del_popolo_fs_ang_via_c_colombo",
+          label: "Legnano FS",
+          altKeys: [
+            "piazza_del_popolo_fs",
+            "austostazione_bus_stazione_ferroviaria"
+          ]
+        },
+        {
+          key: "v_xx_settembre_san_giorgio_s_l",
+          label: "S.Giorgio",
+          altKeys: [
+            "localita_la_pergola_v_xx_settembre"
+          ],
+          hideable: true
+        },
+        {
+          key: "via_giacomo_rossini_civ_35",
+          label: "Via Rossini BG",
+          altKeys: [
+            "via_buonarroti_civ_3",
+            "via_curiel"
+          ]
+        },
+        {
+          key: "v_montebianco_fr_civ_17",
+          label: "BG Montebianco",
+          altKeys: []
+        },
+        {
+          key: "flags",
+          label: "Val.",
+          type: "flags"
+        }
+      ]
+    },
+    "visibleStops": {
+      "andata": [
+        "v_montebianco_fr_civ_17",
+        "piazza_del_popolo_fs"
+      ],
+      "ritorno": [
+        "piazza_del_popolo_fs_ang_via_c_colombo",
+        "via_giacomo_rossini_civ_35"
+      ]
+    },
+    "liveStops": {
+      "andata": {
+        "departure": "v_montebianco_fr_civ_17",
+        "arrival": "piazza_del_popolo_fs"
+      },
+      "ritorno": {
+        "departure": "piazza_del_popolo_fs_ang_via_c_colombo",
+        "arrival": "via_giacomo_rossini_civ_35"
+      }
+    },
+    "referenceStops": {
+      "andata": [
+        "v_montebianco_fr_civ_17"
+      ],
+      "ritorno": [
+        "piazza_del_popolo_fs_ang_via_c_colombo"
+      ]
+    },
+    "connections": [],
+    "showInLive": false,
+    "noService": [
+      "sunday"
+    ]
   }
 };
 

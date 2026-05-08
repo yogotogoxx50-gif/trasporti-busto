@@ -1,0 +1,34 @@
+{
+  "fermate_preferite": {
+    "andata": {
+      "Z625": ["Buonarroti 3", "Buonarroti / Busto A."],
+      "Z627": ["Buonarroti / Carroccio", "Buonarroti / Busto A."],
+      "Z642": ["Buonarroti / Carroccio"],
+      "Z644": ["Giacomo Rossini 35"],
+      "Z647": ["Via Giacomo Rossini Civ. 35"],
+      "Z649": ["Giacomo Rossini 35"]
+    },
+    "ritorno": {
+      "Z625": ["Canova / Buonarroti", "Curiel / De Amicis"],
+      "Z627": ["Curiel / De Amicis"],
+      "Z642": ["Curiel / De Amicis"],
+      "Z644": ["Giacomo Matteotti 6", "Busto A. Fr. 48"],
+      "Z647": ["Giacomo Matteotti 6", "Via Busto A. Fr Civ. 48"],
+      "Z649": ["Giacomo Matteotti 6", "Busto A. Fr. 48"]
+    }
+  },
+  "calendario_globale": {
+    "giorni_festivi_extra": [
+      "01-01", "06-01", "25-04", "01-05", "02-06", 
+      "15-08", "01-11", "08-12", "25-12", "26-12"
+    ],
+    "inattivita_globale_da": "2026-08-10",
+    "inattivita_globale_a": "2026-08-24"
+  },
+  "eccezioni_per_linea": {
+    "Z625": {
+      "inattiva_da": "2026-08-01",
+      "inattiva_a": "2026-08-31"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "fermate_ricerca": [
+    "curiel",
+    "rossini",
+    "buonarroti"
+  ],
+  "calendario_globale": {
+    "giorni_festivi_extra": [
+      "01-01", "06-01", "25-04", "01-05", "02-06", 
+      "15-08", "01-11", "08-12", "25-12", "26-12"
+    ],
+    "inattivita_globale_da": "2026-08-10",
+    "inattivita_globale_a": "2026-08-24"
+  },
+  "eccezioni_per_linea": {
+    "Z625": {
+      "inattiva_da": "2026-08-01",
+      "inattiva_a": "2026-08-31"
+    }
+  }
+}
